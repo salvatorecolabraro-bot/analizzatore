@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SDIR - <%= filename %></title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1><%= filename %></h1>
+    <nav>
+      <a href="/viewer">Torna alla lista</a>
+      <a href="/">Home</a>
+    </nav>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Contenuto</h2>
+      <pre id="content" class="scroll"></pre>
+    </section>
+    <!-- Visualizzazione TN rimossa: la pagina del file mostra solo il contenuto grezzo. -->
+  </main>
+  <script>
+    fetch('/file/raw/<%= filename %>')
+      .then(r => r.text())
+      .then(t => document.getElementById('content').textContent = t)
+      .catch(() => document.getElementById('content').textContent = 'Errore nel caricamento del file');
+  </script>
+</body>
+</html>

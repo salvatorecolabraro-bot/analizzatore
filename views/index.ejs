@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Visualizzazione file</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Visualizzazione visitatore: performance WL e board/SFP</h1>
+    <nav>
+      <a href="/admin">Area Admin</a>
+    <a href="/report/celle">Celle VSWR &gt; 1.49</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Filtra per file</h2>
+      <form class="filters" action="/" method="get">
+        <div class="row">
+          <label>
+            <span>File</span>
+            <select name="file">
+              <% (fileOptions || []).forEach(f => { %>
+                <option value="<%= f %>" <%= selectedFile === f ? 'selected' : '' %>><%= f %></option>
+              <% }) %>
+            </select>
+          </label>
+          <button class="btn" type="submit">Applica</button>
+        </div>
+      </form>
+    </section>
+    <section class="panel">
+      <h2>sdir_link_performance_wl</h2>
+      <% if (!perfRows || perfRows.length === 0) { %>
+        <p>Nessun dato trovato nella sezione sdir_link_performance_wl dei log caricati.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table table-transposed">
+            <tbody>
+              <tr>
+                <th>Radio</th>
+                <% perfRows.forEach(r => { %>
+                  <td><%= r.RiL %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>Porte → Celle</th>
+                <% perfRows.forEach(r => { %>
+                  <td>
+                    <% 
+                      const bucket = [r.TT, r.WL1, r.WL2, r.LINK].map(v => String(v || '')).join(' ');
+                      const tokens = bucket.match(/CS0(?:AE|AN|AM|AT|FM|FT)\d+/g) || [];
+                      const ae = tokens.filter(t => t.startsWith('CS0AE'));
+                      const an = tokens.filter(t => t.startsWith('CS0AN'));
+                      const fm = tokens.filter(t => t.startsWith('CS0FM'));
+                      const ft = tokens.filter(t => t.startsWith('CS0FT'));
+                      const am = tokens.filter(t => t.startsWith('CS0AM'));
+                      const at = tokens.filter(t => t.startsWith('CS0AT'));
+                      let ab = '';
+                      let cd = '';
+                      if (ae.length || an.length) {
+                        ab = (ae[0] || '') + ((ae[0] && an[0]) ? '/' : '') + (an[0] || '');
+                        cd = (ae[1] || '') + ((ae[1] && an[1]) ? '/' : '') + (an[1] || '');
+                      } else if (fm.length || ft.length) {
+                        ab = (fm[0] || '') + ((fm[0] && ft[0]) ? '/' : '') + (ft[0] || '');
+                        cd = (fm[1] || '') + ((fm[1] && ft[1]) ? '/' : '') + (ft[1] || '');
+                      } else if (am.length || at.length) {
+                        ab = (am[0] || '') + ((am[0] && at[0]) ? '/' : '') + (at[0] || '');
+                        cd = (am[1] || '') + ((am[1] && at[1]) ? '/' : '') + (at[1] || '');
+                      }
+                      // Fallback: se nessun token è presente, prova a derivare da RiL per file CS0AT*
+                      if (!ab && !cd) {
+                        const rilStr = String(r.RiL || '');
+                        const m = rilStr.match(/(?:Radio-)?S(\d+)-(\d+)/i);
+                        if (m && /AT/i.test(String(r.source || ''))) {
+                          const n = m[1];
+                          ab = `CS0AE${n}/CS0AN${n}`;
+                        }
+                      }
+                    %>
+                    <% if (ab || cd) { %>
+                      AB → <%= ab %><% if (cd) { %>, CD → <%= cd %><% } %>
+                    <% } else { %>
+                      N/D
+                    <% } %>
+                  </td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>DlLoss</th>
+                <% perfRows.forEach(r => { %>
+                  <td><%= r.DlLoss %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>UlLoss</th>
+                <% perfRows.forEach(r => { %>
+                  <td><%= r.UlLoss %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>LENGTH</th>
+                <% perfRows.forEach(r => { %>
+                  <td><%= r.LENGTH %></td>
+                <% }) %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+
+    <section class="panel">
+      <h2>sdir_board_sfp_metriche</h2>
+      <% if (!boardRows || boardRows.length === 0) { %>
+        <p>Nessun dato trovato nella sezione sdir_board_sfp_metriche dei log caricati.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table table-transposed">
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.ID %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>VENDORPROD</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.VENDORPROD %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>REV</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.REV %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>SERIAL</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.SERIAL %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>TEMP</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.TEMP %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>TXbs</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.TXbs %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>TXdBm</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.TXdBm %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>RXdBm</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.RXdBm %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>BER</th>
+                <% boardRows.forEach(r => { %>
+                  <td><%= r.BER %></td>
+                <% }) %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+
+    <section class="panel">
+      <h2>sdir_fru_radio_metriche</h2>
+      <% if (!fruRows || fruRows.length === 0) { %>
+        <p>Nessun dato trovato nella sezione sdir_fru_radio_metriche dei log caricati.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table table-transposed">
+            <tbody>
+              <tr>
+                <th>Radio</th>
+                <% fruRows.forEach(r => { %>
+                  <td><%= r.FRU %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>BOARD</th>
+                <% fruRows.forEach(r => { %>
+                  <td><%= r.BOARD %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>RF</th>
+                <% fruRows.forEach(r => { %>
+                  <td><%= r.RF %></td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>Cella di riferimento</th>
+                <% fruRows.forEach(r => { %>
+                  <td>
+                    <% 
+                      const sc = String(r.SectorCells || '');
+                      let refCell = '';
+                      const mFdd = sc.match(/FDD\s*=\s*(CS\d+[A-Z]{1,2}\d+)/i);
+                      if (mFdd) {
+                        refCell = mFdd[1];
+                      } else {
+                        const mAny = sc.match(/CS\d+[A-Z]{1,2}\d+/g);
+                        if (mAny && mAny.length) refCell = mAny[0];
+                      }
+                    %>
+                    <%= refCell || 'N/D' %>
+                  </td>
+                <% }) %>
+              </tr>
+              <tr>
+                <th>VSWR (RL)</th>
+                <% fruRows.forEach(r => { %>
+                  <td class="<%= r.highVSWR ? 'row-warn' : '' %>"><%= r.VSWR %></td>
+                <% }) %>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+  </main>
+  <section class="panel">
+    <h2>mfar</h2>
+    <% if (!mfarRows || mfarRows.length === 0) { %>
+      <p>Nessun dato trovato nella sezione mfar dei log caricati.</p>
+    <% } else { %>
+      <div class="table-scroll">
+        <table class="table table-transposed">
+          <tbody>
+            <tr>
+              <th>Cell</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.SC %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Radio</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.SE %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Tx/Rx</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.TxRx %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>BrPair</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.BrPair %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>RfPort1</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.RfPort1 %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>RfPort2</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.RfPort2 %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>HW</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.HW %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Serial</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.Serial %></td>
+              <% }) %>
+            </tr>
+            
+            <tr>
+              <th>Med</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.Med %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Mean</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.Mean %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>SDev</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.SDev %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Pol</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.Pol %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Res</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.Res %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Issue</th>
+              <% mfarRows.forEach(r => { %>
+                <td><%= r.Issue %></td>
+              <% }) %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+  <section class="panel">
+    <h2>mfitr</h2>
+    <% if (typeof mfitrRows === 'undefined' || mfitrRows.length === 0) { %>
+      <p>Nessun dato trovato nella sezione mfitr dei log caricati.</p>
+    <% } else { %>
+      <div class="table-scroll">
+        <table class="table table-transposed">
+          <tbody>
+            <tr>
+              <th>Cell</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.SC %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>Radio</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.FRU %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>BOARD</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.BOARD %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>PUSCH</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.PUSCH %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>PUCCH</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.PUCCH %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>A</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.A %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>B</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.B %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>C</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.C %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>D</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.D %></td>
+              <% }) %>
+            </tr>
+            <tr>
+              <th>DELTA</th>
+              <% mfitrRows.forEach(r => { %>
+                <td><%= r.DELTA %></td>
+              <% }) %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+</body>
+</html>
