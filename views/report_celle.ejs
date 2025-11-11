@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Celle con VSWR > 1.49</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { border: 1px solid var(--border); padding: 6px 8px; }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Celle di riferimento con VSWR (RL) &gt; 1.49</h1>
+    <nav>
+      <a href="/">Pagina visitatore</a>
+      <a href="/admin">Area Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Filtra per file</h2>
+  <form class="filters" action="/report/celle" method="get">
+        <div class="row">
+          <label>
+            <span>File</span>
+            <select name="file">
+              <option value="">Tutti i file</option>
+              <% (fileOptions || []).forEach(f => { %>
+                <option value="<%= f %>" <%= selectedFile === f ? 'selected' : '' %>><%= f %></option>
+              <% }) %>
+            </select>
+          </label>
+          <label>
+            <span>Tabella</span>
+            <select name="table">
+              <option value="">Tutte le tabelle</option>
+              <option value="vswr" <%= selectedTable === 'vswr' ? 'selected' : '' %>>VSWR</option>
+              <option value="wl" <%= selectedTable === 'wl' ? 'selected' : '' %>>DL/UL Loss</option>
+              <option value="board_sfp" <%= selectedTable === 'board_sfp' ? 'selected' : '' %>>BOARD/SFP</option>
+              <option value="mfar" <%= selectedTable === 'mfar' ? 'selected' : '' %>>MFAR</option>
+              <option value="mfitr" <%= selectedTable === 'mfitr' ? 'selected' : '' %>>MFITR</option>
+            </select>
+          </label>
+          <button class="btn" type="submit">Applica</button>
+        </div>
+      </form>
+    </section>
+
+    <% if (!selectedTable || selectedTable === 'vswr') { %>
+    <section class="panel">
+      <% if (!rows || rows.length === 0) { %>
+        <p>Nessuna cella con VSWR &gt; 1.49 trovata.</p>
+      <% } else { %>
+        <h2>Celle con VSWR &gt; 1.49</h2>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cella di riferimento</th>
+                <th>Radio</th>
+                <th>BOARD</th>
+                <th>RF</th>
+                <th>VSWR (RL)</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% rows.forEach(r => { %>
+                <tr>
+                  <td><%= r.refCell %></td>
+                  <td><%= r.Radio %></td>
+                  <td><%= r.BOARD %></td>
+                  <td><%= r.RF %></td>
+                  <td><%= r.VSWR %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'wl') { %>
+    <section class="panel">
+      <h2>Celle con DlLoss/UlLoss &lt; -3.49</h2>
+      <% if (!wlRows || wlRows.length === 0) { %>
+        <p>Nessuna cella di riferimento trovata nella sezione sdir_link_performance_wl.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cella di riferimento</th>
+                <th>DlLoss</th>
+                <th>UlLoss</th>
+                <th>LENGTH</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% wlRows.forEach(r => { %>
+                <tr>
+                  <td><%= r.refCells || '—' %></td>
+                  <td><%= r.DlLoss %></td>
+                  <td><%= r.UlLoss %></td>
+                  <td><%= r.LENGTH %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'mfar') { %>
+    <section class="panel">
+      <h2>MFAR: Issue diverso da Passed</h2>
+      <% if (!mfarRows || mfarRows.length === 0) { %>
+        <p>Nessuna anomalia MFAR trovata (Issue diverso da Passed).</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cell (SC)</th>
+                <th>Radio (SE)</th>
+                <th>Tx/Rx</th>
+                <th>BrPair</th>
+                <th>RfPort1</th>
+                <th>RfPort2</th>
+                <th>HW</th>
+                <th>Serial</th>
+                <th>Med</th>
+                <th>Mean</th>
+                <th>SDev</th>
+                <th>Pol</th>
+                <th>Res</th>
+                <th>Issue</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% mfarRows.forEach(r => { %>
+                <tr>
+                  <td><%= r.SC %></td>
+                  <td><%= r.SE %></td>
+                  <td><%= r.TxRx %></td>
+                  <td><%= r.BrPair %></td>
+                  <td><%= r.RfPort1 %></td>
+                  <td><%= r.RfPort2 %></td>
+                  <td><%= r.HW %></td>
+                  <td><%= r.Serial %></td>
+                  <td><%= r.Med %></td>
+                  <td><%= r.Mean %></td>
+                  <td><%= r.SDev %></td>
+                  <td><%= r.Pol %></td>
+                  <td><%= r.Res %></td>
+                  <td><%= r.Issue %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'mfitr') { %>
+    <section class="panel">
+      <h2>MFITR: DELTA &gt; 3.9</h2>
+      <% if (!mfitrRows || mfitrRows.length === 0) { %>
+        <p>Nessun record MFITR con DELTA &gt; 3.9.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cell (SC)</th>
+                <th>FRU</th>
+                <th>BOARD</th>
+                <th>PUSCH</th>
+                <th>PUCCH</th>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
+                <th>DELTA</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% mfitrRows.forEach(r => { %>
+                <tr>
+                  <td><%= r.SC %></td>
+                  <td><%= r.FRU %></td>
+                  <td><%= r.BOARD %></td>
+                  <td><%= r.PUSCH %></td>
+                  <td><%= r.PUCCH %></td>
+                  <td><%= r.A %></td>
+                  <td><%= r.B %></td>
+                  <td><%= r.C %></td>
+                  <td><%= r.D %></td>
+                  <td><%= r.DELTA %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'board_sfp') { %>
+    <section class="panel">
+  <h2>Celle (ID = TN) con TXdBm/RXdBm &lt; -13.99</h2>
+      <% if (!boardSfpRows || boardSfpRows.length === 0) { %>
+        <p>Nessuna cella di riferimento trovata tra le metriche BOARD/SFP con i criteri indicati.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cella di riferimento</th>
+                <th>Board</th>
+                <th>WL</th>
+                <th>TXdBm</th>
+                <th>RXdBm</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% boardSfpRows.forEach(r => { %>
+                <tr>
+                  <td><%= String(r.source || '').replace(/\.log$/i, '') %></td>
+                  <td><%= r.BOARD %></td>
+                  <td><%= r.WL %></td>
+                  <td><%= r.TXdBm %></td>
+                  <td><%= r.RXdBm %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+  </main>
+</body>
+</html>

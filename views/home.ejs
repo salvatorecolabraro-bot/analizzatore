@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SDIR - Home</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>SDIR</h1>
+    <nav>
+      <a href="/viewer">Visitatori: Visualizza file</a>
+      <% if (isAdmin) { %>
+        <a href="/admin">Admin: Dashboard</a>
+        <a href="/admin/logout">Logout</a>
+      <% } else { %>
+        <a href="/admin/login">Admin: Login</a>
+      <% } %>
+    </nav>
+  </header>
+  <main>
+    <p>Benvenuto. Gli utenti visitatori possono visualizzare i file caricati.
+      L'amministratore può importare file .txt o .log.</p>
+  </main>
+</body>
+</html>
