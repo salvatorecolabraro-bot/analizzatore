@@ -1,2 +1,0 @@
-# sdir
-analizzatore di eventi
