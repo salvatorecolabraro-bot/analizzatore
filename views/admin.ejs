@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Gestione file</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Area Amministratore</h1>
+    <nav>
+      <a href="/">Pagina visitatore</a>
+    </nav>
+  </header>
+
+  <main>
+    <% if (msg) { %>
+      <div class="alert"><%= msg %></div>
+    <% } %>
+
+    <section class="panel">
+      <h2>Importa file (.txt, .log) — fino a 10000 alla volta</h2>
+      <form action="/admin/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="files" multiple accept=".txt,.log" />
+        <button class="btn" type="submit">Carica</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>File presenti (<%= files.length %>)</h2>
+      <% if (files.length === 0) { %>
+        <p>Nessun file presente.</p>
+      <% } else { %>
+        <form action="/admin/delete" method="post">
+          <ul class="file-list">
+            <% files.forEach(f => { %>
+              <li>
+                <label>
+                  <input type="checkbox" name="selected" value="<%= f %>" />
+                  <span><%= f %></span>
+                </label>
+                <a class="btn" href="/view/<%= encodeURIComponent(f) %>">Visualizza</a>
+              </li>
+            <% }) %>
+          </ul>
+          <button class="btn danger" type="submit">Elimina selezionati</button>
+        </form>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

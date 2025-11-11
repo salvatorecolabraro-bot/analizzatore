@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Report</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { border: 1px solid var(--border); padding: 6px 8px; }
+    .muted { color: var(--muted); }
+    /* Contenitore responsivo per affiancare i grafici */
+    .chart-panels { display: grid; grid-template-columns: repeat(2, minmax(280px, 1fr)); gap: 12px; align-items: stretch; }
+    @media (max-width: 800px) { .chart-panels { grid-template-columns: 1fr; } }
+    /* Canvas adattivi: larghezza piena, altezza che rientra nella pagina */
+    .chart-square { width: 100%; height: clamp(140px, 26vh, 240px); background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Report</h1>
+    <nav>
+      <a href="/">Pagina visitatore</a>
+      <a href="/admin">Area Admin</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Filtra per file</h2>
+  <form class="filters" action="/report/celle" method="get">
+        <div class="row">
+          <label>
+            <span>File</span>
+            <select name="file">
+              <option value="">Tutti i file</option>
+              <% (fileOptions || []).forEach(f => { %>
+                <option value="<%= f %>" <%= selectedFile === f ? 'selected' : '' %>><%= f %></option>
+              <% }) %>
+            </select>
+          </label>
+          <label>
+            <span>Tabella</span>
+            <select name="table">
+              <option value="">Tutte le tabelle</option>
+              <option value="vswr" <%= selectedTable === 'vswr' ? 'selected' : '' %>>VSWR</option>
+              <option value="wl" <%= selectedTable === 'wl' ? 'selected' : '' %>>DL/UL Loss</option>
+              <option value="board_sfp" <%= selectedTable === 'board_sfp' ? 'selected' : '' %>>BOARD/SFP</option>
+              <option value="mfar" <%= selectedTable === 'mfar' ? 'selected' : '' %>>MFAR</option>
+              <option value="mfitr" <%= selectedTable === 'mfitr' ? 'selected' : '' %>>MFITR</option>
+            </select>
+          </label>
+          <button class="btn" type="submit">Applica</button>
+        </div>
+      </form>
+    </section>
+    <div class="chart-panels">
+      <section class="panel">
+        <h2>Top 5 VSWR</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="fruVswrTopChart" class="chart-square"></canvas>
+        </div>
+      </section>
+      <section class="panel">
+      <h2>Top 5 DL/UL Loss</h2>
+      <div class="table-scroll" style="overflow: visible;">
+        <canvas id="wlTopChart" class="chart-square"></canvas>
+      </div>
+      </section>
+    </div>
+
+    <!-- Grafici aggiuntivi: Board/SFP e MFITR affiancati sotto i primi due -->
+    <div class="chart-panels">
+      <section class="panel">
+        <h2>Top 5 TN Loss</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="boardTopChart" class="chart-square"></canvas>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Interferenza con DELTA &gt; 3.9</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="mfitrTopChart" class="chart-square"></canvas>
+        </div>
+      </section>
+    </div>
+
+    <% if (!selectedTable || selectedTable === 'vswr') { %>
+    <section class="panel">
+      <% if (!rows || rows.length === 0) { %>
+        <p>Nessuna cella con VSWR &gt; 1.49 trovata.</p>
+      <% } else { %>
+        <h2>Report</h2>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cella di riferimento</th>
+                <th>Radio</th>
+                <th>BOARD</th>
+                <th>RF</th>
+                <th>VSWR (RL)</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% rows.forEach(r => { %>
+                <tr>
+                  <td><%= r.refCell %></td>
+                  <td><%= r.Radio %></td>
+                  <td><%= r.BOARD %></td>
+                  <td><%= r.RF %></td>
+                  <td><%= r.VSWR %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'wl') { %>
+    <section class="panel">
+      <h2>Celle con DlLoss/UlLoss &lt; -3.49</h2>
+      <% if (!wlRows || wlRows.length === 0) { %>
+        <p>Nessuna cella di riferimento trovata nella sezione sdir_link_performance_wl.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cella di riferimento</th>
+                <th>DlLoss</th>
+                <th>UlLoss</th>
+                <th>LENGTH</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% wlRows.forEach(r => { %>
+                <tr>
+                  <td><%= r.refCells || '—' %></td>
+                  <td><%= r.DlLoss %></td>
+                  <td><%= r.UlLoss %></td>
+                  <td><%= r.LENGTH %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'mfar') { %>
+    <section class="panel">
+      <h2>MFAR: Issue diverso da Passed</h2>
+      <% if (!mfarRows || mfarRows.length === 0) { %>
+        <p>Nessuna anomalia MFAR trovata (Issue diverso da Passed).</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cell (SC)</th>
+                <th>Radio (SE)</th>
+                <th>Tx/Rx</th>
+                <th>BrPair</th>
+                <th>RfPort1</th>
+                <th>RfPort2</th>
+                <th>HW</th>
+                <th>Serial</th>
+                <th>Med</th>
+                <th>Mean</th>
+                <th>SDev</th>
+                <th>Pol</th>
+                <th>Res</th>
+                <th>Issue</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% mfarRows.forEach(r => { %>
+                <tr>
+                  <td><%= r.SC %></td>
+                  <td><%= r.SE %></td>
+                  <td><%= r.TxRx %></td>
+                  <td><%= r.BrPair %></td>
+                  <td><%= r.RfPort1 %></td>
+                  <td><%= r.RfPort2 %></td>
+                  <td><%= r.HW %></td>
+                  <td><%= r.Serial %></td>
+                  <td><%= r.Med %></td>
+                  <td><%= r.Mean %></td>
+                  <td><%= r.SDev %></td>
+                  <td><%= r.Pol %></td>
+                  <td><%= r.Res %></td>
+                  <td><%= r.Issue %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'mfitr') { %>
+    <section class="panel">
+      <h2>MFITR: DELTA &gt; 3.9</h2>
+      <% if (!mfitrRows || mfitrRows.length === 0) { %>
+        <p>Nessun record MFITR con DELTA &gt; 3.9.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cell (SC)</th>
+                <th>FRU</th>
+                <th>BOARD</th>
+                <th>PUSCH</th>
+                <th>PUCCH</th>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+                <th>D</th>
+                <th>DELTA</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% mfitrRows.forEach(r => { %>
+                <tr>
+                  <td><%= r.SC %></td>
+                  <td><%= r.FRU %></td>
+                  <td><%= r.BOARD %></td>
+                  <td><%= r.PUSCH %></td>
+                  <td><%= r.PUCCH %></td>
+                  <td><%= r.A %></td>
+                  <td><%= r.B %></td>
+                  <td><%= r.C %></td>
+                  <td><%= r.D %></td>
+                  <td><%= r.DELTA %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+
+    <% if (!selectedTable || selectedTable === 'board_sfp') { %>
+    <section class="panel">
+  <h2>Celle (ID = TN) con TXdBm/RXdBm &lt; -13.99</h2>
+      <% if (!boardSfpRows || boardSfpRows.length === 0) { %>
+        <p>Nessuna cella di riferimento trovata tra le metriche BOARD/SFP con i criteri indicati.</p>
+      <% } else { %>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cella di riferimento</th>
+                <th>Board</th>
+                <th>WL</th>
+                <th>TXdBm</th>
+                <th>RXdBm</th>
+                <th class="muted">File</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% boardSfpRows.forEach(r => { %>
+                <tr>
+                  <td><%= String(r.source || '').replace(/\.log$/i, '') %></td>
+                  <td><%= r.BOARD %></td>
+                  <td><%= r.WL %></td>
+                  <td><%= r.TXdBm %></td>
+                  <td><%= r.RXdBm %></td>
+                  <td class="muted"><%= r.source %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </section>
+    <% } %>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function() {
+      // Usa esclusivamente i dati mostrati nella tabella VSWR (variabile 'rows')
+      const fruLabels = <%- JSON.stringify(((typeof rows !== 'undefined' ? rows : [])).map(r => String(r.refCell || r.SC || r.source || ''))) %>;
+      // Parsing robusto: estrae il numero dall'inizio della stringa e gestisce la virgola decimale
+      const fruVswrVals = <%- JSON.stringify(((typeof rows !== 'undefined' ? rows : [])).map(r => {
+        const m = String(r.VSWR || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/);
+        return m ? parseFloat(m[1].replace(',', '.')) : NaN;
+      })) %>;
+      // Dati WL dalla tabella filtrata (sdir_link_performance_wl)
+      const wlLabelsFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => String(r.refCells || '').replace(/\.log$/i, ''))) %>;
+      const wlDlFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => { const m = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      const wlUlFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => { const m = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      // Dati MFITR dalla tabella filtrata (DELTA > 3.9)
+      const mfitrLabelsFull = <%- JSON.stringify(((typeof mfitrRows !== 'undefined' ? mfitrRows : [])).map(r => String(r.SC || r.source || ''))) %>;
+      const mfitrDeltaFull = <%- JSON.stringify(((typeof mfitrRows !== 'undefined' ? mfitrRows : [])).map(r => Number(r.DELTA))) %>;
+      // Dati Board/SFP dalla tabella filtrata (ID = TN, TX/RX < -13.99)
+      const boardLabelsFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => String(r.source || '').replace(/\.log$/i, ''))) %>;
+      const boardTxFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => { const m = String(r.TXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      const boardRxFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => { const m = String(r.RXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      const vswrLabels = <%- JSON.stringify(((typeof topVswrRows !== 'undefined' ? topVswrRows : [])).map(r => String(r.refCell || r.source || ''))) %>;
+      const vswrVals = <%- JSON.stringify(((typeof topVswrRows !== 'undefined' ? topVswrRows : [])).map(r => Number(r.VSWR))) %>;
+
+      const wlLabels = <%- JSON.stringify(((typeof topWlRows !== 'undefined' ? topWlRows : [])).map(r => String(r.refCells || r.source || '').replace(/\.log$/i, ''))) %>;
+      const wlDl = <%- JSON.stringify(((typeof topWlRows !== 'undefined' ? topWlRows : [])).map(r => Number(r.DlLoss))) %>;
+      const wlUl = <%- JSON.stringify(((typeof topWlRows !== 'undefined' ? topWlRows : [])).map(r => Number(r.UlLoss))) %>;
+
+      const boardLabels = <%- JSON.stringify(((typeof topBoardRows !== 'undefined' ? topBoardRows : [])).map(r => String(r.source || '').replace(/\.log$/i, ''))) %>;
+      const txVals = <%- JSON.stringify(((typeof topBoardRows !== 'undefined' ? topBoardRows : [])).map(r => Number(r.TXdBm))) %>;
+      const rxVals = <%- JSON.stringify(((typeof topBoardRows !== 'undefined' ? topBoardRows : [])).map(r => Number(r.RXdBm))) %>;
+
+      const mfitrLabels = <%- JSON.stringify(((typeof topMfitrRows !== 'undefined' ? topMfitrRows : [])).map(r => String(r.SC || r.source || ''))) %>;
+      const deltaVals = <%- JSON.stringify(((typeof topMfitrRows !== 'undefined' ? topMfitrRows : [])).map(r => Number(r.DELTA))) %>;
+
+      function mkBarChart(ctxId, labels, datasets, title) {
+        const ctx = document.getElementById(ctxId);
+        if (!ctx) return;
+        if (typeof Chart === 'undefined') {
+          ctx.insertAdjacentHTML('afterend', '<div class="muted">Grafico non disponibile: libreria Chart.js non caricata.</div>');
+          return;
+        }
+        if (!labels.length) {
+          ctx.insertAdjacentHTML('afterend', '<div class="muted">Nessun dato per il grafico.</div>');
+          return;
+        }
+        // Dimensioni gestite dal CSS (.chart-square: width 100%, height clamp)
+        new Chart(ctx, {
+          type: 'bar',
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom' },
+              title: { display: true, text: title }
+            },
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // FRU VSWR Top 5 (sdir_fru_radio_metriche)
+        const fruPairs = (fruLabels || []).map((label, i) => ({ label, value: fruVswrVals[i] }))
+          .filter(x => !Number.isNaN(x.value))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 5);
+        mkBarChart('fruVswrTopChart', fruPairs.map(p => p.label), [
+          { label: 'VSWR (RL)', data: fruPairs.map(p => p.value), backgroundColor: '#ef4444' }
+        ], 'Top 5 VSWR (FRU)');
+
+        // WL Top 5 (sdir_link_performance_wl): mostra SOLO valori < -3.49 di DlLoss o UlLoss
+        const THRESH = -3.49;
+        const wlPairsFull = (wlLabelsFull || []).map((label, i) => ({ label, dl: wlDlFull[i], ul: wlUlFull[i] }))
+          .filter(x => (!Number.isNaN(x.dl) || !Number.isNaN(x.ul)));
+        const wlFiltered = wlPairsFull.filter(p => (
+          (!Number.isNaN(p.dl) && p.dl < THRESH) || (!Number.isNaN(p.ul) && p.ul < THRESH)
+        ));
+        const wlTop5 = wlFiltered
+          .sort((a, b) => {
+            const aVal = Math.min(
+              (!Number.isNaN(a.dl) && a.dl < THRESH) ? a.dl : Infinity,
+              (!Number.isNaN(a.ul) && a.ul < THRESH) ? a.ul : Infinity
+            );
+            const bVal = Math.min(
+              (!Number.isNaN(b.dl) && b.dl < THRESH) ? b.dl : Infinity,
+              (!Number.isNaN(b.ul) && b.ul < THRESH) ? b.ul : Infinity
+            );
+            return aVal - bVal; // più negativo prima
+          })
+          .slice(0, 5);
+        const dlData = wlTop5.map(p => (!Number.isNaN(p.dl) && p.dl < THRESH) ? p.dl : null);
+        const ulData = wlTop5.map(p => (!Number.isNaN(p.ul) && p.ul < THRESH) ? p.ul : null);
+        mkBarChart('wlTopChart', wlTop5.map(p => p.label), [
+          { label: 'DlLoss', data: dlData, backgroundColor: '#3b82f6' },
+          { label: 'UlLoss', data: ulData, backgroundColor: '#22c55e' }
+        ], 'Top 5 DL/UL Loss (< -3.49)');
+
+        // MFITR Top 5: mostra SOLO DELTA > 3.9
+        const MFITR_THRESH = 3.9;
+        const mfitrPairsFull2 = (mfitrLabelsFull || []).map((label, i) => ({ label, delta: mfitrDeltaFull[i] }))
+          .filter(x => !Number.isNaN(x.delta) && x.delta > MFITR_THRESH);
+        const mfitrTop5 = mfitrPairsFull2
+          .sort((a, b) => b.delta - a.delta)
+          .slice(0, 5);
+        // Palette colori per barre distinte
+        const palette = ['#ef4444','#3b82f6','#f59e0b','#10b981','#8b5cf6','#22d3ee','#e11d48','#14b8a6','#a3e635','#f97316'];
+        const mfitrColors = mfitrTop5.map((_, i) => palette[i % palette.length]);
+        mkBarChart('mfitrTopChart', mfitrTop5.map(p => p.label), [
+          { label: 'DELTA', data: mfitrTop5.map(p => p.delta), backgroundColor: mfitrColors }
+        ], 'MFITR: DELTA > 3.9 (Top 5)');
+
+        // Board/SFP Top 5 (ID = TN): mostra SOLO valori < -13.99 di TXdBm o RXdBm
+        const THRESH_DBM = -13.99;
+        const boardPairsFull2 = (boardLabelsFull || []).map((label, i) => ({ label, tx: boardTxFull[i], rx: boardRxFull[i] }))
+          .filter(x => (!Number.isNaN(x.tx) || !Number.isNaN(x.rx)));
+        const boardFiltered = boardPairsFull2.filter(p => (
+          (!Number.isNaN(p.tx) && p.tx < THRESH_DBM) || (!Number.isNaN(p.rx) && p.rx < THRESH_DBM)
+        ));
+        const boardTop5 = boardFiltered
+          .sort((a, b) => {
+            const aVal = Math.min(
+              (!Number.isNaN(a.tx) && a.tx < THRESH_DBM) ? a.tx : Infinity,
+              (!Number.isNaN(a.rx) && a.rx < THRESH_DBM) ? a.rx : Infinity
+            );
+            const bVal = Math.min(
+              (!Number.isNaN(b.tx) && b.tx < THRESH_DBM) ? b.tx : Infinity,
+              (!Number.isNaN(b.rx) && b.rx < THRESH_DBM) ? b.rx : Infinity
+            );
+            return aVal - bVal; // più negativo prima
+          })
+          .slice(0, 5);
+        const txData2 = boardTop5.map(p => (!Number.isNaN(p.tx) && p.tx < THRESH_DBM) ? p.tx : null);
+        const rxData2 = boardTop5.map(p => (!Number.isNaN(p.rx) && p.rx < THRESH_DBM) ? p.rx : null);
+        mkBarChart('boardTopChart', boardTop5.map(p => p.label), [
+          { label: 'TXdBm', data: txData2, backgroundColor: '#ef4444' },
+          { label: 'RXdBm', data: rxData2, backgroundColor: '#f59e0b' }
+        ], 'Celle (ID = TN) con TXdBm/RXdBm < -13.99');
+
+        mkBarChart('vswrChart', vswrLabels, [
+          { label: 'VSWR (RL)', data: vswrVals, backgroundColor: '#ef4444' }
+        ], 'Top 5 VSWR');
+
+        mkBarChart('lossChart', wlLabels, [
+          { label: 'DlLoss', data: wlDl, backgroundColor: '#3b82f6' },
+          { label: 'UlLoss', data: wlUl, backgroundColor: '#22c55e' }
+        ], 'Top 5 DL/UL Loss');
+
+        mkBarChart('boardChart', boardLabels, [
+          { label: 'TXdBm', data: txVals, backgroundColor: '#f59e0b' },
+          { label: 'RXdBm', data: rxVals, backgroundColor: '#8b5cf6' }
+        ], 'Top 5 TX/RX dBm');
+
+        mkBarChart('mfitrChart', mfitrLabels, [
+          { label: 'DELTA', data: deltaVals, backgroundColor: '#10b981' }
+        ], 'Top 5 MFITR DELTA');
+      });
+    })();
+  </script>
+</body>
+</html>
