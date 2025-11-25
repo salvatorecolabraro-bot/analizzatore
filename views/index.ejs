@@ -11,7 +11,7 @@
     <h1>Visualizzazione visitatore: performance WL e board/SFP</h1>
     <nav>
       <a href="/admin">Area Admin</a>
-    <a href="/report/celle">Celle VSWR &gt; 1.49</a>
+    <a href="/report/celle">Report</a>
     </nav>
   </header>
 
@@ -33,17 +33,17 @@
       </form>
     </section>
     <section class="panel">
-      <h2>sdir_link_performance_wl</h2>
+      <h2>UL/DL fuori norma</h2>
       <% if (!perfRows || perfRows.length === 0) { %>
         <p>Nessun dato trovato nella sezione sdir_link_performance_wl dei log caricati.</p>
       <% } else { %>
         <div class="table-scroll">
-          <table class="table table-transposed">
+          <table class="table table-fit table-transposed sticky-first-col table-wl">
             <tbody>
               <tr>
                 <th>Radio</th>
                 <% perfRows.forEach(r => { %>
-                  <td><%= r.RiL %></td>
+                  <td title="<%= r.RiL %>"><%= r.RiL %></td>
                 <% }) %>
               </tr>
               <tr>
@@ -82,7 +82,7 @@
                       }
                     %>
                     <% if (ab || cd) { %>
-                      AB → <%= ab %><% if (cd) { %>, CD → <%= cd %><% } %>
+                      <span class="badge badge-ok">AB</span> <span class="mono" title="<%= ab %>"><%= ab %></span><% if (cd) { %> · <span class="badge badge-ok">CD</span> <span class="mono" title="<%= cd %>"><%= cd %></span><% } %>
                     <% } else { %>
                       N/D
                     <% } %>
@@ -92,19 +92,21 @@
               <tr>
                 <th>DlLoss</th>
                 <% perfRows.forEach(r => { %>
-                  <td><%= r.DlLoss %></td>
+                  <% const mDl = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vDl = mDl ? parseFloat(mDl[1].replace(',', '.')) : NaN; const badDl = (!Number.isNaN(vDl) && vDl < -3.49); %>
+                  <td class="<%= badDl ? 'cell-danger' : '' %>" title="<%= r.DlLoss %>"><span class="num <%= badDl ? 'badge badge-danger' : '' %>"><%= r.DlLoss %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>UlLoss</th>
                 <% perfRows.forEach(r => { %>
-                  <td><%= r.UlLoss %></td>
+                  <% const mUl = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vUl = mUl ? parseFloat(mUl[1].replace(',', '.')) : NaN; const badUl = (!Number.isNaN(vUl) && vUl < -3.49); %>
+                  <td class="<%= badUl ? 'cell-danger' : '' %>" title="<%= r.UlLoss %>"><span class="num <%= badUl ? 'badge badge-danger' : '' %>"><%= r.UlLoss %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>LENGTH</th>
                 <% perfRows.forEach(r => { %>
-                  <td><%= r.LENGTH %></td>
+                  <td title="<%= r.LENGTH %>"><span class="mono"><%= r.LENGTH %></span></td>
                 <% }) %>
               </tr>
             </tbody>
@@ -114,65 +116,67 @@
     </section>
 
     <section class="panel">
-      <h2>sdir_board_sfp_metriche</h2>
+      <h2>Attenuazione trasporto</h2>
       <% if (!boardRows || boardRows.length === 0) { %>
         <p>Nessun dato trovato nella sezione sdir_board_sfp_metriche dei log caricati.</p>
       <% } else { %>
         <div class="table-scroll">
-          <table class="table table-transposed">
+          <table class="table table-fit table-transposed sticky-first-col table-board">
             <tbody>
               <tr>
                 <th>ID</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.ID %></td>
+                  <td title="<%= r.ID %>"><%= r.ID %></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>VENDORPROD</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.VENDORPROD %></td>
+                  <td title="<%= r.VENDORPROD %>"><%= r.VENDORPROD %></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>REV</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.REV %></td>
+                  <td title="<%= r.REV %>"><%= r.REV %></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>SERIAL</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.SERIAL %></td>
+                  <td title="<%= r.SERIAL %>"><%= r.SERIAL %></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>TEMP</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.TEMP %></td>
+                  <td title="<%= r.TEMP %>"><span class="num"><%= r.TEMP %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>TXbs</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.TXbs %></td>
+                  <td title="<%= r.TXbs %>"><span class="mono"><%= r.TXbs %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>TXdBm</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.TXdBm %></td>
+                  <% const mTx = String(r.TXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vTx = mTx ? parseFloat(mTx[1].replace(',', '.')) : NaN; const badTx = (!Number.isNaN(vTx) && vTx < -13.99); %>
+                  <td class="<%= badTx ? 'cell-danger' : '' %>" title="<%= r.TXdBm %>"><span class="num <%= badTx ? 'badge badge-danger' : '' %>"><%= r.TXdBm %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>RXdBm</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.RXdBm %></td>
+                  <% const mRx = String(r.RXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vRx = mRx ? parseFloat(mRx[1].replace(',', '.')) : NaN; const badRx = (!Number.isNaN(vRx) && vRx < -13.99); %>
+                  <td class="<%= badRx ? 'cell-danger' : '' %>" title="<%= r.RXdBm %>"><span class="num <%= badRx ? 'badge badge-danger' : '' %>"><%= r.RXdBm %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>BER</th>
                 <% boardRows.forEach(r => { %>
-                  <td><%= r.BER %></td>
+                  <td title="<%= r.BER %>"><span class="num"><%= r.BER %></span></td>
                 <% }) %>
               </tr>
             </tbody>
@@ -182,29 +186,29 @@
     </section>
 
     <section class="panel">
-      <h2>sdir_fru_radio_metriche</h2>
+      <h2>VSWR Elevato</h2>
       <% if (!fruRows || fruRows.length === 0) { %>
         <p>Nessun dato trovato nella sezione sdir_fru_radio_metriche dei log caricati.</p>
       <% } else { %>
         <div class="table-scroll">
-          <table class="table table-transposed">
+          <table class="table table-fit table-transposed sticky-first-col table-vswr">
             <tbody>
               <tr>
                 <th>Radio</th>
                 <% fruRows.forEach(r => { %>
-                  <td><%= r.FRU %></td>
+                  <td title="<%= r.FRU %>"><%= r.FRU %></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>BOARD</th>
                 <% fruRows.forEach(r => { %>
-                  <td><%= r.BOARD %></td>
+                  <td title="<%= r.BOARD %>"><%= r.BOARD %></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>RF</th>
                 <% fruRows.forEach(r => { %>
-                  <td><%= r.RF %></td>
+                  <td title="<%= r.RF %>"><%= r.RF %></td>
                 <% }) %>
               </tr>
               <tr>
@@ -222,14 +226,14 @@
                         if (mAny && mAny.length) refCell = mAny[0];
                       }
                     %>
-                    <%= refCell || 'N/D' %>
+                    <span class="mono" title="<%= refCell || 'N/D' %>"><%= refCell || 'N/D' %></span>
                   </td>
                 <% }) %>
               </tr>
               <tr>
                 <th>VSWR (RL)</th>
                 <% fruRows.forEach(r => { %>
-                  <td class="<%= r.highVSWR ? 'row-warn' : '' %>"><%= r.VSWR %></td>
+                  <td title="<%= r.VSWR %>"><span class="num <%= r.highVSWR ? 'badge badge-warn' : '' %>"><%= r.VSWR %></span></td>
                 <% }) %>
               </tr>
             </tbody>
@@ -244,91 +248,92 @@
       <p>Nessun dato trovato nella sezione mfar dei log caricati.</p>
     <% } else { %>
       <div class="table-scroll">
-        <table class="table table-transposed">
+        <table class="table table-fit table-transposed sticky-first-col table-mfar">
           <tbody>
             <tr>
               <th>Cell</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.SC %></td>
+                <td title="<%= r.SC %>"><%= r.SC %></td>
               <% }) %>
             </tr>
             <tr>
               <th>Radio</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.SE %></td>
+                <td title="<%= r.SE %>"><%= r.SE %></td>
               <% }) %>
             </tr>
             <tr>
               <th>Tx/Rx</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.TxRx %></td>
+                <td title="<%= r.TxRx %>"><%= r.TxRx %></td>
               <% }) %>
             </tr>
             <tr>
               <th>BrPair</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.BrPair %></td>
+                <td title="<%= r.BrPair %>"><%= r.BrPair %></td>
               <% }) %>
             </tr>
             <tr>
               <th>RfPort1</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.RfPort1 %></td>
+                <td title="<%= r.RfPort1 %>"><%= r.RfPort1 %></td>
               <% }) %>
             </tr>
             <tr>
               <th>RfPort2</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.RfPort2 %></td>
+                <td title="<%= r.RfPort2 %>"><%= r.RfPort2 %></td>
               <% }) %>
             </tr>
             <tr>
               <th>HW</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.HW %></td>
+                <td title="<%= r.HW %>"><%= r.HW %></td>
               <% }) %>
             </tr>
             <tr>
               <th>Serial</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.Serial %></td>
+                <td title="<%= r.Serial %>"><%= r.Serial %></td>
               <% }) %>
             </tr>
             
             <tr>
               <th>Med</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.Med %></td>
+                <td title="<%= r.Med %>"><span class="num"><%= r.Med %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>Mean</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.Mean %></td>
+                <td title="<%= r.Mean %>"><span class="num"><%= r.Mean %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>SDev</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.SDev %></td>
+                <td title="<%= r.SDev %>"><span class="num"><%= r.SDev %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>Pol</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.Pol %></td>
+                <td title="<%= r.Pol %>"><%= r.Pol %></td>
               <% }) %>
             </tr>
             <tr>
               <th>Res</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.Res %></td>
+                <td title="<%= r.Res %>"><%= r.Res %></td>
               <% }) %>
             </tr>
             <tr>
               <th>Issue</th>
               <% mfarRows.forEach(r => { %>
-                <td><%= r.Issue %></td>
+                <% const badIssue = String(r.Issue || '').trim().toLowerCase() !== 'passed'; %>
+                <td class="<%= badIssue ? 'cell-danger' : '' %>" title="<%= r.Issue %>"><span class="<%= badIssue ? 'badge badge-danger' : '' %>"><%= r.Issue %></span></td>
               <% }) %>
             </tr>
           </tbody>
@@ -342,66 +347,67 @@
       <p>Nessun dato trovato nella sezione mfitr dei log caricati.</p>
     <% } else { %>
       <div class="table-scroll">
-        <table class="table table-transposed">
+        <table class="table table-fit table-transposed sticky-first-col table-mfitr">
           <tbody>
             <tr>
               <th>Cell</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.SC %></td>
+                <td title="<%= r.SC %>"><%= r.SC %></td>
               <% }) %>
             </tr>
             <tr>
               <th>Radio</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.FRU %></td>
+                <td title="<%= r.FRU %>"><%= r.FRU %></td>
               <% }) %>
             </tr>
             <tr>
               <th>BOARD</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.BOARD %></td>
+                <td title="<%= r.BOARD %>"><%= r.BOARD %></td>
               <% }) %>
             </tr>
             <tr>
               <th>PUSCH</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.PUSCH %></td>
+                <td title="<%= r.PUSCH %>"><%= r.PUSCH %></td>
               <% }) %>
             </tr>
             <tr>
               <th>PUCCH</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.PUCCH %></td>
+                <td title="<%= r.PUCCH %>"><%= r.PUCCH %></td>
               <% }) %>
             </tr>
             <tr>
               <th>A</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.A %></td>
+                <td title="<%= r.A %>"><span class="num"><%= r.A %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>B</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.B %></td>
+                <td title="<%= r.B %>"><span class="num"><%= r.B %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>C</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.C %></td>
+                <td title="<%= r.C %>"><span class="num"><%= r.C %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>D</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.D %></td>
+                <td title="<%= r.D %>"><span class="num"><%= r.D %></span></td>
               <% }) %>
             </tr>
             <tr>
               <th>DELTA</th>
               <% mfitrRows.forEach(r => { %>
-                <td><%= r.DELTA %></td>
+                <% const mD = String(r.DELTA || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vD = mD ? parseFloat(mD[1].replace(',', '.')) : NaN; const badD = (!Number.isNaN(vD) && vD > 3.9); %>
+                <td class="<%= badD ? 'cell-danger' : '' %>" title="<%= r.DELTA %>"><span class="num <%= badD ? 'badge badge-danger' : '' %>"><%= r.DELTA %></span></td>
               <% }) %>
             </tr>
           </tbody>
@@ -409,5 +415,5 @@
       </div>
     <% } %>
   </section>
-</body>
-</html>
+  </body>
+  </html>

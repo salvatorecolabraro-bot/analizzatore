@@ -3,17 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Celle con VSWR > 1.49</title>
+  <title>Report</title>
   <link rel="stylesheet" href="/style.css" />
   <style>
     .table { width: 100%; border-collapse: collapse; }
     .table th, .table td { border: 1px solid var(--border); padding: 6px 8px; }
     .muted { color: var(--muted); }
+    /* Contenitore responsivo per affiancare i grafici */
+    .chart-panels { display: grid; grid-template-columns: repeat(2, minmax(280px, 1fr)); gap: 12px; align-items: stretch; }
+    @media (max-width: 800px) { .chart-panels { grid-template-columns: 1fr; } }
+    /* Canvas adattivi: larghezza piena, altezza che rientra nella pagina */
+    .chart-square { width: 100%; height: auto; aspect-ratio: 2 / 1; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; display: block; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Celle di riferimento con VSWR (RL) &gt; 1.49</h1>
+    <h1>Report</h1>
     <nav>
       <a href="/">Pagina visitatore</a>
       <a href="/admin">Area Admin</a>
@@ -49,34 +54,71 @@
         </div>
       </form>
     </section>
+    <div class="chart-panels">
+      <section class="panel">
+        <h2>Top 5 VSWR</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="fruVswrTopChart" class="chart-square"></canvas>
+        </div>
+      </section>
+      <section class="panel">
+      <h2>Top 5 DL/UL Loss</h2>
+      <div class="table-scroll" style="overflow: visible;">
+        <canvas id="wlTopChart" class="chart-square"></canvas>
+      </div>
+      </section>
+    </div>
+
+    <!-- Grafici aggiuntivi: Board/SFP e MFITR affiancati sotto i primi due -->
+    <div class="chart-panels">
+      <section class="panel">
+        <h2>Top 5 TN Loss</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="boardTopChart" class="chart-square"></canvas>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Interferenza con DELTA &gt; 3.9</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="mfitrTopChart" class="chart-square"></canvas>
+        </div>
+      </section>
+    </div>
 
     <% if (!selectedTable || selectedTable === 'vswr') { %>
     <section class="panel">
       <% if (!rows || rows.length === 0) { %>
         <p>Nessuna cella con VSWR &gt; 1.49 trovata.</p>
       <% } else { %>
-        <h2>Celle con VSWR &gt; 1.49</h2>
+        <h2>Report</h2>
+        <div class="table-tools">
+          <input type="search" id="vswrSearch" placeholder="Cerca" />
+          <input type="range" id="vswrMin" min="1" max="3" step="0.01" value="1.49" />
+          <span id="vswrMinLabel">≥ 1.49</span>
+          <select id="vswrPageSize"><option>25</option><option>50</option><option>100</option></select>
+          <button class="btn" id="vswrExport">Esporta CSV</button>
+        </div>
         <div class="table-scroll">
-          <table class="table">
+          <table class="table table-fit sticky-header sticky-first-col table-vswr" id="vswrTable">
             <thead>
               <tr>
-                <th>Cella di riferimento</th>
-                <th>Radio</th>
-                <th>BOARD</th>
-                <th>RF</th>
-                <th>VSWR (RL)</th>
-                <th class="muted">File</th>
+                <th scope="col">Cella di riferimento</th>
+                <th scope="col">Radio</th>
+                <th scope="col">BOARD</th>
+                <th scope="col">RF</th>
+                <th scope="col" data-numeric>VSWR (RL)</th>
+                <th scope="col" class="muted">File</th>
               </tr>
             </thead>
             <tbody>
               <% rows.forEach(r => { %>
                 <tr>
-                  <td><%= r.refCell %></td>
-                  <td><%= r.Radio %></td>
-                  <td><%= r.BOARD %></td>
-                  <td><%= r.RF %></td>
-                  <td><%= r.VSWR %></td>
-                  <td class="muted"><%= r.source %></td>
+                  <td title="<%= r.refCell %>"><span class="mono"><%= r.refCell %></span></td>
+                  <td title="<%= r.Radio %>"><%= r.Radio %></td>
+                  <td title="<%= r.BOARD %>"><%= r.BOARD %></td>
+                  <td title="<%= r.RF %>"><%= r.RF %></td>
+                  <td title="<%= r.VSWR %>"><span class="num"><%= r.VSWR %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.VSWR %>" aria-label="Copia">⧉</button></span></td>
+                  <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -92,25 +134,34 @@
       <% if (!wlRows || wlRows.length === 0) { %>
         <p>Nessuna cella di riferimento trovata nella sezione sdir_link_performance_wl.</p>
       <% } else { %>
+        <div class="table-tools">
+          <input type="search" id="wlSearch" placeholder="Cerca" />
+          <input type="range" id="wlMin" min="-10" max="0" step="0.01" value="-3.49" />
+          <span id="wlMinLabel">< -3.49</span>
+          <select id="wlPageSize"><option>25</option><option>50</option><option>100</option></select>
+          <button class="btn" id="wlExport">Esporta CSV</button>
+        </div>
         <div class="table-scroll">
-          <table class="table">
+          <table class="table table-fit sticky-header sticky-first-col table-wl" id="wlTable">
             <thead>
               <tr>
-                <th>Cella di riferimento</th>
-                <th>DlLoss</th>
-                <th>UlLoss</th>
-                <th>LENGTH</th>
-                <th class="muted">File</th>
+                <th scope="col">Cella di riferimento</th>
+                <th scope="col" data-numeric>DlLoss</th>
+                <th scope="col" data-numeric>UlLoss</th>
+                <th scope="col" data-numeric>LENGTH</th>
+                <th scope="col" class="muted">File</th>
               </tr>
             </thead>
             <tbody>
               <% wlRows.forEach(r => { %>
                 <tr>
-                  <td><%= r.refCells || '—' %></td>
-                  <td><%= r.DlLoss %></td>
-                  <td><%= r.UlLoss %></td>
-                  <td><%= r.LENGTH %></td>
-                  <td class="muted"><%= r.source %></td>
+                  <td title="<%= r.refCells || '—' %>"><span class="mono"><%= r.refCells || '—' %></span></td>
+                  <% const mDl = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vDl = mDl ? parseFloat(mDl[1].replace(',', '.')) : NaN; const badDl = (!Number.isNaN(vDl) && vDl < -3.49); %>
+                  <td class="<%= badDl ? 'cell-danger' : '' %>" title="<%= r.DlLoss %>"><span class="num <%= badDl ? 'badge badge-danger' : '' %>"><%= r.DlLoss %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.DlLoss %>" aria-label="Copia">⧉</button></span></td>
+                  <% const mUl = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vUl = mUl ? parseFloat(mUl[1].replace(',', '.')) : NaN; const badUl = (!Number.isNaN(vUl) && vUl < -3.49); %>
+                  <td class="<%= badUl ? 'cell-danger' : '' %>" title="<%= r.UlLoss %>"><span class="num <%= badUl ? 'badge badge-danger' : '' %>"><%= r.UlLoss %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.UlLoss %>" aria-label="Copia">⧉</button></span></td>
+                  <td title="<%= r.LENGTH %>"><span class="num"><%= r.LENGTH %></span></td>
+                  <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -126,25 +177,34 @@
       <% if (!mfarRows || mfarRows.length === 0) { %>
         <p>Nessuna anomalia MFAR trovata (Issue diverso da Passed).</p>
       <% } else { %>
+        <div class="table-tools">
+          <input type="search" id="mfarSearch" placeholder="Cerca" />
+          <label><input type="checkbox" id="toggleHW" checked /> HW</label>
+          <label><input type="checkbox" id="toggleSerial" checked /> Serial</label>
+          <label><input type="checkbox" id="togglePol" checked /> Pol</label>
+          <label><input type="checkbox" id="toggleRes" checked /> Res</label>
+          <select id="mfarPageSize"><option>25</option><option>50</option><option>100</option></select>
+          <button class="btn" id="mfarExport">Esporta CSV</button>
+        </div>
         <div class="table-scroll">
-          <table class="table">
+          <table class="table table-fit sticky-header sticky-first-col table-mfar" id="mfarTable">
             <thead>
               <tr>
-                <th>Cell (SC)</th>
-                <th>Radio (SE)</th>
-                <th>Tx/Rx</th>
-                <th>BrPair</th>
-                <th>RfPort1</th>
-                <th>RfPort2</th>
-                <th>HW</th>
-                <th>Serial</th>
-                <th>Med</th>
-                <th>Mean</th>
-                <th>SDev</th>
-                <th>Pol</th>
-                <th>Res</th>
-                <th>Issue</th>
-                <th class="muted">File</th>
+                <th scope="col">Cell (SC)</th>
+                <th scope="col">Radio (SE)</th>
+                <th scope="col">Tx/Rx</th>
+                <th scope="col">BrPair</th>
+                <th scope="col">RfPort1</th>
+                <th scope="col">RfPort2</th>
+                <th scope="col">HW</th>
+                <th scope="col">Serial</th>
+                <th scope="col" data-numeric>Med</th>
+                <th scope="col" data-numeric>Mean</th>
+                <th scope="col" data-numeric>SDev</th>
+                <th scope="col">Pol</th>
+                <th scope="col">Res</th>
+                <th scope="col">Issue</th>
+                <th scope="col" class="muted">File</th>
               </tr>
             </thead>
             <tbody>
@@ -156,15 +216,16 @@
                   <td><%= r.BrPair %></td>
                   <td><%= r.RfPort1 %></td>
                   <td><%= r.RfPort2 %></td>
-                  <td><%= r.HW %></td>
-                  <td><%= r.Serial %></td>
-                  <td><%= r.Med %></td>
-                  <td><%= r.Mean %></td>
-                  <td><%= r.SDev %></td>
+                  <td class="col-HW"><%= r.HW %></td>
+                  <td class="col-Serial"><%= r.Serial %></td>
+                  <td title="<%= r.Med %>"><span class="num"><%= r.Med %></span></td>
+                  <td title="<%= r.Mean %>"><span class="num"><%= r.Mean %></span></td>
+                  <td title="<%= r.SDev %>"><span class="num"><%= r.SDev %></span></td>
                   <td><%= r.Pol %></td>
                   <td><%= r.Res %></td>
-                  <td><%= r.Issue %></td>
-                  <td class="muted"><%= r.source %></td>
+                  <% const badIssue = String(r.Issue || '').trim().toLowerCase() !== 'passed'; %>
+                  <td class="<%= badIssue ? 'cell-danger' : '' %>"><span class="<%= badIssue ? 'badge badge-danger' : '' %>"><%= r.Issue %></span></td>
+                  <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -180,21 +241,28 @@
       <% if (!mfitrRows || mfitrRows.length === 0) { %>
         <p>Nessun record MFITR con DELTA &gt; 3.9.</p>
       <% } else { %>
+        <div class="table-tools">
+          <input type="search" id="mfitrSearch" placeholder="Cerca" />
+          <input type="range" id="mfitrMin" min="0" max="10" step="0.1" value="3.9" />
+          <span id="mfitrMinLabel">> 3.9</span>
+          <select id="mfitrPageSize"><option>25</option><option>50</option><option>100</option></select>
+          <button class="btn" id="mfitrExport">Esporta CSV</button>
+        </div>
         <div class="table-scroll">
-          <table class="table">
+          <table class="table table-fit sticky-header sticky-first-col table-mfitr" id="mfitrTable">
             <thead>
               <tr>
-                <th>Cell (SC)</th>
-                <th>FRU</th>
-                <th>BOARD</th>
-                <th>PUSCH</th>
-                <th>PUCCH</th>
-                <th>A</th>
-                <th>B</th>
-                <th>C</th>
-                <th>D</th>
-                <th>DELTA</th>
-                <th class="muted">File</th>
+                <th scope="col">Cell (SC)</th>
+                <th scope="col">FRU</th>
+                <th scope="col">BOARD</th>
+                <th scope="col">PUSCH</th>
+                <th scope="col">PUCCH</th>
+                <th scope="col" data-numeric>A</th>
+                <th scope="col" data-numeric>B</th>
+                <th scope="col" data-numeric>C</th>
+                <th scope="col" data-numeric>D</th>
+                <th scope="col" data-numeric>DELTA</th>
+                <th scope="col" class="muted">File</th>
               </tr>
             </thead>
             <tbody>
@@ -205,12 +273,13 @@
                   <td><%= r.BOARD %></td>
                   <td><%= r.PUSCH %></td>
                   <td><%= r.PUCCH %></td>
-                  <td><%= r.A %></td>
-                  <td><%= r.B %></td>
-                  <td><%= r.C %></td>
-                  <td><%= r.D %></td>
-                  <td><%= r.DELTA %></td>
-                  <td class="muted"><%= r.source %></td>
+                  <td title="<%= r.A %>"><span class="num"><%= r.A %></span></td>
+                  <td title="<%= r.B %>"><span class="num"><%= r.B %></span></td>
+                  <td title="<%= r.C %>"><span class="num"><%= r.C %></span></td>
+                  <td title="<%= r.D %>"><span class="num"><%= r.D %></span></td>
+                  <% const mD = String(r.DELTA || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vD = mD ? parseFloat(mD[1].replace(',', '.')) : NaN; const badD = (!Number.isNaN(vD) && vD > 3.9); %>
+                  <td class="<%= badD ? 'cell-danger' : '' %>" title="<%= r.DELTA %>"><span class="num <%= badD ? 'badge badge-danger' : '' %>"><%= r.DELTA %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.DELTA %>" aria-label="Copia">⧉</button></span></td>
+                  <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -226,27 +295,36 @@
       <% if (!boardSfpRows || boardSfpRows.length === 0) { %>
         <p>Nessuna cella di riferimento trovata tra le metriche BOARD/SFP con i criteri indicati.</p>
       <% } else { %>
+        <div class="table-tools">
+          <input type="search" id="boardSearch" placeholder="Cerca" />
+          <input type="range" id="dbmMin" min="-50" max="0" step="0.1" value="-13.99" />
+          <span id="dbmMinLabel">< -13.99</span>
+          <select id="boardPageSize"><option>25</option><option>50</option><option>100</option></select>
+          <button class="btn" id="boardExport">Esporta CSV</button>
+        </div>
         <div class="table-scroll">
-          <table class="table">
+          <table class="table table-fit sticky-header sticky-first-col table-board" id="boardTable">
             <thead>
               <tr>
-                <th>Cella di riferimento</th>
-                <th>Board</th>
-                <th>WL</th>
-                <th>TXdBm</th>
-                <th>RXdBm</th>
-                <th class="muted">File</th>
+                <th scope="col">Cella di riferimento</th>
+                <th scope="col">Board</th>
+                <th scope="col">WL</th>
+                <th scope="col" data-numeric>TXdBm</th>
+                <th scope="col" data-numeric>RXdBm</th>
+                <th scope="col" class="muted">File</th>
               </tr>
             </thead>
             <tbody>
               <% boardSfpRows.forEach(r => { %>
                 <tr>
-                  <td><%= String(r.source || '').replace(/\.log$/i, '') %></td>
+                  <td title="<%= String(r.source || '').replace(/\.log$/i, '') %>"><span class="mono"><%= String(r.source || '').replace(/\.log$/i, '') %></span></td>
                   <td><%= r.BOARD %></td>
                   <td><%= r.WL %></td>
-                  <td><%= r.TXdBm %></td>
-                  <td><%= r.RXdBm %></td>
-                  <td class="muted"><%= r.source %></td>
+                  <% const mTx = String(r.TXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vTx = mTx ? parseFloat(mTx[1].replace(',', '.')) : NaN; const badTx = (!Number.isNaN(vTx) && vTx < -13.99); %>
+                  <td class="<%= badTx ? 'cell-danger' : '' %>" title="<%= r.TXdBm %>"><span class="num <%= badTx ? 'badge badge-danger' : '' %>"><%= r.TXdBm %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.TXdBm %>" aria-label="Copia">⧉</button></span></td>
+                  <% const mRx = String(r.RXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vRx = mRx ? parseFloat(mRx[1].replace(',', '.')) : NaN; const badRx = (!Number.isNaN(vRx) && vRx < -13.99); %>
+                  <td class="<%= badRx ? 'cell-danger' : '' %>" title="<%= r.RXdBm %>"><span class="num <%= badRx ? 'badge badge-danger' : '' %>"><%= r.RXdBm %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.RXdBm %>" aria-label="Copia">⧉</button></span></td>
+                  <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
             </tbody>
@@ -256,5 +334,263 @@
     </section>
     <% } %>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    (function() {
+      // Usa esclusivamente i dati mostrati nella tabella VSWR (variabile 'rows')
+      const fruLabels = <%- JSON.stringify(((typeof rows !== 'undefined' ? rows : [])).map(r => String(r.refCell || r.SC || r.source || ''))) %>;
+      // Parsing robusto: estrae il numero dall'inizio della stringa e gestisce la virgola decimale
+      const fruVswrVals = <%- JSON.stringify(((typeof rows !== 'undefined' ? rows : [])).map(r => {
+        const m = String(r.VSWR || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/);
+        return m ? parseFloat(m[1].replace(',', '.')) : NaN;
+      })) %>;
+      // Dati WL dalla tabella filtrata (sdir_link_performance_wl)
+      const wlLabelsFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => String(r.refCells || '').replace(/\.log$/i, ''))) %>;
+      const wlDlFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => { const m = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      const wlUlFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => { const m = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      // Dati MFITR dalla tabella filtrata (DELTA > 3.9)
+      const mfitrLabelsFull = <%- JSON.stringify(((typeof mfitrRows !== 'undefined' ? mfitrRows : [])).map(r => String(r.SC || r.source || ''))) %>;
+      const mfitrDeltaFull = <%- JSON.stringify(((typeof mfitrRows !== 'undefined' ? mfitrRows : [])).map(r => Number(r.DELTA))) %>;
+      // Dati Board/SFP dalla tabella filtrata (ID = TN, TX/RX < -13.99)
+      const boardLabelsFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => String(r.source || '').replace(/\.log$/i, ''))) %>;
+      const boardTxFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => { const m = String(r.TXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      const boardRxFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => { const m = String(r.RXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      const vswrLabels = <%- JSON.stringify(((typeof topVswrRows !== 'undefined' ? topVswrRows : [])).map(r => String(r.refCell || r.source || ''))) %>;
+      const vswrVals = <%- JSON.stringify(((typeof topVswrRows !== 'undefined' ? topVswrRows : [])).map(r => Number(r.VSWR))) %>;
+
+      const wlLabels = <%- JSON.stringify(((typeof topWlRows !== 'undefined' ? topWlRows : [])).map(r => String(r.refCells || r.source || '').replace(/\.log$/i, ''))) %>;
+      const wlDl = <%- JSON.stringify(((typeof topWlRows !== 'undefined' ? topWlRows : [])).map(r => Number(r.DlLoss))) %>;
+      const wlUl = <%- JSON.stringify(((typeof topWlRows !== 'undefined' ? topWlRows : [])).map(r => Number(r.UlLoss))) %>;
+
+      const boardLabels = <%- JSON.stringify(((typeof topBoardRows !== 'undefined' ? topBoardRows : [])).map(r => String(r.source || '').replace(/\.log$/i, ''))) %>;
+      const txVals = <%- JSON.stringify(((typeof topBoardRows !== 'undefined' ? topBoardRows : [])).map(r => Number(r.TXdBm))) %>;
+      const rxVals = <%- JSON.stringify(((typeof topBoardRows !== 'undefined' ? topBoardRows : [])).map(r => Number(r.RXdBm))) %>;
+
+      const mfitrLabels = <%- JSON.stringify(((typeof topMfitrRows !== 'undefined' ? topMfitrRows : [])).map(r => String(r.SC || r.source || ''))) %>;
+      const deltaVals = <%- JSON.stringify(((typeof topMfitrRows !== 'undefined' ? topMfitrRows : [])).map(r => Number(r.DELTA))) %>;
+
+      function mkBarChart(ctxId, labels, datasets, title) {
+        const ctx = document.getElementById(ctxId);
+        if (!ctx) return;
+        if (typeof Chart === 'undefined') {
+          ctx.insertAdjacentHTML('afterend', '<div class="muted">Grafico non disponibile: libreria Chart.js non caricata.</div>');
+          return;
+        }
+        if (!labels.length) {
+          ctx.insertAdjacentHTML('afterend', '<div class="muted">Nessun dato per il grafico.</div>');
+          return;
+        }
+        // Dimensioni gestite dal CSS (.chart-square: width 100%, height clamp)
+        new Chart(ctx, {
+          type: 'bar',
+          data: { labels, datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom' },
+              title: { display: true, text: title }
+            },
+            scales: { y: { beginAtZero: true } }
+          }
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        // FRU VSWR Top 5 (sdir_fru_radio_metriche)
+        const fruPairs = (fruLabels || []).map((label, i) => ({ label, value: fruVswrVals[i] }))
+          .filter(x => !Number.isNaN(x.value))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 5);
+        mkBarChart('fruVswrTopChart', fruPairs.map(p => p.label), [
+          { label: 'VSWR (RL)', data: fruPairs.map(p => p.value), backgroundColor: '#ef4444' }
+        ], 'Top 5 VSWR (FRU)');
+
+        // WL Top 5 (sdir_link_performance_wl): mostra SOLO valori < -3.49 di DlLoss o UlLoss
+        const THRESH = -3.49;
+        const wlPairsFull = (wlLabelsFull || []).map((label, i) => ({ label, dl: wlDlFull[i], ul: wlUlFull[i] }))
+          .filter(x => (!Number.isNaN(x.dl) || !Number.isNaN(x.ul)));
+        const wlFiltered = wlPairsFull.filter(p => (
+          (!Number.isNaN(p.dl) && p.dl < THRESH) || (!Number.isNaN(p.ul) && p.ul < THRESH)
+        ));
+        const wlTop5 = wlFiltered
+          .sort((a, b) => {
+            const aVal = Math.min(
+              (!Number.isNaN(a.dl) && a.dl < THRESH) ? a.dl : Infinity,
+              (!Number.isNaN(a.ul) && a.ul < THRESH) ? a.ul : Infinity
+            );
+            const bVal = Math.min(
+              (!Number.isNaN(b.dl) && b.dl < THRESH) ? b.dl : Infinity,
+              (!Number.isNaN(b.ul) && b.ul < THRESH) ? b.ul : Infinity
+            );
+            return aVal - bVal; // più negativo prima
+          })
+          .slice(0, 5);
+        const dlData = wlTop5.map(p => (!Number.isNaN(p.dl) && p.dl < THRESH) ? p.dl : null);
+        const ulData = wlTop5.map(p => (!Number.isNaN(p.ul) && p.ul < THRESH) ? p.ul : null);
+        mkBarChart('wlTopChart', wlTop5.map(p => p.label), [
+          { label: 'DlLoss', data: dlData, backgroundColor: '#3b82f6' },
+          { label: 'UlLoss', data: ulData, backgroundColor: '#22c55e' }
+        ], 'Top 5 DL/UL Loss (< -3.49)');
+
+        // MFITR Top 5: mostra SOLO DELTA > 3.9
+        const MFITR_THRESH = 3.9;
+        const mfitrPairsFull2 = (mfitrLabelsFull || []).map((label, i) => ({ label, delta: mfitrDeltaFull[i] }))
+          .filter(x => !Number.isNaN(x.delta) && x.delta > MFITR_THRESH);
+        const mfitrTop5 = mfitrPairsFull2
+          .sort((a, b) => b.delta - a.delta)
+          .slice(0, 5);
+        // Palette colori per barre distinte
+        const palette = ['#ef4444','#3b82f6','#f59e0b','#10b981','#8b5cf6','#22d3ee','#e11d48','#14b8a6','#a3e635','#f97316'];
+        const mfitrColors = mfitrTop5.map((_, i) => palette[i % palette.length]);
+        mkBarChart('mfitrTopChart', mfitrTop5.map(p => p.label), [
+          { label: 'DELTA', data: mfitrTop5.map(p => p.delta), backgroundColor: mfitrColors }
+        ], 'MFITR: DELTA > 3.9 (Top 5)');
+
+        // Board/SFP Top 5 (ID = TN): mostra SOLO valori < -13.99 di TXdBm o RXdBm
+        const THRESH_DBM = -13.99;
+        const boardPairsFull2 = (boardLabelsFull || []).map((label, i) => ({ label, tx: boardTxFull[i], rx: boardRxFull[i] }))
+          .filter(x => (!Number.isNaN(x.tx) || !Number.isNaN(x.rx)));
+        const boardFiltered = boardPairsFull2.filter(p => (
+          (!Number.isNaN(p.tx) && p.tx < THRESH_DBM) || (!Number.isNaN(p.rx) && p.rx < THRESH_DBM)
+        ));
+        const boardTop5 = boardFiltered
+          .sort((a, b) => {
+            const aVal = Math.min(
+              (!Number.isNaN(a.tx) && a.tx < THRESH_DBM) ? a.tx : Infinity,
+              (!Number.isNaN(a.rx) && a.rx < THRESH_DBM) ? a.rx : Infinity
+            );
+            const bVal = Math.min(
+              (!Number.isNaN(b.tx) && b.tx < THRESH_DBM) ? b.tx : Infinity,
+              (!Number.isNaN(b.rx) && b.rx < THRESH_DBM) ? b.rx : Infinity
+            );
+            return aVal - bVal; // più negativo prima
+          })
+          .slice(0, 5);
+        const txData2 = boardTop5.map(p => (!Number.isNaN(p.tx) && p.tx < THRESH_DBM) ? p.tx : null);
+        const rxData2 = boardTop5.map(p => (!Number.isNaN(p.rx) && p.rx < THRESH_DBM) ? p.rx : null);
+        mkBarChart('boardTopChart', boardTop5.map(p => p.label), [
+          { label: 'TXdBm', data: txData2, backgroundColor: '#ef4444' },
+          { label: 'RXdBm', data: rxData2, backgroundColor: '#f59e0b' }
+        ], 'Celle (ID = TN) con TXdBm/RXdBm < -13.99');
+
+        mkBarChart('vswrChart', vswrLabels, [
+          { label: 'VSWR (RL)', data: vswrVals, backgroundColor: '#ef4444' }
+        ], 'Top 5 VSWR');
+
+        mkBarChart('lossChart', wlLabels, [
+          { label: 'DlLoss', data: wlDl, backgroundColor: '#3b82f6' },
+          { label: 'UlLoss', data: wlUl, backgroundColor: '#22c55e' }
+        ], 'Top 5 DL/UL Loss');
+
+        mkBarChart('boardChart', boardLabels, [
+          { label: 'TXdBm', data: txVals, backgroundColor: '#f59e0b' },
+          { label: 'RXdBm', data: rxVals, backgroundColor: '#8b5cf6' }
+        ], 'Top 5 TX/RX dBm');
+
+        mkBarChart('mfitrChart', mfitrLabels, [
+          { label: 'DELTA', data: deltaVals, backgroundColor: '#10b981' }
+        ], 'Top 5 MFITR DELTA');
+        function initTableControls(cfg) {
+          var table = document.getElementById(cfg.tableId);
+          if (!table) return;
+          var tbody = table.querySelector('tbody');
+          var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+          var searchEl = cfg.searchId ? document.getElementById(cfg.searchId) : null;
+          var sliderEl = cfg.sliderId ? document.getElementById(cfg.sliderId) : null;
+          var sliderLabelEl = cfg.sliderLabelId ? document.getElementById(cfg.sliderLabelId) : null;
+          var pageSizeEl = cfg.pageSizeId ? document.getElementById(cfg.pageSizeId) : null;
+          var exportEl = cfg.exportId ? document.getElementById(cfg.exportId) : null;
+          var state = { sortIndex: null, sortDir: 1, pageSize: pageSizeEl ? parseInt(pageSizeEl.value, 10) : rows.length, page: 0 };
+          function cellText(td) { return (td.textContent || '').trim(); }
+          function parseNum(s) { var m = s.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; }
+          function apply() {
+            var q = searchEl ? (searchEl.value || '').toLowerCase() : '';
+            var threshold = sliderEl ? cfg.sliderParse(sliderEl.value) : null;
+            var filtered = rows.filter(function(tr){
+              var cells = tr.children;
+              var textMatch = !q || tr.textContent.toLowerCase().indexOf(q) !== -1;
+              var threshMatch = true;
+              if (threshold !== null) threshMatch = cfg.thresholdRowOk(cells, threshold);
+              return textMatch && threshMatch;
+            });
+            if (state.sortIndex !== null) filtered.sort(function(a,b){
+              var ta = a.children[state.sortIndex];
+              var tb = b.children[state.sortIndex];
+              var na = parseNum(cellText(ta));
+              var nb = parseNum(cellText(tb));
+              var va = (isNaN(na) ? cellText(ta) : na);
+              var vb = (isNaN(nb) ? cellText(tb) : nb);
+              if (va < vb) return -1 * state.sortDir;
+              if (va > vb) return 1 * state.sortDir;
+              return 0;
+            });
+            var ps = state.pageSize;
+            var start = state.page * ps;
+            var end = start + ps;
+            tbody.innerHTML = '';
+            filtered.slice(start, end).forEach(function(tr){ tbody.appendChild(tr); });
+          }
+          Array.prototype.forEach.call(table.querySelectorAll('thead th'), function(th, idx){
+            th.addEventListener('click', function(){
+              if (state.sortIndex === idx) state.sortDir = -state.sortDir; else { state.sortIndex = idx; state.sortDir = 1; }
+              apply();
+            });
+          });
+          if (searchEl) searchEl.addEventListener('input', apply);
+          if (sliderEl) sliderEl.addEventListener('input', function(){ if (sliderLabelEl) sliderLabelEl.textContent = cfg.sliderLabel(sliderEl.value); apply(); });
+          if (pageSizeEl) pageSizeEl.addEventListener('change', function(){ state.pageSize = parseInt(pageSizeEl.value, 10); state.page = 0; apply(); });
+          if (exportEl) exportEl.addEventListener('click', function(){
+            var hdrs = Array.prototype.map.call(table.querySelectorAll('thead th'), function(th){ return (th.textContent||'').trim(); });
+            var csvRows = [hdrs.join(',')];
+            Array.prototype.forEach.call(tbody.querySelectorAll('tr'), function(tr){
+              var cells = Array.prototype.map.call(tr.children, function(td){ return '"' + (td.textContent||'').trim().replace(/"/g,'""') + '"'; });
+              csvRows.push(cells.join(','));
+            });
+            var blob = new Blob([csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url; a.download = cfg.tableId + '.csv'; a.click(); URL.revokeObjectURL(url);
+          });
+          Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(btn){ btn.addEventListener('click', function(){ var v = btn.getAttribute('data-copy'); navigator.clipboard && navigator.clipboard.writeText(v); }); });
+          apply();
+        }
+        initTableControls({
+          tableId: 'vswrTable', searchId: 'vswrSearch', sliderId: 'vswrMin', sliderLabelId: 'vswrMinLabel', pageSizeId: 'vswrPageSize', exportId: 'vswrExport',
+          sliderParse: function(v){ return parseFloat(v); },
+          sliderLabel: function(v){ return '≥ ' + v; },
+          thresholdRowOk: function(cells, thr){ var v = cells[4] ? cells[4].textContent.trim() : ''; var n = v.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); n = n ? parseFloat(n[1].replace(',', '.')) : NaN; return !isNaN(n) && n >= thr; }
+        });
+        initTableControls({
+          tableId: 'wlTable', searchId: 'wlSearch', sliderId: 'wlMin', sliderLabelId: 'wlMinLabel', pageSizeId: 'wlPageSize', exportId: 'wlExport',
+          sliderParse: function(v){ return parseFloat(v); },
+          sliderLabel: function(v){ return '< ' + v; },
+          thresholdRowOk: function(cells, thr){ var dl = cells[1] ? cells[1].textContent.trim() : ''; var ul = cells[2] ? cells[2].textContent.trim() : ''; function num(s){ var m = s.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; } var ndl=num(dl), nul=num(ul); return (!isNaN(ndl) && ndl < thr) || (!isNaN(nul) && nul < thr); }
+        });
+        initTableControls({
+          tableId: 'mfitrTable', searchId: 'mfitrSearch', sliderId: 'mfitrMin', sliderLabelId: 'mfitrMinLabel', pageSizeId: 'mfitrPageSize', exportId: 'mfitrExport',
+          sliderParse: function(v){ return parseFloat(v); },
+          sliderLabel: function(v){ return '> ' + v; },
+          thresholdRowOk: function(cells, thr){ var v = cells[9] ? cells[9].textContent.trim() : ''; var m = v.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); var n = m ? parseFloat(m[1].replace(',', '.')) : NaN; return !isNaN(n) && n > thr; }
+        });
+        initTableControls({
+          tableId: 'mfarTable', searchId: 'mfarSearch', pageSizeId: 'mfarPageSize', exportId: 'mfarExport'
+        });
+        initTableControls({
+          tableId: 'boardTable', searchId: 'boardSearch', sliderId: 'dbmMin', sliderLabelId: 'dbmMinLabel', pageSizeId: 'boardPageSize', exportId: 'boardExport',
+          sliderParse: function(v){ return parseFloat(v); },
+          sliderLabel: function(v){ return '< ' + v; },
+          thresholdRowOk: function(cells, thr){ function numCell(i){ var v = cells[i] ? cells[i].textContent.trim() : ''; var m = v.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; } var tx = numCell(3), rx = numCell(4); return (!isNaN(tx) && tx < thr) || (!isNaN(rx) && rx < thr); }
+        });
+        var tHW = document.getElementById('toggleHW'); var tSerial = document.getElementById('toggleSerial'); var tPol = document.getElementById('togglePol'); var tRes = document.getElementById('toggleRes');
+        function toggleCol(cls, on){ Array.prototype.forEach.call(document.querySelectorAll('#mfarTable .' + cls), function(td){ td.style.display = on ? '' : 'none'; }); var idx = cls === 'col-HW' ? 6 : cls === 'col-Serial' ? 7 : cls === 'col-Pol' ? 11 : cls === 'col-Res' ? 12 : -1; if (idx >= 0){ var th = document.querySelectorAll('#mfarTable thead th')[idx]; if (th) th.style.display = on ? '' : 'none'; }
+        }
+        if (tHW) tHW.addEventListener('change', function(){ toggleCol('col-HW', tHW.checked); });
+        if (tSerial) tSerial.addEventListener('change', function(){ toggleCol('col-Serial', tSerial.checked); });
+        if (tPol) tPol.addEventListener('change', function(){ toggleCol('col-Pol', tPol.checked); });
+        if (tRes) tRes.addEventListener('change', function(){ toggleCol('col-Res', tRes.checked); });
+      });
+    })();
+  </script>
 </body>
 </html>
