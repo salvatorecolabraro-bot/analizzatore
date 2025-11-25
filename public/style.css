@@ -84,6 +84,12 @@ label { display: flex; align-items: center; gap: 10px; }
 .filters select, .filters input { padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); background: #0b1223; color: var(--fg); }
 .table-scroll { overflow-x: auto; }
 .table-transposed th:first-child { width: 120px; }
+.table-mfar.table-transposed th:first-child,
+.table-mfar.table-transposed td:first-child { width: auto; max-width: 80px; min-width: 0; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.table-mfar.table-fit th:first-child,
+.table-mfar.table-fit td:first-child { width: 80px; min-width: 80px; max-width: 80px; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.table-mfitr.table-transposed th:first-child,
+.table-mfitr.table-transposed td:first-child { width: auto; max-width: 80px; min-width: 0; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
 .table-transposed th, .table-transposed td { white-space: nowrap; }
 /* Adatta la seconda colonna (primo log) al contenuto */
 .table-transposed th:nth-child(2), .table-transposed td:nth-child(2) {
@@ -146,3 +152,19 @@ label { display: flex; align-items: center; gap: 10px; }
 .table-fit th, .table-fit td { white-space: nowrap; }
 .table-fit.table-transposed th:first-child { width: max-content; }
 .cell-danger { background: rgba(239, 68, 68, 0.16); border-color: var(--danger); }
+.badge-warn { background: #f59e0b; color: #fff; }
+.row-danger { box-shadow: inset 4px 0 var(--danger); }
+.row-warn { box-shadow: inset 4px 0 #f59e0b; }
+.heat-l { background: rgba(245, 158, 11, 0.10); }
+.heat-m { background: rgba(245, 158, 11, 0.18); }
+.heat-h { background: rgba(239, 68, 68, 0.20); }
+.chips { display: inline-flex; gap: 6px; align-items: center; }
+.chip { padding: 4px 8px; border: 1px solid var(--border); background: var(--card); border-radius: 6px; cursor: pointer; }
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+.dashboard-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
+.chart-area { height: 160px; }
+.muted { color: var(--muted); }
+.table-mfar th, .table-mfar td { width: max-content; }
+.table-mfitr th, .table-mfitr td { width: max-content; }
+.table-mfitr.table-fit th:first-child,
+.table-mfitr.table-fit td:first-child { width: 80px; min-width: 80px; max-width: 80px; white-space: normal; overflow-wrap: anywhere; word-break: break-word; }

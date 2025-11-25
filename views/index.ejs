@@ -15,7 +15,7 @@
     </nav>
   </header>
 
-  <main>
+  <main class="dashboard-grid">
     <section class="panel">
       <h2>Filtra per file</h2>
       <form class="filters" action="/" method="get">
@@ -32,13 +32,14 @@
         </div>
       </form>
     </section>
+    
     <section class="panel">
       <h2>UL/DL fuori norma</h2>
       <% if (!perfRows || perfRows.length === 0) { %>
         <p>Nessun dato trovato nella sezione sdir_link_performance_wl dei log caricati.</p>
       <% } else { %>
         <div class="table-scroll">
-          <table class="table table-fit table-transposed sticky-first-col table-wl">
+          <table class="table table-fit table-transposed sticky-header sticky-first-col table-wl">
             <tbody>
               <tr>
                 <th>Radio</th>
@@ -121,7 +122,7 @@
         <p>Nessun dato trovato nella sezione sdir_board_sfp_metriche dei log caricati.</p>
       <% } else { %>
         <div class="table-scroll">
-          <table class="table table-fit table-transposed sticky-first-col table-board">
+          <table class="table table-fit table-transposed sticky-header sticky-first-col table-board">
             <tbody>
               <tr>
                 <th>ID</th>
@@ -191,7 +192,7 @@
         <p>Nessun dato trovato nella sezione sdir_fru_radio_metriche dei log caricati.</p>
       <% } else { %>
         <div class="table-scroll">
-          <table class="table table-fit table-transposed sticky-first-col table-vswr">
+          <table class="table table-fit table-transposed sticky-header sticky-first-col table-vswr">
             <tbody>
               <tr>
                 <th>Radio</th>
@@ -248,7 +249,7 @@
       <p>Nessun dato trovato nella sezione mfar dei log caricati.</p>
     <% } else { %>
       <div class="table-scroll">
-        <table class="table table-fit table-transposed sticky-first-col table-mfar">
+        <table class="table table-fit table-transposed sticky-header sticky-first-col table-mfar">
           <tbody>
             <tr>
               <th>Cell</th>
@@ -332,8 +333,8 @@
             <tr>
               <th>Issue</th>
               <% mfarRows.forEach(r => { %>
-                <% const badIssue = String(r.Issue || '').trim().toLowerCase() !== 'passed'; %>
-                <td class="<%= badIssue ? 'cell-danger' : '' %>" title="<%= r.Issue %>"><span class="<%= badIssue ? 'badge badge-danger' : '' %>"><%= r.Issue %></span></td>
+                <% const _issue = String(r.Issue || '').trim().toLowerCase(); const _sev = _issue.startsWith('okw') ? 'warn' : (_issue && _issue !== 'passed') ? 'danger' : 'ok'; %>
+                <td class="<%= _sev === 'danger' ? 'cell-danger' : '' %>" title="<%= r.Issue %>"><span class="<%= _sev === 'danger' ? 'badge badge-danger' : (_sev === 'warn' ? 'badge badge-warn' : 'badge') %>"><%= r.Issue %></span></td>
               <% }) %>
             </tr>
           </tbody>
@@ -347,7 +348,7 @@
       <p>Nessun dato trovato nella sezione mfitr dei log caricati.</p>
     <% } else { %>
       <div class="table-scroll">
-        <table class="table table-fit table-transposed sticky-first-col table-mfitr">
+        <table class="table table-fit table-transposed sticky-header sticky-first-col table-mfitr">
           <tbody>
             <tr>
               <th>Cell</th>
@@ -415,5 +416,6 @@
       </div>
     <% } %>
   </section>
+  
   </body>
   </html>

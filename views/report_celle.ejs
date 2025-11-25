@@ -72,7 +72,7 @@
     <!-- Grafici aggiuntivi: Board/SFP e MFITR affiancati sotto i primi due -->
     <div class="chart-panels">
       <section class="panel">
-        <h2>Top 5 TN Loss</h2>
+        <h2>Top 5 Attenuazione trasporto</h2>
         <div class="table-scroll" style="overflow: visible;">
           <canvas id="boardTopChart" class="chart-square"></canvas>
         </div>
@@ -90,7 +90,7 @@
       <% if (!rows || rows.length === 0) { %>
         <p>Nessuna cella con VSWR &gt; 1.49 trovata.</p>
       <% } else { %>
-        <h2>Report</h2>
+        <h2>VSWR</h2>
         <div class="table-tools">
           <input type="search" id="vswrSearch" placeholder="Cerca" />
           <input type="range" id="vswrMin" min="1" max="3" step="0.01" value="1.49" />
@@ -130,7 +130,7 @@
 
     <% if (!selectedTable || selectedTable === 'wl') { %>
     <section class="panel">
-      <h2>Celle con DlLoss/UlLoss &lt; -3.49</h2>
+      <h2>DlLoss/UlLoss</h2>
       <% if (!wlRows || wlRows.length === 0) { %>
         <p>Nessuna cella di riferimento trovata nella sezione sdir_link_performance_wl.</p>
       <% } else { %>
@@ -173,17 +173,27 @@
 
     <% if (!selectedTable || selectedTable === 'mfar') { %>
     <section class="panel">
-      <h2>MFAR: Issue diverso da Passed</h2>
+      <h2>MFAR</h2>
       <% if (!mfarRows || mfarRows.length === 0) { %>
         <p>Nessuna anomalia MFAR trovata (Issue diverso da Passed).</p>
       <% } else { %>
         <div class="table-tools">
           <input type="search" id="mfarSearch" placeholder="Cerca" />
+          <div class="chips">
+            <button class="chip" data-chip="NOK">NOK</button>
+            <button class="chip" data-chip="OKW">OKW</button>
+            <button class="chip" data-chip="NT">NT</button>
+            <button class="chip" data-chip="ALL">Tutti</button>
+          </div>
+          <label><input type="checkbox" id="toggleTxRx" checked /> Tx/Rx</label>
+          <label><input type="checkbox" id="toggleBrPair" checked /> BrPair</label>
+          <label><input type="checkbox" id="toggleRfPorts" checked /> RF Ports</label>
           <label><input type="checkbox" id="toggleHW" checked /> HW</label>
           <label><input type="checkbox" id="toggleSerial" checked /> Serial</label>
           <label><input type="checkbox" id="togglePol" checked /> Pol</label>
           <label><input type="checkbox" id="toggleRes" checked /> Res</label>
           <select id="mfarPageSize"><option>25</option><option>50</option><option>100</option></select>
+          <span class="muted" id="mfarCount"></span>
           <button class="btn" id="mfarExport">Esporta CSV</button>
         </div>
         <div class="table-scroll">
@@ -209,22 +219,23 @@
             </thead>
             <tbody>
               <% mfarRows.forEach(r => { %>
-                <tr>
+                <% const issueRaw = String(r.Issue || '').trim(); const issueNorm = issueRaw.toLowerCase(); const sev = issueNorm.startsWith('okw') ? 'warn' : (issueNorm && issueNorm !== 'passed') ? 'danger' : 'ok'; %>
+                <tr class="<%= sev === 'danger' ? 'row-danger' : (sev === 'warn' ? 'row-warn' : '') %>">
                   <td><%= r.SC %></td>
                   <td><%= r.SE %></td>
-                  <td><%= r.TxRx %></td>
-                  <td><%= r.BrPair %></td>
-                  <td><%= r.RfPort1 %></td>
-                  <td><%= r.RfPort2 %></td>
+                  <td class="col-TxRx"><%= r.TxRx %></td>
+                  <td class="col-BrPair"><%= r.BrPair %></td>
+                  <td class="col-RfPort1"><%= r.RfPort1 %></td>
+                  <td class="col-RfPort2"><%= r.RfPort2 %></td>
                   <td class="col-HW"><%= r.HW %></td>
                   <td class="col-Serial"><%= r.Serial %></td>
                   <td title="<%= r.Med %>"><span class="num"><%= r.Med %></span></td>
                   <td title="<%= r.Mean %>"><span class="num"><%= r.Mean %></span></td>
-                  <td title="<%= r.SDev %>"><span class="num"><%= r.SDev %></span></td>
+                  <% const sdevM = String(r.SDev || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const sdevV = sdevM ? parseFloat(sdevM[1].replace(',', '.')) : NaN; const sCls = !Number.isNaN(sdevV) ? (sdevV > 7 ? 'heat-h' : (sdevV > 5 ? 'heat-m' : (sdevV > 3 ? 'heat-l' : ''))) : ''; %>
+                  <td class="<%= sCls %>" title="<%= r.SDev %>"><span class="num"><%= r.SDev %></span></td>
                   <td><%= r.Pol %></td>
-                  <td><%= r.Res %></td>
-                  <% const badIssue = String(r.Issue || '').trim().toLowerCase() !== 'passed'; %>
-                  <td class="<%= badIssue ? 'cell-danger' : '' %>"><span class="<%= badIssue ? 'badge badge-danger' : '' %>"><%= r.Issue %></span></td>
+                  <td class="col-Res"><%= r.Res %></td>
+                  <td class="col-Issue <%= sev === 'danger' ? 'cell-danger' : '' %>"><span class="<%= sev === 'danger' ? 'badge badge-danger' : (sev === 'warn' ? 'badge badge-warn' : 'badge') %>"><%= r.Issue %></span></td>
                   <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
@@ -237,7 +248,7 @@
 
     <% if (!selectedTable || selectedTable === 'mfitr') { %>
     <section class="panel">
-      <h2>MFITR: DELTA &gt; 3.9</h2>
+      <h2>MFITR</h2>
       <% if (!mfitrRows || mfitrRows.length === 0) { %>
         <p>Nessun record MFITR con DELTA &gt; 3.9.</p>
       <% } else { %>
@@ -291,7 +302,7 @@
 
     <% if (!selectedTable || selectedTable === 'board_sfp') { %>
     <section class="panel">
-  <h2>Celle (ID = TN) con TXdBm/RXdBm &lt; -13.99</h2>
+  <h2>Attenuazione trasporto</h2>
       <% if (!boardSfpRows || boardSfpRows.length === 0) { %>
         <p>Nessuna cella di riferimento trovata tra le metriche BOARD/SFP con i criteri indicati.</p>
       <% } else { %>
@@ -344,17 +355,77 @@
         const m = String(r.VSWR || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/);
         return m ? parseFloat(m[1].replace(',', '.')) : NaN;
       })) %>;
+      (function(){
+        const vswrMinInput = document.getElementById('vswrMin');
+        if (!vswrMinInput) return;
+        const vals = (fruVswrVals || []).filter(n => !Number.isNaN(n));
+        if (!vals.length) return;
+        const minV = Math.min.apply(null, vals);
+        const maxV = Math.max.apply(null, vals);
+        vswrMinInput.min = String(minV);
+        vswrMinInput.max = String(maxV);
+        vswrMinInput.step = '0.01';
+        vswrMinInput.value = String(minV);
+        const lblEl = document.getElementById('vswrMinLabel');
+        if (lblEl) lblEl.textContent = '≥ ' + vswrMinInput.value;
+      })();
       // Dati WL dalla tabella filtrata (sdir_link_performance_wl)
       const wlLabelsFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => String(r.refCells || '').replace(/\.log$/i, ''))) %>;
       const wlDlFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => { const m = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
       const wlUlFull = <%- JSON.stringify(((typeof wlRows !== 'undefined' ? wlRows : [])).map(r => { const m = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      (function(){
+        const slider = document.getElementById('wlMin');
+        if (!slider) return;
+        const dl = (wlDlFull || []).filter(n => !Number.isNaN(n));
+        const ul = (wlUlFull || []).filter(n => !Number.isNaN(n));
+        const vals = dl.concat(ul);
+        if (!vals.length) return;
+        const minV = Math.min.apply(null, vals);
+        const maxV = Math.max.apply(null, vals);
+        slider.min = String(minV);
+        slider.max = String(maxV);
+        slider.step = '0.01';
+        slider.value = String(maxV);
+        const lbl = document.getElementById('wlMinLabel');
+        if (lbl) lbl.textContent = '< ' + slider.value;
+      })();
       // Dati MFITR dalla tabella filtrata (DELTA > 3.9)
       const mfitrLabelsFull = <%- JSON.stringify(((typeof mfitrRows !== 'undefined' ? mfitrRows : [])).map(r => String(r.SC || r.source || ''))) %>;
       const mfitrDeltaFull = <%- JSON.stringify(((typeof mfitrRows !== 'undefined' ? mfitrRows : [])).map(r => Number(r.DELTA))) %>;
+      (function(){
+        const slider = document.getElementById('mfitrMin');
+        if (!slider) return;
+        const vals = (mfitrDeltaFull || []).filter(n => !Number.isNaN(n));
+        if (!vals.length) return;
+        const minV = Math.min.apply(null, vals);
+        const maxV = Math.max.apply(null, vals);
+        slider.min = String(minV);
+        slider.max = String(maxV);
+        slider.step = '0.01';
+        slider.value = String(minV);
+        const lbl = document.getElementById('mfitrMinLabel');
+        if (lbl) lbl.textContent = '> ' + slider.value;
+      })();
       // Dati Board/SFP dalla tabella filtrata (ID = TN, TX/RX < -13.99)
       const boardLabelsFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => String(r.source || '').replace(/\.log$/i, ''))) %>;
       const boardTxFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => { const m = String(r.TXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
       const boardRxFull = <%- JSON.stringify(((typeof boardSfpRows !== 'undefined' ? boardSfpRows : [])).map(r => { const m = String(r.RXdBm || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; })) %>;
+      (function(){
+        const slider = document.getElementById('dbmMin');
+        if (!slider) return;
+        const tx = (boardTxFull || []).filter(n => !Number.isNaN(n));
+        const rx = (boardRxFull || []).filter(n => !Number.isNaN(n));
+        const vals = tx.concat(rx);
+        if (!vals.length) return;
+        const minV = Math.min.apply(null, vals);
+        const maxV = Math.max.apply(null, vals);
+        slider.min = String(minV);
+        slider.max = String(maxV);
+        slider.step = '0.01';
+        slider.value = String(maxV);
+        const lbl = document.getElementById('dbmMinLabel');
+        if (lbl) lbl.textContent = '< ' + slider.value;
+      })();
       const vswrLabels = <%- JSON.stringify(((typeof topVswrRows !== 'undefined' ? topVswrRows : [])).map(r => String(r.refCell || r.source || ''))) %>;
       const vswrVals = <%- JSON.stringify(((typeof topVswrRows !== 'undefined' ? topVswrRows : [])).map(r => Number(r.VSWR))) %>;
 
@@ -397,14 +468,16 @@
       }
 
       document.addEventListener('DOMContentLoaded', function() {
+        const palette = ['#ef4444','#3b82f6','#f59e0b','#10b981','#8b5cf6','#22d3ee','#e11d48','#14b8a6','#a3e635','#f97316'];
         // FRU VSWR Top 5 (sdir_fru_radio_metriche)
         const fruPairs = (fruLabels || []).map((label, i) => ({ label, value: fruVswrVals[i] }))
           .filter(x => !Number.isNaN(x.value))
           .sort((a, b) => b.value - a.value)
           .slice(0, 5);
+        const vswrColorsTop = fruPairs.map((_, i) => palette[i % palette.length]);
         mkBarChart('fruVswrTopChart', fruPairs.map(p => p.label), [
-          { label: 'VSWR (RL)', data: fruPairs.map(p => p.value), backgroundColor: '#ef4444' }
-        ], 'Top 5 VSWR (FRU)');
+          { label: 'VSWR', data: fruPairs.map(p => p.value), backgroundColor: vswrColorsTop }
+        ], 'Top 5 VSWR');
 
         // WL Top 5 (sdir_link_performance_wl): mostra SOLO valori < -3.49 di DlLoss o UlLoss
         const THRESH = -3.49;
@@ -440,8 +513,6 @@
         const mfitrTop5 = mfitrPairsFull2
           .sort((a, b) => b.delta - a.delta)
           .slice(0, 5);
-        // Palette colori per barre distinte
-        const palette = ['#ef4444','#3b82f6','#f59e0b','#10b981','#8b5cf6','#22d3ee','#e11d48','#14b8a6','#a3e635','#f97316'];
         const mfitrColors = mfitrTop5.map((_, i) => palette[i % palette.length]);
         mkBarChart('mfitrTopChart', mfitrTop5.map(p => p.label), [
           { label: 'DELTA', data: mfitrTop5.map(p => p.delta), backgroundColor: mfitrColors }
@@ -474,8 +545,9 @@
           { label: 'RXdBm', data: rxData2, backgroundColor: '#f59e0b' }
         ], 'Celle (ID = TN) con TXdBm/RXdBm < -13.99');
 
+        const vswrColors = vswrLabels.map((_, i) => palette[i % palette.length]);
         mkBarChart('vswrChart', vswrLabels, [
-          { label: 'VSWR (RL)', data: vswrVals, backgroundColor: '#ef4444' }
+          { label: 'VSWR', data: vswrVals, backgroundColor: vswrColors }
         ], 'Top 5 VSWR');
 
         mkBarChart('lossChart', wlLabels, [
@@ -530,6 +602,7 @@
             var end = start + ps;
             tbody.innerHTML = '';
             filtered.slice(start, end).forEach(function(tr){ tbody.appendChild(tr); });
+            if (cfg.counterId) { var cEl = document.getElementById(cfg.counterId); if (cEl) cEl.textContent = filtered.length + ' di ' + rows.length; }
           }
           Array.prototype.forEach.call(table.querySelectorAll('thead th'), function(th, idx){
             th.addEventListener('click', function(){
@@ -553,6 +626,7 @@
             a.href = url; a.download = cfg.tableId + '.csv'; a.click(); URL.revokeObjectURL(url);
           });
           Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(btn){ btn.addEventListener('click', function(){ var v = btn.getAttribute('data-copy'); navigator.clipboard && navigator.clipboard.writeText(v); }); });
+          if (typeof cfg.defaultSortIndex === 'number') { state.sortIndex = cfg.defaultSortIndex; state.sortDir = cfg.defaultSortDesc ? -1 : 1; }
           apply();
         }
         initTableControls({
@@ -574,7 +648,7 @@
           thresholdRowOk: function(cells, thr){ var v = cells[9] ? cells[9].textContent.trim() : ''; var m = v.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); var n = m ? parseFloat(m[1].replace(',', '.')) : NaN; return !isNaN(n) && n > thr; }
         });
         initTableControls({
-          tableId: 'mfarTable', searchId: 'mfarSearch', pageSizeId: 'mfarPageSize', exportId: 'mfarExport'
+          tableId: 'mfarTable', searchId: 'mfarSearch', pageSizeId: 'mfarPageSize', exportId: 'mfarExport', counterId: 'mfarCount', defaultSortIndex: 10, defaultSortDesc: true
         });
         initTableControls({
           tableId: 'boardTable', searchId: 'boardSearch', sliderId: 'dbmMin', sliderLabelId: 'dbmMinLabel', pageSizeId: 'boardPageSize', exportId: 'boardExport',
@@ -582,13 +656,17 @@
           sliderLabel: function(v){ return '< ' + v; },
           thresholdRowOk: function(cells, thr){ function numCell(i){ var v = cells[i] ? cells[i].textContent.trim() : ''; var m = v.match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); return m ? parseFloat(m[1].replace(',', '.')) : NaN; } var tx = numCell(3), rx = numCell(4); return (!isNaN(tx) && tx < thr) || (!isNaN(rx) && rx < thr); }
         });
-        var tHW = document.getElementById('toggleHW'); var tSerial = document.getElementById('toggleSerial'); var tPol = document.getElementById('togglePol'); var tRes = document.getElementById('toggleRes');
-        function toggleCol(cls, on){ Array.prototype.forEach.call(document.querySelectorAll('#mfarTable .' + cls), function(td){ td.style.display = on ? '' : 'none'; }); var idx = cls === 'col-HW' ? 6 : cls === 'col-Serial' ? 7 : cls === 'col-Pol' ? 11 : cls === 'col-Res' ? 12 : -1; if (idx >= 0){ var th = document.querySelectorAll('#mfarTable thead th')[idx]; if (th) th.style.display = on ? '' : 'none'; }
+        var tHW = document.getElementById('toggleHW'); var tSerial = document.getElementById('toggleSerial'); var tPol = document.getElementById('togglePol'); var tRes = document.getElementById('toggleRes'); var tTxRx = document.getElementById('toggleTxRx'); var tBrPair = document.getElementById('toggleBrPair'); var tRfPorts = document.getElementById('toggleRfPorts');
+        function toggleCol(cls, on){ Array.prototype.forEach.call(document.querySelectorAll('#mfarTable .' + cls), function(td){ td.style.display = on ? '' : 'none'; }); var idx = cls === 'col-HW' ? 6 : cls === 'col-Serial' ? 7 : cls === 'col-Pol' ? 11 : cls === 'col-Res' ? 12 : cls === 'col-TxRx' ? 2 : cls === 'col-BrPair' ? 3 : cls === 'col-RfPort1' ? 4 : cls === 'col-RfPort2' ? 5 : -1; if (idx >= 0){ var th = document.querySelectorAll('#mfarTable thead th')[idx]; if (th) th.style.display = on ? '' : 'none'; }
         }
         if (tHW) tHW.addEventListener('change', function(){ toggleCol('col-HW', tHW.checked); });
         if (tSerial) tSerial.addEventListener('change', function(){ toggleCol('col-Serial', tSerial.checked); });
         if (tPol) tPol.addEventListener('change', function(){ toggleCol('col-Pol', tPol.checked); });
         if (tRes) tRes.addEventListener('change', function(){ toggleCol('col-Res', tRes.checked); });
+        if (tTxRx) tTxRx.addEventListener('change', function(){ toggleCol('col-TxRx', tTxRx.checked); });
+        if (tBrPair) tBrPair.addEventListener('change', function(){ toggleCol('col-BrPair', tBrPair.checked); });
+        if (tRfPorts) tRfPorts.addEventListener('change', function(){ toggleCol('col-RfPort1', tRfPorts.checked); toggleCol('col-RfPort2', tRfPorts.checked); });
+        Array.prototype.forEach.call(document.querySelectorAll('.chips [data-chip]'), function(btn){ btn.addEventListener('click', function(){ var v = btn.getAttribute('data-chip'); var s = document.getElementById('mfarSearch'); if (s){ s.value = v === 'ALL' ? '' : v; s.dispatchEvent(new Event('input')); } }); });
       });
     })();
   </script>
