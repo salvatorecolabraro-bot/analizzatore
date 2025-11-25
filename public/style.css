@@ -16,6 +16,7 @@ header {
   display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); background: var(--card);
 }
 header h1 { margin: 0; font-size: 20px; }
+header h1::before { content: ""; display: inline-block; width: 28px; height: 28px; margin-right: 8px; background: url('/logo.svg') no-repeat center/contain; vertical-align: middle; }
 nav a { color: var(--accent); text-decoration: none; margin-left: 12px; }
 main { padding: 20px; max-width: 1000px; margin: 0 auto; }
 
@@ -145,6 +146,8 @@ label { display: flex; align-items: center; gap: 10px; }
 .table tr:hover .actions { opacity: 1; }
 .muted-link { color: var(--muted); text-decoration: none; }
 .muted-link:hover { color: var(--accent); text-decoration: underline; }
+.link-viewer { text-decoration: underline; }
+.link-report { text-decoration: underline; }
 .table-auto.table-transposed th, .table-auto.table-transposed td { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
 .table-auto th, .table-auto td { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
 

@@ -8,10 +8,10 @@
 </head>
 <body>
   <header>
-    <h1>Visualizzazione visitatore: performance WL e board/SFP</h1>
+    <h1>Viaualizzazione performance Nodi</h1>
     <nav>
       <a href="/admin">Area Admin</a>
-    <a href="/report/celle">Report</a>
+      <a href="/report/celle" class="link-report">Report Analysis</a>
     </nav>
   </header>
 
@@ -234,7 +234,7 @@
               <tr>
                 <th>VSWR (RL)</th>
                 <% fruRows.forEach(r => { %>
-                  <td title="<%= r.VSWR %>"><span class="num <%= r.highVSWR ? 'badge badge-warn' : '' %>"><%= r.VSWR %></span></td>
+                  <td title="<%= r.VSWR %>"><span class="num <%= r.highVSWR ? 'badge badge-danger' : '' %>"><%= r.VSWR %></span></td>
                 <% }) %>
               </tr>
             </tbody>

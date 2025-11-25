@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Report</title>
+  <title>Report Analysis</title>
   <link rel="stylesheet" href="/style.css" />
   <style>
     .table { width: 100%; border-collapse: collapse; }
@@ -14,13 +14,16 @@
     @media (max-width: 800px) { .chart-panels { grid-template-columns: 1fr; } }
     /* Canvas adattivi: larghezza piena, altezza che rientra nella pagina */
     .chart-square { width: 100%; height: auto; aspect-ratio: 2 / 1; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; display: block; }
+    .panel .table thead th { background: #0b1a2f; }
+    .panel .table th, .panel .table td { border-color: #1e3a5f; }
+    .panel .table tbody tr:nth-child(even) { background: #0c1f3b; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Report</h1>
+    <h1>Report Analysis</h1>
     <nav>
-      <a href="/">Pagina visitatore</a>
+      <a href="/" class="link-viewer">Viaualizzazione performance Nodi</a>
       <a href="/admin">Area Admin</a>
     </nav>
   </header>
@@ -106,7 +109,7 @@
                 <th scope="col">Radio</th>
                 <th scope="col">BOARD</th>
                 <th scope="col">RF</th>
-                <th scope="col" data-numeric>VSWR (RL)</th>
+                <th scope="col" data-numeric>VSWR</th>
                 <th scope="col" class="muted">File</th>
               </tr>
             </thead>
@@ -117,7 +120,8 @@
                   <td title="<%= r.Radio %>"><%= r.Radio %></td>
                   <td title="<%= r.BOARD %>"><%= r.BOARD %></td>
                   <td title="<%= r.RF %>"><%= r.RF %></td>
-                  <td title="<%= r.VSWR %>"><span class="num"><%= r.VSWR %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.VSWR %>" aria-label="Copia">⧉</button></span></td>
+                  <% const _mVswr = String(r.VSWR || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const _vVswr = _mVswr ? parseFloat(_mVswr[1].replace(',', '.')) : NaN; const _critVswr = (!Number.isNaN(_vVswr) && _vVswr >= 1.49); %>
+                  <td title="<%= r.VSWR %>"><span class="num <%= _critVswr ? 'badge badge-danger' : '' %>"><%= r.VSWR %></span> <span class="actions"><button class="icon-btn" data-copy="<%= r.VSWR %>" aria-label="Copia">⧉</button></span></td>
                   <td class="muted"><a class="muted-link" href="/view/<%= encodeURIComponent(r.source) %>"><%= r.source %></a></td>
                 </tr>
               <% }) %>
@@ -148,7 +152,7 @@
                 <th scope="col">Cella di riferimento</th>
                 <th scope="col" data-numeric>DlLoss</th>
                 <th scope="col" data-numeric>UlLoss</th>
-                <th scope="col" data-numeric>LENGTH</th>
+                <th scope="col" data-numeric>Lungheza Cavo</th>
                 <th scope="col" class="muted">File</th>
               </tr>
             </thead>
