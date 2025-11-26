@@ -1,0 +1,515 @@
+Logging to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/CZ12E.log
+                        __  __  ____   _____
+                  /\   |  \/  |/ __ \ / ____|
+                 /  \  | \  / | |  | | (___  
+                / /\ \ | |\/| | |  | |\___ \ 
+               / ____ \| |  | | |__| |____) |
+              /_/    \_\_|  |_|\____/|_____/
+              OSS Framework for MoShell-25.0h 
+  Copyright (c) Ericsson AB 2001-2025 - All Rights Reserved
+              
+           
+[1;31mWARNING: [0mthe AMOS version currently running is more than 29 weeks old and is unsupported.
+Please upgrade as soon as possible to the latest released version, available from your local Ericsson support.
+
+$amosrb_pid = 588363
+
+Checking ip contact...OK
+
+HELP MENU            : h
+BASIC MO COMMANDS    : m
+OTHER MO COMMANDS    : n
+OTHER COMMANDS       : o
+PM COMMANDS          : p
+QUIT                 : q
+
+CZ12E> lt all
+
+251125-08:07:28+0100 19.31.11.204 25.0h  stopfile=/tmp/587159
+Looking up temporary_amos account... OK.
+Trying temporary_amos_t20251125_37258710_65084_131's password from amos lookupAccount ... OK
+
+$ssh_pid = 597237
+
+Connected to 19.31.11.204 (SubNetwork=BBMM_rckomc_R,MeContext=CZ12E,ManagedElement=CZ12E)
+
+Checking MOM version...MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac
+Parsing MOM (cached): /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/tempfiles/scp-4-amos_20251125-080713_586870/MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac.xml.cache.gz ..................................................................................................................................................................................................................................Done.
+Using paramfile /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBS_25.Q1.txt
+Parsing file /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBS_25.Q1.txt .......................................................................................Done.
+Using imomdfile /opt/ericsson/amos/moshell/commonjars/pm/IMOMD_MSRBS_22.Q4.txt
+Using imomfile /opt/ericsson/amos/moshell/commonjars/pm/IMOM_MSRBS_25.Q1.txt
+Connected to 19.31.11.204 (SubNetwork=BBMM_rckomc_R,MeContext=CZ12E,ManagedElement=CZ12E)
+
+Last MO: 21307. Loaded 21307 MOs. Total: 21308 MOs.
+
+CZ12E> st cell
+
+251125-08:07:51+0100 19.31.11.204 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/587159
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+   43  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12E1
+  164  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12E2
+  264  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12E3
+  391  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12E4
+  523  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12M1
+  643  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12M2
+  741  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12M3
+  882  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12M4
+ 1008  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12T1
+ 1128  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12T2
+ 1234  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12T3
+ 1368  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=CZ12T4
+ 2125  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,NbIotCell=CZ12N1
+ 2126  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,NbIotCell=CZ12N2
+ 2127  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,NbIotCell=CZ12N3
+ 2128  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,NbIotCell=CZ12N4
+ 4034  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12G1
+ 4036  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12G2
+ 4038  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12G3
+ 4040  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12G4
+ 4042  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12V1
+ 4044  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12V2
+ 4046  1 (UNLOCKED)  1 (ENABLED)   GNBDUFunction=1,NRCellDU=CZ12V3
+===================================================================================
+Total: 23 MOs
+
+INFO: NRCellDU status needs to be printed with command "stz" or "hget ,nrcell state" due to dependency to cellState/serviceState attributes.
+
+CZ12E> st radio
+
+251125-08:07:52+0100 19.31.11.204 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/587159
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+ 3345  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S100-1
+ 3368  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S102-1
+ 3391  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S220-1
+ 3418  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S221-1
+ 3445  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S222-1
+ 3472  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S223-1
+21298  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=NTP1
+21299  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=PTP
+===================================================================================
+Total: 8 MOs
+
+CZ12E> sdir
+
+251125-08:07:53+0100 19.31.11.204 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/587159
+INFO: Using amos lookupAccount credentials for the export login
+................
+get /rop/A20251125.0615-0630_CZ12E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.11.204/rop/A20251125.0615-0630_CZ12E.xml.gz ... OK
+get /rop/A20251125.0630-0645_CZ12E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.11.204/rop/A20251125.0630-0645_CZ12E.xml.gz ... OK
+get /rop/A20251125.0645-0700_CZ12E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.11.204/rop/A20251125.0645-0700_CZ12E.xml.gz ... OK
+....Checking available boards on node...
+
+Collecting RCS board data ...
+..................................................................................................................................................................
+............................
+...................................................................................................................................................................................................................................................................................................................................................................................
+....
+Collecting TN data...
+.........................................................................................................................................................................
+Getting MO data from node (135 MOs). Please wait...
+0%                                             ~50%                                           ~100%
+.....................................................................................................................................
+Collecting RF data...
+...........
+Collecting Alarms...
+.Executing action Log.export()
+...
+Log=AlarmLog                    actionId=47397
+......................
+Executing action LogM.exportAvailabilityLog()
+..LogM=1,exportAvailabilityLog    actionId=47398
+........Parsing alarmLog.........Done.
+Parsing availabilityLog........Done.
+...........
+
+Total: 9 CPRI links (8 OK, 0 OKW, 1 NOK, 0 NT)
+.
++--------+                      +----------------------------+
+|        | A        O101     D1 |        Radio-S220-1        |
+|        |-----------1----------| RRU247924B824B2024B28BM01* |
+|        |         OK-63m       |           BXP_7            |
+|        |                      +----------------------------+
+|        |                                     |A  |B  |C  |D
+|        |                          SE=220* AG=220 FDD=CZ12E1
+|        |                             NIOT=CZ12N1 NRC=CZ12G1
+|        |
+|        |                      +----------------------------+
+|        | B        O101     D1 |        Radio-S221-1        |
+|        |-----------2----------| RRU247924B824B2024B28BM01* |
+|        |         OK-63m       |           BXP_6            |
+|        |                      +----------------------------+
+|        |                                     |A  |B  |C  |D
+|        |                          SE=221* AG=221 FDD=CZ12E2
+|        |                             NIOT=CZ12N2 NRC=CZ12G2
+|        |
+|        |                      +----------------------------+
+|        | C        O101     D1 |        Radio-S222-1        |
+|        |-----------3----------| RRU247924B824B2024B28BM01* |
+|        |         OK-63m       |           BXP_3            |
+|        |                      +----------------------------+
+|        |                                     |A  |B  |C  |D
+|        |                          SE=222* AG=222 FDD=CZ12E3
+|        |                             NIOT=CZ12N3 NRC=CZ12G3
+|        |
+|        |                      +------------------+
+|        | D        O101     D2 |   Radio-S100-1   |
+|        |-----------4----------| RRU449944B144B3C |
+|        |         OK-65m       |      BXP_5       |
+|        |                      +------------------+
+|        |                           |A  |B  |C  |D
+|        |                    SE=100 AG=100  |   |
+|        |            FDD=CZ12M1 FDD=CZ12T1  |   |
+|        |                            SE=101 AG=101
+|        |                    FDD=CZ12M2 FDD=CZ12T2
+|        |
+|  BB-1  |                      +------------------+
+| BB6648 | E        O101     D2 |   Radio-S102-1   |
+| 000100 |-----------5----------| RRU449944B144B3C |
+|        |        NOK-65m       |      BXP_4       |
+|        |                      +------------------+
+|        |                           |A  |B  |C  |D
+|        |                    SE=102 AG=102  |   |
+|        |            FDD=CZ12M3 FDD=CZ12T3  |   |
+|        |                            SE=103 AG=103
+|        |                    FDD=CZ12M4 FDD=CZ12T4
+|        |
+|        |                      +----------------------------+
+|        | F        O101     D1 |        Radio-S223-1        |
+|        |-----------6----------| RRU247924B824B2024B28BM01* |
+|        |         OK-64m       |           BXP_2            |
+|        |                      +----------------------------+
+|        |                                     |A  |B  |C  |D
+|        |                          SE=223* AG=223 FDD=CZ12E4
+|        |                             NIOT=CZ12N4 NRC=CZ12G4
+|        |
+|        |                      +-------------+
+|        | K        O257     D1 | AAS-S160-1  |
+|        |-----------7----------| AIR3278B78K |
+|        |         OK-62m       |  fru_2048   |
+|        |                      +-------------+
+|        |                                  |A
+|        |                   SE=160 NRC=CZ12V1
+|        |
+|        |                      +-------------+
+|        | L        O257     D1 | AAS-S161-1  |
+|        |-----------8----------| AIR3278B78K |
+|        |         OK-62m       |  fru_2049   |
+|        |                      +-------------+
+|        |                                  |A
+|        |                   SE=161 NRC=CZ12V2
+|        |
+|        |                      +-------------+
+|        | M        O257     D1 | AAS-S162-1  |
+|        |-----------9----------| AIR3278B78K |
+|        |         OK-62m       |  fru_2050   |
+|        |                      +-------------+
+|        |                                  |A
++--------+                   SE=162 NRC=CZ12V3
+
+=====================================================================================================================================
+ID RiL    Type Res MO1-MO2                  BOARD1-BOARD2                     AlmIDs Cells (States)                                        Issue (Failed checks)
+=====================================================================================================================================
+ 1 S220-1 O101 OK  BB-1(A) Radio-S220-1(D1) BB6648 RRU247924B824B2024B28BM01*        FDD=CZ12E1 NIOT=CZ12N1 NRC=CZ12G1 (1,1,1)             Passed
+ 2 S221-1 O101 OK  BB-1(B) Radio-S221-1(D1) BB6648 RRU247924B824B2024B28BM01*        FDD=CZ12E2 NIOT=CZ12N2 NRC=CZ12G2 (1,1,1)             Passed
+ 3 S222-1 O101 OK  BB-1(C) Radio-S222-1(D1) BB6648 RRU247924B824B2024B28BM01*        FDD=CZ12E3 NIOT=CZ12N3 NRC=CZ12G3 (1,1,1)             Passed
+ 4 S100-1 O101 OK  BB-1(D) Radio-S100-1(D2) BB6648 RRU449944B144B3C                  FDD=CZ12M1 FDD=CZ12M2 FDD=CZ12T1 FDD=CZ12T2 (1,1,1,1) Passed
+ 5 S102-1 O101 NOK BB-1(E) Radio-S102-1(D2) BB6648 RRU449944B144B3C                  FDD=CZ12M3 FDD=CZ12M4 FDD=CZ12T3 FDD=CZ12T4 (1,1,1,1) Fiber Loss UL (UlLoss-DlLoss=9.09)
+ 6 S223-1 O101 OK  BB-1(F) Radio-S223-1(D1) BB6648 RRU247924B824B2024B28BM01*        FDD=CZ12E4 NIOT=CZ12N4 NRC=CZ12G4 (1,1,1)             Passed
+ 7 S160-1 O257 OK  BB-1(K) AAS-S160-1(D1)   BB6648 AIR3278B78K                       NRC=CZ12V1 (1)                                        Passed
+ 8 S161-1 O257 OK  BB-1(L) AAS-S161-1(D1)   BB6648 AIR3278B78K                       NRC=CZ12V2 (1)                                        Passed
+ 9 S162-1 O257 OK  BB-1(M) AAS-S162-1(D1)   BB6648 AIR3278B78K                       NRC=CZ12V3 (1)                                        Passed
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+IDs  RiLs   Issue and Recommended Actions.
+=====================================================================================================================================
+5    S102-1 Fiber Issue - Near End Reports Excessive Optical Power Loss.
+-------------------------------------------------------------------------------------------------------------------------------------
+ 1) Troubleshoot to determine where optical power is being lost or Bit Errors are detected.  Start at the  port fiber connection reporting the loss and work back to the transmitter on the other end. (i.e. dirty, damaged or bent fiber, improperly mated connection)
+ 2) Refer to and follow  Ericsson CPI "Handling SFP Modules and Optical Cables" for proper handling, Cleaning, inspection and testing of  fiber and optical interfaces.
+Note: Always check for any AlmID information and troubleshoot alarm(s) accordingly.
+*************************************************************************************************************************************
+
+Node: RadioNode LN   CXP2010174/2_R27J08 (25.Q1)   G3.0   LTE-FDD,LTE-IoT NR-LB-FDD,NR-MB-TDD-NSA
+
+=====================================================================================================================================
+FRU          ;LNH      ;BOARD                      ;ST ;FAULT ;OPER ;MAINT ;STAT ;PRODUCTNUMBER   ;REV     ;SERIAL        ;DATE     ;PMTEMP ; TEMP ; UPT ;VOLT ;SW                   ;
+=====================================================================================================================================
+BB-1         ;000100   ;BB6648                     ; 1 ;  OFF ;  ON ;  OFF ;  ON ;KDU1370015/11   ;R3H     ;E96A00RFTQ    ;20220519 ;4 (OK) ;      ;95.9 ;53   ;                     ;
+Radio-S100-1 ;BXP_5    ;RRU449944B144B3C           ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161787/1     ;R2G     ;TU8U01LVEA    ;20220623 ;4 (OK) ; 41.8 ;95.8 ;51.9 ;CXP9013268%15_R101LX ; (Radio449944B144B3C)
+Radio-S102-1 ;BXP_4    ;RRU449944B144B3C           ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161787/1     ;R2G/B   ;E23E372757    ;20221119 ;4 (OK) ; 48.8 ;95.8 ;48.5 ;CXP9013268%15_R101LX ; (Radio449944B144B3C)
+Radio-S220-1 ;BXP_7    ;RRU247924B824B2024B28BM01* ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161832/1     ;R2J     ;TU8U02VGCU    ;20250113 ;4 (OK) ; 33.5 ;95.8 ;51.4 ;CXP9013268%15_R101LX ; (Radio247924B824B2024B28BM01)
+Radio-S221-1 ;BXP_6    ;RRU247924B824B2024B28BM01* ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161832/1     ;R2J     ;TU8U02SMTY    ;20241024 ;4 (OK) ; 33.0 ;95.8 ;53.0 ;CXP9013268%15_R101LX ; (Radio247924B824B2024B28BM01)
+Radio-S222-1 ;BXP_3    ;RRU247924B824B2024B28BM01* ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161832/1     ;R2J     ;TU8U02SMTX    ;20241024 ;4 (OK) ; 34.4 ;95.8 ;52.8 ;CXP9013268%15_R101LX ; (Radio247924B824B2024B28BM01)
+Radio-S223-1 ;BXP_2    ;RRU247924B824B2024B28BM01* ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161832/1     ;R2J     ;TU8U02SMUN    ;20241024 ;4 (OK) ; 37.0 ;95.8 ;51.6 ;CXP9013268%15_R101LX ; (Radio247924B824B2024B28BM01)
+AAS-S160-1   ;fru_2048 ;AIR3278B78K                ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRD901266/11    ;R2C     ;E96A202PP6    ;20220620 ;4 (OK) ; 31.8 ;95.8 ;52.0 ;CXP2030038%1_R140L31 ;
+AAS-S161-1   ;fru_2049 ;AIR3278B78K                ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRD901266/11    ;R2C     ;E96A202PUZ    ;20220620 ;4 (OK) ; 32.8 ;95.8 ;52.3 ;CXP2030038%1_R140L31 ;
+AAS-S162-1   ;fru_2050 ;AIR3278B78K                ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRD901266/11    ;R2C     ;E96A202Q2R    ;20220621 ;4 (OK) ; 34.3 ;95.8 ;52.3 ;CXP2030038%1_R140L31 ;
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+AntennaNearUnit                                     ;ST  ;TYPE   ;PRODUCTNR  ;REV       ;UNIQUEID         ;RfPort
+=====================================================================================================================================
+AntennaUnitGroup=220,AntennaNearUnit=RET_1800-2100  ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242111836-Y2  ;FieldReplaceableUnit=Radio-S220-1,RfPort=R
+AntennaUnitGroup=220,AntennaNearUnit=RET_2600       ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242111836-Y3  ;FieldReplaceableUnit=Radio-S220-1,RfPort=R
+AntennaUnitGroup=220,AntennaNearUnit=RET_700        ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242111836-R2  ;FieldReplaceableUnit=Radio-S220-1,RfPort=R
+AntennaUnitGroup=220,AntennaNearUnit=RET_800-900    ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242111836-R1  ;FieldReplaceableUnit=Radio-S220-1,RfPort=R
+AntennaUnitGroup=221,AntennaNearUnit=RET_1800-2100  ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242085856-Y2  ;FieldReplaceableUnit=Radio-S221-1,RfPort=R
+AntennaUnitGroup=221,AntennaNearUnit=RET_2600       ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242085856-Y3  ;FieldReplaceableUnit=Radio-S221-1,RfPort=R
+AntennaUnitGroup=221,AntennaNearUnit=RET_700        ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242085856-R2  ;FieldReplaceableUnit=Radio-S221-1,RfPort=R
+AntennaUnitGroup=221,AntennaNearUnit=RET_800-900    ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242085856-R1  ;FieldReplaceableUnit=Radio-S221-1,RfPort=R
+AntennaUnitGroup=222,AntennaNearUnit=RET_1800-2100  ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112557-Y2  ;FieldReplaceableUnit=Radio-S222-1,RfPort=R
+AntennaUnitGroup=222,AntennaNearUnit=RET_2600       ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112557-Y3  ;FieldReplaceableUnit=Radio-S222-1,RfPort=R
+AntennaUnitGroup=222,AntennaNearUnit=RET_700        ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112557-R2  ;FieldReplaceableUnit=Radio-S222-1,RfPort=R
+AntennaUnitGroup=222,AntennaNearUnit=RET_800-900    ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112557-R1  ;FieldReplaceableUnit=Radio-S222-1,RfPort=R
+AntennaUnitGroup=223,AntennaNearUnit=RET_1800-2100  ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112712-Y2  ;FieldReplaceableUnit=Radio-S223-1,RfPort=R
+AntennaUnitGroup=223,AntennaNearUnit=RET_2600       ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112712-Y3  ;FieldReplaceableUnit=Radio-S223-1,RfPort=R
+AntennaUnitGroup=223,AntennaNearUnit=RET_700        ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112712-R2  ;FieldReplaceableUnit=Radio-S223-1,RfPort=R
+AntennaUnitGroup=223,AntennaNearUnit=RET_800-900    ; 1  ;S-RET  ;86010165   ;HW_V_R1B  ;KAD242112712-R1  ;FieldReplaceableUnit=Radio-S223-1,RfPort=R
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+XPBOARD  ;ST ;FAULT ;OPER ;PRODUCTNUMBER ;REV ;SERIAL/NAME ;DATE     ; TEMP ;MO
+=====================================================================================================================================
+FAN08    ; 1 ;N/A   ;N/A  ;BKV106236/1   ;R2F ;DD111B2181  ;20211117 ; 52.0 ;SupportUnit=1 (FAN  BB-1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;T ;RiL    ;BPBP ;BOARD1                     ;LNH1 ;PORT ;R ;LINK ;RATE  ; BER ;BOARD2                     ;LNH2   ;PORT ;R ;LINK ;RATE  ; BER ;LENGTH ;MO1 - MO2
+=====================================================================================================================================
+ 1 ;O ;S220-1 ;1111 ;BB6648                     ;000100 ; 1 ;M ;Up   ;10.1G ;   0 ;RRU247924B824B2024B28BM01* ;BXP_7    ; 0 ;S ;Up   ;10.1G ;   0 ;   63m ;Fru=BB-1(A) Fru=Radio-S220-1(D1)
+ 2 ;O ;S221-1 ;1111 ;BB6648                     ;000100 ; 2 ;M ;Up   ;10.1G ;   0 ;RRU247924B824B2024B28BM01* ;BXP_6    ; 0 ;S ;Up   ;10.1G ;   0 ;   63m ;Fru=BB-1(B) Fru=Radio-S221-1(D1)
+ 3 ;O ;S222-1 ;1111 ;BB6648                     ;000100 ; 3 ;M ;Up   ;10.1G ;   0 ;RRU247924B824B2024B28BM01* ;BXP_3    ; 0 ;S ;Up   ;10.1G ;   0 ;   63m ;Fru=BB-1(C) Fru=Radio-S222-1(D1)
+ 4 ;O ;S100-1 ;1111 ;BB6648                     ;000100 ; 4 ;M ;Up   ;10.1G ;   0 ;RRU449944B144B3C           ;BXP_5    ; 1 ;S ;Up   ;10.1G ;   0 ;   65m ;Fru=BB-1(D) Fru=Radio-S100-1(D2)
+ 5 ;O ;S102-1 ;1111 ;BB6648                     ;000100 ; 5 ;M ;Up   ;10.1G ;   0 ;RRU449944B144B3C           ;BXP_4    ; 1 ;S ;Up   ;10.1G ;   0 ;   65m ;Fru=BB-1(E) Fru=Radio-S102-1(D2)
+ 6 ;O ;S223-1 ;1111 ;BB6648                     ;000100 ; 6 ;M ;Up   ;10.1G ;   0 ;RRU247924B824B2024B28BM01* ;BXP_2    ; 0 ;S ;Up   ;10.1G ;   0 ;   64m ;Fru=BB-1(F) Fru=Radio-S223-1(D1)
+ 7 ;O ;S160-1 ;1111 ;BB6648                     ;000100 ;10 ;M ;Up   ;25.7G ; 0/0 ;AIR3278B78K                ;fru_2048 ; 0 ;S ;Up   ;25.7G ; 0/0 ;   62m ;Fru=BB-1(K) Fru=AAS-S160-1(D1)
+ 8 ;O ;S161-1 ;1111 ;BB6648                     ;000100 ;11 ;M ;Up   ;25.7G ; 0/0 ;AIR3278B78K                ;fru_2049 ; 0 ;S ;Up   ;25.7G ; 0/0 ;   62m ;Fru=BB-1(L) Fru=AAS-S161-1(D1)
+ 9 ;O ;S162-1 ;1111 ;BB6648                     ;000100 ;12 ;M ;Up   ;25.7G ; 0/0 ;AIR3278B78K                ;fru_2050 ; 0 ;S ;Up   ;25.7G ; 0/0 ;   62m ;Fru=BB-1(M) Fru=AAS-S162-1(D1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL    ;VENDOR1  ;VENDORPROD1      ;REV1 ;SERIAL1         ;DATE1    ;ERICSSONPROD1     ;VENDOR2  ;VENDORPROD2      ;REV2 ;SERIAL2         ;DATE2    ;ERICSSONPROD2     ;TT ;WL1     ;WL2    
+=====================================================================================================================================
+ 1 ;Up   ;S220-1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451121 ;20220510 ;RDH10265/2 R1A    ;ERICSSON ;SPP10ELRIDFTEN   ;0101 ;CT74589808      ;20240929 ;RDH10265/2 R1A    ;0  ;1310.00 ;1310.00
+ 2 ;Up   ;S221-1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451148 ;20220510 ;RDH10265/2 R1A    ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451135 ;20220510 ;RDH10265/2 R1A    ;0  ;1310.00 ;1310.00
+ 3 ;Up   ;S222-1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451146 ;20220510 ;RDH10265/2 R1A    ;ERICSSON ;SPP10ELRIDFTEN   ;0101 ;CT74590406      ;20240929 ;RDH10265/2 R1A    ;0  ;1310.00 ;1310.00
+ 4 ;Up   ;S100-1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451122 ;20220510 ;RDH10265/2 R1A    ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451131 ;20220510 ;RDH10265/2 R1A    ;0  ;1310.00 ;1310.00
+ 5 ;Up   ;S102-1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451151 ;20220510 ;RDH10265/2 R1A    ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451124 ;20220510 ;RDH10265/2 R1A    ;0  ;1310.00 ;1310.00
+ 6 ;Up   ;S223-1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451139 ;20220510 ;RDH10265/2 R1A    ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451138 ;20220510 ;RDH10265/2 R1A    ;0  ;1310.00 ;1310.00
+ 7 ;Up   ;S160-1 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7901TJ      ;20220405 ;RDH10275/3 R1A    ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7703FC      ;20220405 ;RDH10275/3 R1A    ;0  ;1310.00 ;1310.00
+ 8 ;Up   ;S161-1 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7901T0      ;20220405 ;RDH10275/3 R1A    ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7703QT      ;20220405 ;RDH10275/3 R1A    ;0  ;1310.00 ;1310.00
+ 9 ;Up   ;S162-1 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7702JR      ;20220405 ;RDH10275/3 R1A    ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7901YX      ;20220405 ;RDH10275/3 R1A    ;0  ;1310.00 ;1310.00
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL    ;WL1     ;TEMP1 ;TXbs1 ;TXdBm1 ;RXdBm1 ;BER1   ;WL2     ;TEMP2 ;TXbs2 ;TXdBm2 ;RXdBm2 ;BER2   ;DlLoss ;UlLoss ;LENGTH ;TT
+=====================================================================================================================================
+ 1 ;Up   ;S220-1 ;1310.00 ;43C   ;40%   ;-3.27  ;-3.12  ;   0   ;1310.00 ;37C   ;44%   ;-3.12  ;-3.72  ;   0   ;  0.45 ;     0 ;   63m ; 0
+ 2 ;Up   ;S221-1 ;1310.00 ;41C   ;38%   ;-3.33  ;-3.62  ;   0   ;1310.00 ;26C   ;36%   ;-3.21  ;-4.28  ;   0   ;  0.95 ;  0.41 ;   63m ; 0
+ 3 ;Up   ;S222-1 ;1310.00 ;40C   ;31%   ;-3.19  ;-4.31  ;   0   ;1310.00 ;38C   ;45%   ;-3.53  ;-3.18  ;   0   ; -0.01 ;  0.78 ;   63m ; 0
+ 4 ;Up   ;S100-1 ;1310.00 ;45C   ;40%   ;-3.34  ;-3.99  ;   0   ;1310.00 ;32C   ;32%   ;-3.31  ;-4.00  ;   0   ;  0.66 ;  0.68 ;   65m ; 0
+ 5 ;Up   ;S102-1 ;1310.00 ;42C   ;40%   ;-3.25  ;-12.92 ;   0   ;1310.00 ;40C   ;38%   ;-3.14  ;-3.94  ;   0   ;  0.69 ;  9.78 ;   65m ; 0
+ 6 ;Up   ;S223-1 ;1310.00 ;40C   ;32%   ;-3.19  ;-4.72  ;   0   ;1310.00 ;32C   ;36%   ;-3.32  ;-4.75  ;   0   ;  1.56 ;   1.4 ;   64m ; 0
+ 7 ;Up   ;S160-1 ;1310.00 ;46C   ;48%   ;-1.42  ;-0.72  ; 0/0   ;1310.00 ;32C   ;49%   ;-1.44  ;-3.54  ; 0/0   ;  2.12 ; -0.72 ;   62m ; 0
+ 8 ;Up   ;S161-1 ;1310.00 ;47C   ;48%   ;-0.77  ;-0.77  ; 0/0   ;1310.00 ;39C   ;48%   ;-0.65  ;-0.10  ; 0/0   ; -0.67 ;  0.12 ;   62m ; 0
+ 9 ;Up   ;S162-1 ;1310.00 ;48C   ;48%   ;-2.28  ;0.22   ; 0/0   ;1310.00 ;34C   ;49%   ;-0.27  ;-1.58  ; 0/0   ;  -0.7 ; -0.49 ;   62m ; 0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;RiL    ;BOARD                      ;SFPLNH  ;PORT ;VENDOR   ;VENDORPROD       ;REV  ;SERIAL          ;DATE     ;ERICSSONPROD      ;WL      ;TEMP  ;TXbs  ;TXdBm  ;RXdBm  ; BER
+=====================================================================================================================================
+ 1 ;S220-1 ;BB6648                     ;000100   ;  1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451121 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;43C   ;40%   ;-3.27  ;-3.12  ;   0
+ 2 ;S221-1 ;BB6648                     ;000100   ;  2 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451148 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;41C   ;38%   ;-3.33  ;-3.62  ;   0
+ 3 ;S222-1 ;BB6648                     ;000100   ;  3 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451146 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;40C   ;31%   ;-3.19  ;-4.31  ;   0
+ 4 ;S100-1 ;BB6648                     ;000100   ;  4 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451122 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;45C   ;40%   ;-3.34  ;-3.99  ;   0
+ 5 ;S102-1 ;BB6648                     ;000100   ;  5 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451151 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;42C   ;40%   ;-3.25  ;-12.92 ;   0
+ 6 ;S223-1 ;BB6648                     ;000100   ;  6 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451139 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;40C   ;32%   ;-3.19  ;-4.72  ;   0
+ 7 ;S160-1 ;BB6648                     ;000100   ; 10 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7901TJ      ;20220405 ;RDH10275/3 R1A    ;1310.00 ;46C   ;48%   ;-1.42  ;-0.72  ; 0/0
+ 8 ;S161-1 ;BB6648                     ;000100   ; 11 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7901T0      ;20220405 ;RDH10275/3 R1A    ;1310.00 ;47C   ;48%   ;-0.77  ;-0.77  ; 0/0
+ 9 ;S162-1 ;BB6648                     ;000100   ; 12 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7702JR      ;20220405 ;RDH10275/3 R1A    ;1310.00 ;48C   ;48%   ;-2.28  ;0.22   ; 0/0
+ 6 ;S223-1 ;RRU247924B824B2024B28BM01* ;BXP_2    ;  0 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451138 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;32C   ;36%   ;-3.32  ;-4.75  ;   0
+ 3 ;S222-1 ;RRU247924B824B2024B28BM01* ;BXP_3    ;  0 ;ERICSSON ;SPP10ELRIDFTEN   ;0101 ;CT74590406      ;20240929 ;RDH10265/2 R1A    ;1310.00 ;38C   ;45%   ;-3.53  ;-3.18  ;   0
+ 5 ;S102-1 ;RRU449944B144B3C           ;BXP_4    ;  1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451124 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;40C   ;38%   ;-3.14  ;-3.94  ;   0
+ 4 ;S100-1 ;RRU449944B144B3C           ;BXP_5    ;  1 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451131 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;32C   ;32%   ;-3.31  ;-4.00  ;   0
+ 2 ;S221-1 ;RRU247924B824B2024B28BM01* ;BXP_6    ;  0 ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451135 ;20220510 ;RDH10265/2 R1A    ;1310.00 ;26C   ;36%   ;-3.21  ;-4.28  ;   0
+ 1 ;S220-1 ;RRU247924B824B2024B28BM01* ;BXP_7    ;  0 ;ERICSSON ;SPP10ELRIDFTEN   ;0101 ;CT74589808      ;20240929 ;RDH10265/2 R1A    ;1310.00 ;37C   ;44%   ;-3.12  ;-3.72  ;   0
+ 7 ;S160-1 ;AIR3278B78K                ;fru_2048 ;  0 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7703FC      ;20220405 ;RDH10275/3 R1A    ;1310.00 ;32C   ;49%   ;-1.44  ;-3.54  ; 0/0
+ 8 ;S161-1 ;AIR3278B78K                ;fru_2049 ;  0 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7703QT      ;20220405 ;RDH10275/3 R1A    ;1310.00 ;39C   ;48%   ;-0.65  ;-0.10  ; 0/0
+ 9 ;S162-1 ;AIR3278B78K                ;fru_2050 ;  0 ;ERICSSON ;FTLF1436W5BTV-E7 ;A    ;CD4V7901YX      ;20220405 ;RDH10275/3 R1A    ;1310.00 ;34C   ;49%   ;-0.27  ;-1.58  ; 0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+TN ;       ;BB6648                     ;000100   ; IB ;WTD      ;RTXM228-702-C27  ;1.0  ;HN210200100553  ;20210113 ;RDH10265/2 R1A    ;1310    ;44C   ;50%   ;-2.00  ;-5.87  ; 0/0
+TN ;       ;BB6648                     ;000100   ; IC ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2220094A2451136 ;20220510 ;RDH10265/2 R1A    ;1310    ;42C   ;41%   ;-3.24  ;-3.63  ; 0/0
+TN ;       ;BB6648                     ;000100   ; ID ;Amphenol ;57-0170          ;2    ;220307N17838    ;20220307 ;RPM777543/010 R1B ;NA      ;NA    ;NA    ;NA     ;NA     ; 0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+BOARD       ;LNH    ;PORT     ;T ;S ;OpMode   ;AutoNeg ;MacAddress        ;VlanIds        ;LOS ;BER
+=====================================================================================================================================
+AIR3278B78K ;fru_2048 ;0        ;E ;1 ;ANY      ;true    ;F8:97:A9:68:5A:F3 ;               ;    ;0/0
+AIR3278B78K ;fru_2049 ;0        ;E ;1 ;ANY      ;true    ;F8:97:A9:68:70:33 ;               ;    ;0/0
+AIR3278B78K ;fru_2050 ;0        ;E ;1 ;ANY      ;true    ;F8:97:A9:68:70:03 ;               ;    ;0/0
+BB6648      ;000100 ;10       ;E ;1 ;ANY      ;true    ;F8:97:A9:0B:8A:BE ;               ;    ;0/0
+BB6648      ;000100 ;11       ;E ;1 ;ANY      ;true    ;F8:97:A9:0B:8A:BF ;               ;    ;0/0
+BB6648      ;000100 ;12       ;E ;1 ;ANY      ;true    ;F8:97:A9:0B:8A:C0 ;               ;    ;0/0
+BB6648      ;000100 ;TN_IDL_B ;O ;1 ;10G_FULL ;false   ;F8:97:A9:0B:8A:C5 ;3901,3908,3910 ;0   ;0/0
+BB6648      ;000100 ;TN_IDL_C ;O ;1 ;10G_FULL ;false   ;F8:97:A9:0B:8A:C6 ;3901,3908,3910 ;0   ;0/0
+BB6648      ;000100 ;TN_IDL_D ;O ;1 ;10G_FULL ;false   ;F8:97:A9:0B:8A:C7 ;3908           ;0   ;0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+radioClockState : RNT_TIME_LOCKED
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;syncRefType    ;refStatus  ;opQualLevel  ;SyncReference
+-------------------------------------------------------------------------------------
+  *1  ; 1  ;PTP_TIME       ;NO_FAULT   ;PRTC         ;Ptp=1,BoundaryOrdinaryClock=PTP (G_8275_1 EthernetPort=TN_IDL_B:SLAVE EthernetPort=TN_IDL_C:MASTER)
+   2  ; 1  ;NTP_FREQUENCY  ;NO_FAULT   ;PRC          ;Ntp=1,NtpFrequencySync=NTP1 (10.31.0.54:32751 Router=45G_Traffic,InterfaceIPv4=LTE,AddressIPv4=LTE)
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;assistRefStatus  ;recQualLevel  ;AssistingReference
+-------------------------------------------------------------------------------------
+   1  ; 1  ;NO_FAULT         ;PRC           ;Synchronization=1,SyncEthInput=SyncE (SFP_OPTICAL EthernetPort=TN_IDL_B)
+-------------------------------------------------------------------------------------
+nodeGroupRole   : SYNC_PROVIDER (syncNodePriority=1, selectionMode=NODE_PRIORITY)
+-------------------------------------------------------------------------------------
+DU  ;Port  ;sharedUnitRef (RiPortA - RiPortB)  ;remoteNodePriority  ;CandidateStatus
+-------------------------------------------------------------------------------------
+1   ;A     ;Fru=Radio-S220-1 (1 - 2)           ;3                   ;OK_NOT_ACTIVE
+1   ;F     ;Fru=Radio-S223-1 (1 - 2)           ;3                   ;OK_NOT_ACTIVE
+1   ;B     ;Fru=Radio-S221-1 (1 - 2)           ;3                   ;OK_NOT_ACTIVE
+1   ;C     ;Fru=Radio-S222-1 (1 - 2)           ;3                   ;OK_NOT_ACTIVE
+-------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+FRU          ;LNH      ;BOARD                      ;RF  ;BP  ;TX (W/dBm)  ;VSWR (RL)   ;RX (dBm) ;UEs/gUEs  ;Sector/AntennaGroup/Cells (State:CellIds:PCIs)
+=====================================================================================================================================
+Radio-S100-1 ;BXP_5    ;RRU449944B144B3C           ; A  ;11  ;30.7 (44.9) ;1.17 (21.9) ;-91.1    ;79/-      ;SE=100 AG=100 FDD=CZ12M1 FDD=CZ12T1 (1:31:227, 1:41:159)
+Radio-S100-1 ;BXP_5    ;RRU449944B144B3C           ; B  ;11  ;33.6 (45.3) ;1.15 (22.9) ;-90.8    ;79/-      ;SE=100 AG=100 FDD=CZ12M1 FDD=CZ12T1 (1:31:227, 1:41:159)
+Radio-S100-1 ;BXP_5    ;RRU449944B144B3C           ; C  ;11  ;34.3 (45.4) ;1.19 (21.4) ;-90.8    ;54/-      ;SE=101 AG=101 FDD=CZ12M2 FDD=CZ12T2 (1:32:226, 1:42:161)
+Radio-S100-1 ;BXP_5    ;RRU449944B144B3C           ; D  ;11  ;14.1 (41.5) ;1.15 (23.4) ;-93.1    ;54/-      ;SE=101 AG=101 FDD=CZ12M2 FDD=CZ12T2 (1:32:226, 1:42:161)
+Radio-S102-1 ;BXP_4    ;RRU449944B144B3C           ; A  ;11  ;68.6 (48.4) ;1.18 (21.7) ;-87.3    ;176/-     ;SE=102 AG=102 FDD=CZ12M3 FDD=CZ12T3 (1:33:127, 1:43:160)
+Radio-S102-1 ;BXP_4    ;RRU449944B144B3C           ; B  ;11  ;68.6 (48.4) ;1.21 (20.5) ;-87.7    ;176/-     ;SE=102 AG=102 FDD=CZ12M3 FDD=CZ12T3 (1:33:127, 1:43:160)
+Radio-S102-1 ;BXP_4    ;RRU449944B144B3C           ; C  ;11  ;39.9 (46.0) ;1.10 (26.2) ;-90.9    ;114/-     ;SE=103 AG=103 FDD=CZ12M4 FDD=CZ12T4 (1:34:223, 1:44:155)
+Radio-S102-1 ;BXP_4    ;RRU449944B144B3C           ; D  ;11  ;44.3 (46.5) ;1.11 (25.7) ;-90.6    ;114/-     ;SE=103 AG=103 FDD=CZ12M4 FDD=CZ12T4 (1:34:223, 1:44:155)
+AAS-S160-1   ;fru_2048 ;AIR3278B78K                ; A  ;11  ;-           ;-           ;         ;-/24      ;SE=160 NRC=CZ12V1 (1:571:632)
+AAS-S161-1   ;fru_2049 ;AIR3278B78K                ; A  ;11  ;-           ;-           ;         ;-/26      ;SE=161 NRC=CZ12V2 (1:572:622)
+AAS-S162-1   ;fru_2050 ;AIR3278B78K                ; A  ;11  ;-           ;-           ;         ;-/25      ;SE=162 NRC=CZ12V3 (1:573:639)
+Radio-S220-1 ;BXP_7    ;RRU247924B824B2024B28BM01* ; A  ;11  ;22.1 (43.4) ;1.24 (19.5) ;-76.0    ;9/3       ;SE=220* AG=220 FDD=CZ12E1 NIOT=CZ12N1 NRC=CZ12G1 (1:61:150, 1:161:150, 1:561:397)
+Radio-S220-1 ;BXP_7    ;RRU247924B824B2024B28BM01* ; B  ;11  ;24.6 (43.9) ;1.24 (19.5) ;-71.8    ;9/3       ;SE=220* AG=220 FDD=CZ12E1 NIOT=CZ12N1 NRC=CZ12G1 (1:61:150, 1:161:150, 1:561:397)
+Radio-S220-1 ;BXP_7    ;RRU247924B824B2024B28BM01* ; C  ;11  ;17.8 (42.5) ;1.21 (20.6) ;-71.1    ;9/3       ;SE=220* AG=220 FDD=CZ12E1 NIOT=CZ12N1 NRC=CZ12G1 (1:61:150, 1:161:150, 1:561:397)
+Radio-S220-1 ;BXP_7    ;RRU247924B824B2024B28BM01* ; D  ;11  ;17.0 (42.3) ;1.22 (20.0) ;-70.0    ;9/3       ;SE=220* AG=220 FDD=CZ12E1 NIOT=CZ12N1 NRC=CZ12G1 (1:61:150, 1:161:150, 1:561:397)
+Radio-S221-1 ;BXP_6    ;RRU247924B824B2024B28BM01* ; A  ;11  ;23.4 (43.7) ;1.34 (16.7) ;-82.6    ;1/-       ;SE=221* AG=221 FDD=CZ12E2 NIOT=CZ12N2 NRC=CZ12G2 (1:62:2, 1:162:2, 1:562:400)
+Radio-S221-1 ;BXP_6    ;RRU247924B824B2024B28BM01* ; B  ;11  ;14.1 (41.5) ;1.23 (19.8) ;-91.0    ;1/-       ;SE=221* AG=221 FDD=CZ12E2 NIOT=CZ12N2 NRC=CZ12G2 (1:62:2, 1:162:2, 1:562:400)
+Radio-S221-1 ;BXP_6    ;RRU247924B824B2024B28BM01* ; C  ;11  ;16.2 (42.1) ;1.19 (21.1) ;-90.8    ;1/-       ;SE=221* AG=221 FDD=CZ12E2 NIOT=CZ12N2 NRC=CZ12G2 (1:62:2, 1:162:2, 1:562:400)
+Radio-S221-1 ;BXP_6    ;RRU247924B824B2024B28BM01* ; D  ;11  ;15.8 (42.0) ;1.14 (23.5) ;-90.7    ;1/-       ;SE=221* AG=221 FDD=CZ12E2 NIOT=CZ12N2 NRC=CZ12G2 (1:62:2, 1:162:2, 1:562:400)
+Radio-S222-1 ;BXP_3    ;RRU247924B824B2024B28BM01* ; A  ;11  ;28.9 (44.6) ;1.32 (17.3) ;-87.3    ;13/15     ;SE=222* AG=222 FDD=CZ12E3 NIOT=CZ12N3 NRC=CZ12G3 (1:63:151, 1:163:151, 1:563:404)
+Radio-S222-1 ;BXP_3    ;RRU247924B824B2024B28BM01* ; B  ;11  ;22.4 (43.5) ;1.21 (20.3) ;-88.1    ;13/15     ;SE=222* AG=222 FDD=CZ12E3 NIOT=CZ12N3 NRC=CZ12G3 (1:63:151, 1:163:151, 1:563:404)
+Radio-S222-1 ;BXP_3    ;RRU247924B824B2024B28BM01* ; C  ;11  ;14.8 (41.7) ;1.15 (22.9) ;-88.7    ;13/15     ;SE=222* AG=222 FDD=CZ12E3 NIOT=CZ12N3 NRC=CZ12G3 (1:63:151, 1:163:151, 1:563:404)
+Radio-S222-1 ;BXP_3    ;RRU247924B824B2024B28BM01* ; D  ;11  ;15.5 (41.9) ;1.16 (22.7) ;-88.9    ;13/15     ;SE=222* AG=222 FDD=CZ12E3 NIOT=CZ12N3 NRC=CZ12G3 (1:63:151, 1:163:151, 1:563:404)
+Radio-S223-1 ;BXP_2    ;RRU247924B824B2024B28BM01* ; A  ;11  ;18.8 (42.7) ;1.29 (17.9) ;-84.7    ;16/8      ;SE=223* AG=223 FDD=CZ12E4 NIOT=CZ12N4 NRC=CZ12G4 (1:64:74, 1:164:74, 1:564:402)
+Radio-S223-1 ;BXP_2    ;RRU247924B824B2024B28BM01* ; B  ;11  ;21.5 (43.3) ;1.32 (17.3) ;-87.7    ;16/8      ;SE=223* AG=223 FDD=CZ12E4 NIOT=CZ12N4 NRC=CZ12G4 (1:64:74, 1:164:74, 1:564:402)
+Radio-S223-1 ;BXP_2    ;RRU247924B824B2024B28BM01* ; C  ;11  ;11.2 (40.5) ;1.26 (18.8) ;-84.0    ;16/8      ;SE=223* AG=223 FDD=CZ12E4 NIOT=CZ12N4 NRC=CZ12G4 (1:64:74, 1:164:74, 1:564:402)
+Radio-S223-1 ;BXP_2    ;RRU247924B824B2024B28BM01* ; D  ;11  ;13.5 (41.3) ;1.24 (19.3) ;-91.5    ;16/8      ;SE=223* AG=223 FDD=CZ12E4 NIOT=CZ12N4 NRC=CZ12G4 (1:64:74, 1:164:74, 1:564:402)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+CZ12E> mfar
+
+251125-08:12:56+0100 19.31.11.204 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/587159
+...........
+Last MO: 21311. Loaded 21311 MOs. Total: 21312 MOs.
+.....................................................
+get /rop/A20251125.0530-0545_CZ12E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.11.204/rop/A20251125.0530-0545_CZ12E.xml.gz ... OK
+get /rop/A20251125.0545-0600_CZ12E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.11.204/rop/A20251125.0545-0600_CZ12E.xml.gz ... OK
+get /rop/A20251125.0600-0615_CZ12E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.11.204/rop/A20251125.0600-0615_CZ12E.xml.gz ... OK
+
+Using hardcoded thresholds: 3, 4.5, and 16.5
+================================================================================================================================
+SC     SE  Tx/Rx BrPair  RfPort1 - RfPort2               HW       Serial      Cell (State)   Samples   Med  Mean  SDev Pol Res Issue
+================================================================================================================================
+CZ12E1 220   2/2 0 (1,2) Radio-S220-1(A) Radio-S220-1(B) RRU2479  TU8U02VGCU  FDD=CZ12E1 (1)   73237  -1.5  -1.4   6.6  NA  OK Passed
+CZ12E2 221   2/2 0 (1,2) Radio-S221-1(A) Radio-S221-1(B) RRU2479  TU8U02SMTY  FDD=CZ12E2 (1)    9292  -0.5  -0.2   5.0  NA  OK Passed
+CZ12E3 222   2/2 0 (1,2) Radio-S222-1(A) Radio-S222-1(B) RRU2479  TU8U02SMTX  FDD=CZ12E3 (1)  107598  -3.5  -2.9   6.5  NA  OK Passed
+CZ12E4 223   2/2 0 (1,2) Radio-S223-1(A) Radio-S223-1(B) RRU2479  TU8U02SMUN  FDD=CZ12E4 (1)  113951   1.5   1.2   6.1  NA  OK Passed
+CZ12M1 100   2/2 0 (1,2) Radio-S100-1(A) Radio-S100-1(B) RRU4499  TU8U01LVEA  FDD=CZ12M1 (1)  125246   0.5  -0.1   6.6  NA  OK Passed
+CZ12M2 101   2/2 0 (1,2) Radio-S100-1(C) Radio-S100-1(D) RRU4499  TU8U01LVEA  FDD=CZ12M2 (1)   26804   2.5   2.8   8.1  NA  OK Passed
+CZ12M3 102   2/2 0 (1,2) Radio-S102-1(A) Radio-S102-1(B) RRU4499  E23E372757  FDD=CZ12M3 (1)  133352   0.5   0.3   6.9  NA  OK Passed
+CZ12M4 103   2/2 0 (1,2) Radio-S102-1(C) Radio-S102-1(D) RRU4499  E23E372757  FDD=CZ12M4 (1)  132728  -1.5  -1.4   6.9  NA  OK Passed
+CZ12T1 100   2/2 0 (1,2) Radio-S100-1(A) Radio-S100-1(B) RRU4499  TU8U01LVEA  FDD=CZ12T1 (1)  168410  -2.5  -2.3   6.9  NA  OK Passed
+CZ12T2 101   2/2 0 (1,2) Radio-S100-1(C) Radio-S100-1(D) RRU4499  TU8U01LVEA  FDD=CZ12T2 (1)  131883   4.5   4.9   7.0  NA NOK RF Loss or PIM at Radio-S100-1(C)
+CZ12T3 102   2/2 0 (1,2) Radio-S102-1(A) Radio-S102-1(B) RRU4499  E23E372757  FDD=CZ12T3 (1)  184841   0.5  -0.1   6.8  NA  OK Passed
+CZ12T4 103   2/2 0 (1,2) Radio-S102-1(C) Radio-S102-1(D) RRU4499  E23E372757  FDD=CZ12T4 (1)  171846  -0.5  -0.3   6.5  NA  OK Passed
+================================================================================================================================
+Total: 12 SectorCarriers, 12 RfBranch Pairs (11 OK, 0 OKW, 1 NOK, 0 NT)
+.............
+Last MO: 21311. Loaded 21311 MOs. Total: 21312 MOs.
+..........................................
+
+Using hardcoded thresholds: 3, 4.5, and 16.5
+================================================================================================================================
+SC     SE  Tx/Rx BrPair  RfPort1 - RfPort2               HW       Serial      Cell (State)  Samples   Med  Mean  SDev Pol Res Issue
+================================================================================================================================
+CZ12G1 220   2/4 0 (1,2) Radio-S220-1(A) Radio-S220-1(B) RRU2479  TU8U02VGCU  DU=CZ12G1 (1)  330367  -0.5  -0.3   6.8  NA  OK Passed
+CZ12G1 220   2/4 1 (2,3) Radio-S220-1(B) Radio-S220-1(C) RRU2479  TU8U02VGCU  DU=CZ12G1 (1)  330246  -1.5  -0.9   7.1  NA  OK Passed
+CZ12G1 220   2/4 2 (3,4) Radio-S220-1(C) Radio-S220-1(D) RRU2479  TU8U02VGCU  DU=CZ12G1 (1)  329974  -0.5  -0.4   7.1  NA  OK Passed
+CZ12G2 221   2/4 0 (1,2) Radio-S221-1(A) Radio-S221-1(B) RRU2479  TU8U02SMTY  DU=CZ12G2 (1)   19220   0.5   0.2   6.6  NA  OK Passed
+CZ12G2 221   2/4 1 (2,3) Radio-S221-1(B) Radio-S221-1(C) RRU2479  TU8U02SMTY  DU=CZ12G2 (1)   19225   0.5   0.3   6.5  NA  OK Passed
+CZ12G2 221   2/4 2 (3,4) Radio-S221-1(C) Radio-S221-1(D) RRU2479  TU8U02SMTY  DU=CZ12G2 (1)   19226   2.5   1.5   7.1  NA  OK Passed
+CZ12G3 222   2/4 0 (1,2) Radio-S222-1(A) Radio-S222-1(B) RRU2479  TU8U02SMTX  DU=CZ12G3 (1)  555414   0.5   0.2   7.3  NA  OK Passed
+CZ12G3 222   2/4 1 (2,3) Radio-S222-1(B) Radio-S222-1(C) RRU2479  TU8U02SMTX  DU=CZ12G3 (1)  555402  -1.5  -1.5   7.7  NA  OK Passed
+CZ12G3 222   2/4 2 (3,4) Radio-S222-1(C) Radio-S222-1(D) RRU2479  TU8U02SMTX  DU=CZ12G3 (1)  555400   1.5   1.2   7.6  NA  OK Passed
+CZ12G4 223   2/4 0 (1,2) Radio-S223-1(A) Radio-S223-1(B) RRU2479  TU8U02SMUN  DU=CZ12G4 (1)  479433   0.5   0.2   7.3  NA  OK Passed
+CZ12G4 223   2/4 1 (2,3) Radio-S223-1(B) Radio-S223-1(C) RRU2479  TU8U02SMUN  DU=CZ12G4 (1)  479307  -0.5  -0.8   7.4  NA  OK Passed
+CZ12G4 223   2/4 2 (3,4) Radio-S223-1(C) Radio-S223-1(D) RRU2479  TU8U02SMUN  DU=CZ12G4 (1)  479400   2.5   3.5   9.3  NA OKW Possible RF Loss or PIM at Radio-S223-1(C)
+CZ12V1 160 32/32 0 (1,2) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V1 160 32/32 1 (2,3) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V1 160 32/32 2 (3,4) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V1 160 32/32 3 (4,5) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V1 160 32/32 4 (5,6) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V1 160 32/32 5 (6,7) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V1 160 32/32 6 (7,8) AAS-S160-1                      AIR3278  E96A202PP6  DU=CZ12V1 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 0 (1,2) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 1 (2,3) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 2 (3,4) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 3 (4,5) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 4 (5,6) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 5 (6,7) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V2 161 32/32 6 (7,8) AAS-S161-1                      AIR3278  E96A202PUZ  DU=CZ12V2 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 0 (1,2) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 1 (2,3) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 2 (3,4) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 3 (4,5) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 4 (5,6) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 5 (6,7) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+CZ12V3 162 32/32 6 (7,8) AAS-S162-1                      AIR3278  E96A202Q2R  DU=CZ12V3 (1)       0     0     0     0   ?  NT Not supported on AAS.
+================================================================================================================================
+Total: 7 NRSectorCarriers, 33 RfBranch Pairs (11 OK, 1 OKW, 0 NOK, 21 NT)
+
+CZ12E> mfitr
+
+251125-08:13:37+0100 19.31.11.204 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/587159
+.....................
+Last MO: 21311. Loaded 21311 MOs. Total: 21312 MOs.
+...............
+2025-11-25 08:14
+================================================================================================================================
+CELL       SC     FRU          BOARD                     PUSCH  PUCCH       A      B      C      D  DELTA
+================================================================================================================================
+FDD=CZ12E1 CZ12E1 Radio-S220-1 RRU247924B824B2024B28BM01 -113.7 -111.4 -112.1 -116.5                  4.4
+FDD=CZ12E2 CZ12E2 Radio-S221-1 RRU247924B824B2024B28BM01 -118.6 -118.3 -119.4 -119.4                    0
+FDD=CZ12E3 CZ12E3 Radio-S222-1 RRU247924B824B2024B28BM01 -116.9 -115.5 -115.7 -116.1                  0.4
+FDD=CZ12E4 CZ12E4 Radio-S223-1 RRU247924B824B2024B28BM01 -113.5 -112.4 -116.1 -117.2                  1.1
+FDD=CZ12M1 CZ12M1 Radio-S100-1 RRU449944B144B3C          -117.4 -117.4 -118.0 -118.7                  0.7
+FDD=CZ12M2 CZ12M2 Radio-S100-1 RRU449944B144B3C          -118.4 -119.1               -118.9 -119.1    0.2
+FDD=CZ12M3 CZ12M3 Radio-S102-1 RRU449944B144B3C          -114.9 -118.3 -114.0 -117.9                  3.9
+FDD=CZ12M4 CZ12M4 Radio-S102-1 RRU449944B144B3C          -116.2 -118.0               -117.9 -117.0    0.9
+FDD=CZ12T1 CZ12T1 Radio-S100-1 RRU449944B144B3C          -114.8 -111.7 -115.3 -115.2                  0.1
+FDD=CZ12T2 CZ12T2 Radio-S100-1 RRU449944B144B3C          -114.2 -112.9               -113.8 -115.9    2.1
+FDD=CZ12T3 CZ12T3 Radio-S102-1 RRU449944B144B3C          -114.6 -116.8 -116.2 -116.3                  0.1
+FDD=CZ12T4 CZ12T4 Radio-S102-1 RRU449944B144B3C          -116.1 -113.1               -116.1 -116.6    0.5
+================================================================================================================================
+Bye...
+Output has been logged to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/CZ12E.log

@@ -18,7 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Static assets e body parsing
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, parameterLimit: 100000, limit: '10mb' }));
 
 // (rimosso) /logout
 
@@ -490,10 +490,10 @@ app.get('/', (req, res) => {
     mfitrRows = mfitrRows.filter(r => r.source === selectedFile);
   }
 
-  // Mostra solo righe dove almeno uno tra DlLoss o UlLoss è < -3.49
+  // Mostra solo righe dove almeno uno tra DlLoss o UlLoss è > 3.49
   perfRows = perfRows.filter(r => (
-    (!Number.isNaN(r.dlLossValue) && r.dlLossValue < -3.49) ||
-    (!Number.isNaN(r.ulLossValue) && r.ulLossValue < -3.49)
+    (!Number.isNaN(r.dlLossValue) && r.dlLossValue > 3.49) ||
+    (!Number.isNaN(r.ulLossValue) && r.ulLossValue > 3.49)
   ));
 
     // Mostra solo righe BOARD SFP con ID=TN e TXdBm o RXdBm < -13.99
@@ -672,10 +672,10 @@ app.get('/report/celle', (req, res) => {
     source: r.source
   })).filter(x => x.refCell);
 
-  // Filtra performance WL: almeno uno tra DlLoss o UlLoss < -3.49 e ricava celle riferimento
+  // Filtra performance WL: almeno uno tra DlLoss o UlLoss > 3.49 e ricava celle riferimento
   const wlRows = perfRows.filter(r => (
-    (!Number.isNaN(r.dlLossValue) && r.dlLossValue < -3.49) ||
-    (!Number.isNaN(r.ulLossValue) && r.ulLossValue < -3.49)
+    (!Number.isNaN(r.dlLossValue) && r.dlLossValue > 3.49) ||
+    (!Number.isNaN(r.ulLossValue) && r.ulLossValue > 3.49)
   )).map(r => ({
     refCells: extractCellsFromLinkPerfRow(r),
     DlLoss: r.DlLoss,
