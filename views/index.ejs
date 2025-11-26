@@ -36,7 +36,7 @@
     <section class="panel">
       <h2>UL/DL fuori norma</h2>
       <% if (!perfRows || perfRows.length === 0) { %>
-        <p>Nessun dato trovato nella sezione sdir_link_performance_wl dei log caricati.</p>
+        <p><span class="badge badge-ok">Nessun dato Fuori Norma</span></p>
       <% } else { %>
         <div class="table-scroll">
           <table class="table table-fit table-transposed sticky-header sticky-first-col table-wl">
@@ -93,14 +93,14 @@
               <tr>
                 <th>DlLoss</th>
                 <% perfRows.forEach(r => { %>
-                  <% const mDl = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vDl = mDl ? parseFloat(mDl[1].replace(',', '.')) : NaN; const badDl = (!Number.isNaN(vDl) && vDl < -3.49); %>
+                  <% const mDl = String(r.DlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vDl = mDl ? parseFloat(mDl[1].replace(',', '.')) : NaN; const badDl = (!Number.isNaN(vDl) && vDl > 3.49); %>
                   <td class="<%= badDl ? 'cell-danger' : '' %>" title="<%= r.DlLoss %>"><span class="num <%= badDl ? 'badge badge-danger' : '' %>"><%= r.DlLoss %></span></td>
                 <% }) %>
               </tr>
               <tr>
                 <th>UlLoss</th>
                 <% perfRows.forEach(r => { %>
-                  <% const mUl = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vUl = mUl ? parseFloat(mUl[1].replace(',', '.')) : NaN; const badUl = (!Number.isNaN(vUl) && vUl < -3.49); %>
+                  <% const mUl = String(r.UlLoss || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/); const vUl = mUl ? parseFloat(mUl[1].replace(',', '.')) : NaN; const badUl = (!Number.isNaN(vUl) && vUl > 3.49); %>
                   <td class="<%= badUl ? 'cell-danger' : '' %>" title="<%= r.UlLoss %>"><span class="num <%= badUl ? 'badge badge-danger' : '' %>"><%= r.UlLoss %></span></td>
                 <% }) %>
               </tr>
@@ -119,7 +119,7 @@
     <section class="panel">
       <h2>Attenuazione trasporto</h2>
       <% if (!boardRows || boardRows.length === 0) { %>
-        <p>Nessun dato trovato nella sezione sdir_board_sfp_metriche dei log caricati.</p>
+        <p><span class="badge badge-ok">Nessun dato Fuori Norma</span></p>
       <% } else { %>
         <div class="table-scroll">
           <table class="table table-fit table-transposed sticky-header sticky-first-col table-board">
@@ -189,7 +189,7 @@
     <section class="panel">
       <h2>VSWR Elevato</h2>
       <% if (!fruRows || fruRows.length === 0) { %>
-        <p>Nessun dato trovato nella sezione sdir_fru_radio_metriche dei log caricati.</p>
+        <p><span class="badge badge-ok">Nessun dato Fuori Norma</span></p>
       <% } else { %>
         <div class="table-scroll">
           <table class="table table-fit table-transposed sticky-header sticky-first-col table-vswr">
@@ -246,7 +246,7 @@
   <section class="panel">
     <h2>mfar</h2>
     <% if (!mfarRows || mfarRows.length === 0) { %>
-      <p>Nessun dato trovato nella sezione mfar dei log caricati.</p>
+      <p><span class="badge badge-ok">Nessun dato Fuori Norma</span></p>
     <% } else { %>
       <div class="table-scroll">
         <table class="table table-fit table-transposed sticky-header sticky-first-col table-mfar">
@@ -345,7 +345,7 @@
   <section class="panel">
     <h2>mfitr</h2>
     <% if (typeof mfitrRows === 'undefined' || mfitrRows.length === 0) { %>
-      <p>Nessun dato trovato nella sezione mfitr dei log caricati.</p>
+      <p><span class="badge badge-ok">Nessun dato Fuori Norma</span></p>
     <% } else { %>
       <div class="table-scroll">
         <table class="table table-fit table-transposed sticky-header sticky-first-col table-mfitr">

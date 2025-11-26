@@ -1,0 +1,254 @@
+Logging to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/RLD6E.log
+                        __  __  ____   _____
+                  /\   |  \/  |/ __ \ / ____|
+                 /  \  | \  / | |  | | (___  
+                / /\ \ | |\/| | |  | |\___ \ 
+               / ____ \| |  | | |__| |____) |
+              /_/    \_\_|  |_|\____/|_____/
+              OSS Framework for MoShell-25.0h 
+  Copyright (c) Ericsson AB 2001-2025 - All Rights Reserved
+              
+           
+[1;31mWARNING: [0mthe AMOS version currently running is more than 29 weeks old and is unsupported.
+Please upgrade as soon as possible to the latest released version, available from your local Ericsson support.
+
+$amosrb_pid = 3298741
+
+Checking ip contact...OK
+
+HELP MENU            : h
+BASIC MO COMMANDS    : m
+OTHER MO COMMANDS    : n
+OTHER COMMANDS       : o
+PM COMMANDS          : p
+QUIT                 : q
+
+RLD6E> lt all
+
+251125-17:27:56+0100 19.31.14.231 25.0h  stopfile=/tmp/3298663
+Looking up temporary_amos account... OK.
+Trying temporary_amos_t20251125_37258710_65084_131's password from amos lookupAccount ... OK
+
+$ssh_pid = 3299087
+
+Connected to 19.31.14.231 (SubNetwork=BBMM_rckomc_R,MeContext=RLD6E,ManagedElement=RLD6E)
+
+Checking MOM version...MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81
+Parsing MOM (cached): /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/tempfiles/scp-4-amos_20251125-172750_3298595/MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81.xml.cache.gz ......................................................................................................................................................................................................................Done.
+Using paramfile /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBSG2_25.Q1.txt
+Parsing file /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBSG2_25.Q1.txt ......................................................................................Done.
+Using imomdfile /opt/ericsson/amos/moshell/commonjars/pm/IMOMD_MSRBS_22.Q4.txt
+Using imomfile /opt/ericsson/amos/moshell/commonjars/pm/IMOM_MSRBS_25.Q1.txt
+Connected to 19.31.14.231 (SubNetwork=BBMM_rckomc_R,MeContext=RLD6E,ManagedElement=RLD6E)
+
+Last MO: 16769. Loaded 16769 MOs. Total: 16770 MOs.
+
+RLD6E> st cell
+
+251125-17:28:15+0100 19.31.14.231 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/3298663
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+   43  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=RLD6E4
+  212  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=RLD6L4
+  797  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,NbIotCell=RLD6N4
+===================================================================================
+Total: 3 MOs
+
+RLD6E> st radio
+
+251125-17:28:15+0100 19.31.14.231 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/3298663
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+ 1281  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S183-1
+ 1296  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S4-1
+16764  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=NTP1
+16765  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=PTP
+===================================================================================
+Total: 4 MOs
+
+RLD6E> sdir
+
+251125-17:28:16+0100 19.31.14.231 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/3298663
+INFO: Using amos lookupAccount credentials for the export login
+..............................
+get /rop/A20251125.1530-1545_RLD6E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.14.231/rop/A20251125.1530-1545_RLD6E.xml.gz ... OK
+get /rop/A20251125.1545-1600_RLD6E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.14.231/rop/A20251125.1545-1600_RLD6E.xml.gz ... OK
+get /rop/A20251125.1600-1615_RLD6E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.14.231/rop/A20251125.1600-1615_RLD6E.xml.gz ... OK
+...Checking available boards on node...
+
+Collecting RCS board data ...
+...........................................................................
+.
+..........................................................................................................................................................................................................................................................................................
+........
+Collecting TN data...
+................................................................................................................................................................................................................................................................
+Collecting RF data...
+
+Collecting Alarms...
+Executing action Log.export()
+...
+Log=AlarmLog                    actionId=50853
+............
+Executing action LogM.exportAvailabilityLog()
+..LogM=1,exportAvailabilityLog    actionId=50854
+........Parsing alarmLog........Done.
+Parsing availabilityLog.....Done.
+........
+
+Total: 2 CPRI links (2 OK, 0 OKW, 0 NOK, 0 NT)
+
++--------+                      +------------+
+|        | A        O98      D1 | Radio-S4-1 |
+|        |-----------1----------| RRU2217B20 |
+|        |         OK-6m        |   BXP_3    |
+|        |                      +------------+
+|        |                             |A  |B
+|        |               SE=4 AG=4 FDD=RLD6E4
+|        |                        NIOT=RLD6N4
+|  BB-1  |
+| BB6620 |                      +---------------+
+| 000100 | D        O101     D1 | Radio-S183-1  |
+|        |-----------2----------|   RRU4415B7   |
+|        |         OK-7m        |     BXP_2     |
+|        |                      +---------------+
+|        |                        |A  |B  |C  |D
+|        |                 SE=183 AG=183  |   |
+|        |                    FDD=RLD6L4  |   |
+|        |
++--------+
+
+=====================================================================================================================================
+ID RiL    Type Res MO1-MO2                  BOARD1-BOARD2     AlmIDs Cells (States)               Issue (Failed checks)
+=====================================================================================================================================
+ 1 S4-1   O98  OK  BB-1(A) Radio-S4-1(D1)   BB6620 RRU2217B20        FDD=RLD6E4 NIOT=RLD6N4 (1,1) Passed
+ 2 S183-1 O101 OK  BB-1(D) Radio-S183-1(D1) BB6620 RRU4415B7         FDD=RLD6L4 (1)               Passed
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Node: RadioNode L   CXP9024418/16_R8D21 (RCG123.3-3)   G2   LTE-FDD,LTE-IoT 
+
+=====================================================================================================================================
+FRU          ;LNH    ;BOARD      ;ST ;FAULT ;OPER ;MAINT ;STAT ;PRODUCTNUMBER   ;REV     ;SERIAL        ;DATE     ;PMTEMP ; TEMP ; UPT ;VOLT ;SW                   ;
+=====================================================================================================================================
+BB-1         ;000100 ;BB6620     ; 1 ;  OFF ;  ON ;  OFF ;  ON ;KDU137847/11    ;R3D     ;E96A00HEWN    ;20210825 ;3 (OK) ;      ; 131 ;48   ;                     ;
+Radio-S183-1 ;BXP_2  ;RRU4415B7  ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161495/1     ;R5F     ;B070569989    ;20210911 ;4 (OK) ; 23.3 ; 131 ;55.0 ;CXP9013268%15_R101KB ; (Radio4415B7)
+Radio-S4-1   ;BXP_3  ;RRU2217B20 ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161549/1     ;R1S     ;TU8U017CSX    ;20211116 ;4 (OK) ; 26.5 ;84.3 ;55.8 ;CXP9013268%9_R96JB   ; (Radio2217B20)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+AntennaNearUnit                                   ;ST  ;TYPE   ;PRODUCTNR  ;REV       ;UNIQUEID          ;RfPort
+=====================================================================================================================================
+AntennaUnitGroup=4,AntennaNearUnit=RET_1800_2100  ; 1  ;S-RET  ;86010165   ;HW_V_A01  ;KAD240405952B-Y4  ;FieldReplaceableUnit=Radio-S4-1,RfPort=R
+AntennaUnitGroup=4,AntennaNearUnit=RET_2600       ; 1  ;S-RET  ;86010165   ;HW_V_A01  ;KAD240405952B-Y5  ;FieldReplaceableUnit=Radio-S4-1,RfPort=R
+AntennaUnitGroup=4,AntennaNearUnit=RET_800        ; 1  ;S-RET  ;86010165   ;HW_V_A01  ;KAD240405952B-R2  ;FieldReplaceableUnit=Radio-S4-1,RfPort=R
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+XPBOARD  ;ST ;FAULT ;OPER ;PRODUCTNUMBER ;REV ;SERIAL/NAME ;DATE     ; TEMP ;MO
+=====================================================================================================================================
+FAN      ; 1 ;N/A   ;N/A  ;BKV106217/1   ;N/A ;N/A         ;N/A      ;      ;SupportUnit=1 (FAN  BB-1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;T ;RiL    ;BPBP ;BOARD1     ;LNH1 ;PORT ;R ;LINK ;RATE  ; BER ;BOARD2     ;LNH2 ;PORT ;R ;LINK ;RATE  ; BER ;LENGTH ;MO1 - MO2
+=====================================================================================================================================
+ 1 ;O ;  S4-1 ;1111 ;BB6620     ;000100 ; 1 ;M ;Up   ;9.8G  ;   0 ;RRU2217B20 ;BXP_3  ; 0 ;S ;Up   ;9.8G  ;   0 ;    6m ;Fru=BB-1(A) Fru=Radio-S4-1(D1)
+ 2 ;O ;S183-1 ;1111 ;BB6620     ;000100 ; 4 ;M ;Up   ;10.1G ;   0 ;RRU4415B7  ;BXP_2  ; 0 ;S ;Up   ;10.1G ;   0 ;    7m ;Fru=BB-1(D) Fru=Radio-S183-1(D1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL    ;VENDOR1  ;VENDORPROD1     ;REV1 ;SERIAL1    ;DATE1    ;ERICSSONPROD1  ;VENDOR2  ;VENDORPROD2     ;REV2 ;SERIAL2    ;DATE2    ;ERICSSONPROD2  ;TT ;WL1     ;WL2    
+=====================================================================================================================================
+ 1 ;Up   ;  S4-1 ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227033 ;20211008 ;RDH10265/2 R1A ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227043 ;20211008 ;RDH10265/2 R1A ;0  ;1310.00 ;1310.00
+ 2 ;Up   ;S183-1 ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227067 ;20211008 ;RDH10265/2 R1A ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227066 ;20211008 ;RDH10265/2 R1A ;0  ;1310.00 ;1310.00
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL    ;WL1     ;TEMP1 ;TXbs1 ;TXdBm1 ;RXdBm1 ;BER1   ;WL2     ;TEMP2 ;TXbs2 ;TXdBm2 ;RXdBm2 ;BER2   ;DlLoss ;UlLoss ;LENGTH ;TT
+=====================================================================================================================================
+ 1 ;Up   ;  S4-1 ;1310.00 ;32C   ;38%   ;-2.40  ;-1.91  ;   0   ;1310.00 ;27C   ;39%   ;-2.63  ;-2.33  ;   0   ; -0.07 ; -0.72 ;    6m ; 0
+ 2 ;Up   ;S183-1 ;1310.00 ;32C   ;38%   ;-3.07  ;-2.18  ;   0   ;1310.00 ;22C   ;38%   ;-2.77  ;-2.10  ;   0   ; -0.97 ; -0.59 ;    7m ; 0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;RiL    ;BOARD      ;SFPLNH  ;PORT ;VENDOR   ;VENDORPROD      ;REV  ;SERIAL     ;DATE     ;ERICSSONPROD   ;WL      ;TEMP  ;TXbs  ;TXdBm  ;RXdBm  ; BER
+=====================================================================================================================================
+ 1 ;  S4-1 ;BB6620     ;000100   ;  1 ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227033 ;20211008 ;RDH10265/2 R1A ;1310.00 ;32C   ;38%   ;-2.40  ;-1.91  ;   0
+ 2 ;S183-1 ;BB6620     ;000100   ;  4 ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227067 ;20211008 ;RDH10265/2 R1A ;1310.00 ;32C   ;38%   ;-3.07  ;-2.18  ;   0
+ 2 ;S183-1 ;RRU4415B7  ;BXP_2    ;  0 ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227066 ;20211008 ;RDH10265/2 R1A ;1310.00 ;22C   ;38%   ;-2.77  ;-2.10  ;   0
+ 1 ;  S4-1 ;RRU2217B20 ;BXP_3    ;  0 ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227043 ;20211008 ;RDH10265/2 R1A ;1310.00 ;27C   ;39%   ;-2.63  ;-2.33  ;   0
+-------------------------------------------------------------------------------------------------------------------------------------
+TN ;       ;BB6620     ;000100   ;  A ;ERICSSON ;EOLP-1396-02-IY ;1.0  ;PM85227041 ;20211008 ;RDH10265/2 R1A ;0       ;31C   ;39%   ;-2.50  ;-2.73  ; 0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+BOARD  ;LNH    ;PORT   ;T ;S ;OpMode   ;AutoNeg ;MacAddress        ;VlanIds   ;LOS ;BER
+=====================================================================================================================================
+BB6620 ;000100 ;IDL_A1 ;E ;1 ;10G_FULL ;false   ;58:45:4C:77:4E:3C ;3908      ;0   ;0/0
+BB6620 ;000100 ;TN_A   ;O ;1 ;1G_FULL  ;true    ;58:45:4C:77:4E:38 ;3908,3910 ;0   ;0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+radioClockState : RNT_TIME_LOCKED
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;syncRefType    ;refStatus  ;opQualLevel  ;SyncReference
+-------------------------------------------------------------------------------------
+  *1  ; 1  ;PTP_TIME       ;NO_FAULT   ;PRTC         ;Ptp=1,BoundaryOrdinaryClock=PTP (G_8275_1 EthernetPort=TN_A:SLAVE)
+   2  ; 1  ;NTP_FREQUENCY  ;NO_FAULT   ;PRC          ;Ntp=1,NtpFrequencySync=NTP1 (10.31.0.54:32751 Router=LTE,InterfaceIPv4=1,AddressIPv4=1)
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;assistRefStatus  ;recQualLevel  ;AssistingReference
+-------------------------------------------------------------------------------------
+   1  ; 1  ;NO_FAULT         ;PRTC          ;Synchronization=1,SyncEthInput=SyncE (SFP_OPTICAL EthernetPort=TN_A)
+-------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+FRU          ;LNH    ;BOARD      ;RF  ;BP  ;TX (W/dBm)  ;VSWR (RL)   ;RX (dBm) ;UEs/gUEs  ;Sector/AntennaGroup/Cells (State:CellIds:PCIs)
+=====================================================================================================================================
+Radio-S4-1   ;BXP_3  ;RRU2217B20 ; A  ;11  ;-           ;1.17 (22.0) ;         ;1/-       ;SE=4 AG=4 FDD=RLD6E4 NIOT=RLD6N4 (1:64:250, 1:164:250)
+Radio-S4-1   ;BXP_3  ;RRU2217B20 ; B  ;11  ;-           ;1.24 (19.4) ;         ;1/-       ;SE=4 AG=4 FDD=RLD6E4 NIOT=RLD6N4 (1:64:250, 1:164:250)
+Radio-S183-1 ;BXP_2  ;RRU4415B7  ; A  ;11  ;12.9 (41.1) ;1.14 (23.7) ;-98.9    ;1/-       ;SE=183 AG=183 FDD=RLD6L4 (1:24:373)
+Radio-S183-1 ;BXP_2  ;RRU4415B7  ; B  ;11  ;-           ;1.18 (21.8) ;-98.5    ;1/-       ;SE=183 AG=183 FDD=RLD6L4 (1:24:373)
+Radio-S183-1 ;BXP_2  ;RRU4415B7  ; C  ;11  ;-           ;-           ;         ;          ;
+Radio-S183-1 ;BXP_2  ;RRU4415B7  ; D  ;11  ;-           ;-           ;         ;          ;
+-------------------------------------------------------------------------------------------------------------------------------------
+
+RLD6E> mfar
+
+251125-17:30:21+0100 19.31.14.231 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/3298663
+...
+Last MO: 16772. Loaded 16772 MOs. Total: 16773 MOs.
+........................................
+get /rop/A20251125.1500-1515_RLD6E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.14.231/rop/A20251125.1500-1515_RLD6E.xml.gz ... OK
+get /rop/A20251125.1515-1530_RLD6E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.14.231/rop/A20251125.1515-1530_RLD6E.xml.gz ... OK
+get /rop/A20251125.1615-1630_RLD6E.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.14.231/rop/A20251125.1615-1630_RLD6E.xml.gz ... OK
+
+Using hardcoded thresholds: 3, 4.5, and 16.5
+================================================================================================================================
+SC     SE  Tx/Rx BrPair  RfPort1 - RfPort2               HW       Serial      Cell (State)   Samples   Med  Mean  SDev Pol Res Issue
+================================================================================================================================
+RLD6E4   4   2/2 0 (1,2) Radio-S4-1(A) Radio-S4-1(B)     RRU2217  TU8U017CSX  FDD=RLD6E4 (1)  552123   1.5   1.0   7.2  NA  OK Passed
+RLD6L4 183   2/2 0 (1,2) Radio-S183-1(A) Radio-S183-1(B) RRU4415  B070569989  FDD=RLD6L4 (1)   22537  -4.5  -1.1   8.3  NA  OK Passed
+================================================================================================================================
+Total: 2 SectorCarriers, 2 RfBranch Pairs (2 OK, 0 OKW, 0 NOK, 0 NT)
+...
+Last MO: 16772. Loaded 16772 MOs. Total: 16773 MOs.
+
+No NRSectorCarrier MOs are defined on the node.
+
+RLD6E> mfitr
+
+251125-17:30:37+0100 19.31.14.231 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/3298663
+.....
+Last MO: 16772. Loaded 16772 MOs. Total: 16773 MOs.
+......
+2025-11-25 17:31
+================================================================================================================================
+CELL       SC     FRU          BOARD      PUSCH  PUCCH       A      B  DELTA
+================================================================================================================================
+FDD=RLD6E4 RLD6E4 Radio-S4-1   RRU2217B20 -113.7 -111.4 -112.7 -113.7      1
+FDD=RLD6L4 RLD6L4 Radio-S183-1 RRU4415B7  -117.8 -118.3 -118.3 -118.0    0.3
+================================================================================================================================
+Bye...
+Output has been logged to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/RLD6E.log

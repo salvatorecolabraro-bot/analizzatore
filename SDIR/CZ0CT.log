@@ -1,0 +1,250 @@
+Logging to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/CZ0CT.log
+                        __  __  ____   _____
+                  /\   |  \/  |/ __ \ / ____|
+                 /  \  | \  / | |  | | (___  
+                / /\ \ | |\/| | |  | |\___ \ 
+               / ____ \| |  | | |__| |____) |
+              /_/    \_\_|  |_|\____/|_____/
+              OSS Framework for MoShell-25.0h 
+  Copyright (c) Ericsson AB 2001-2025 - All Rights Reserved
+              
+           
+[1;31mWARNING: [0mthe AMOS version currently running is more than 29 weeks old and is unsupported.
+Please upgrade as soon as possible to the latest released version, available from your local Ericsson support.
+
+$amosrb_pid = 1735945
+
+Checking ip contact...OK
+
+HELP MENU            : h
+BASIC MO COMMANDS    : m
+OTHER MO COMMANDS    : n
+OTHER COMMANDS       : o
+PM COMMANDS          : p
+QUIT                 : q
+
+CZ0CT> lt all
+
+251125-09:34:21+0100 19.31.10.108 25.0h  stopfile=/tmp/1735843
+Looking up temporary_amos account... OK.
+Trying temporary_amos_t20251125_37258710_65084_131's password from amos lookupAccount ... OK
+
+$ssh_pid = 1736573
+
+Connected to 19.31.10.108 (SubNetwork=BBMM_rckomc_R,MeContext=CZ0CT,ManagedElement=CZ0CT)
+
+Checking MOM version...MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac
+Parsing MOM (cached): /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/tempfiles/scp-4-amos_20251125-093415_1735783/MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac.xml.cache.gz ..................................................................................................................................................................................................................................Done.
+Using paramfile /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBS_25.Q1.txt
+Parsing file /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBS_25.Q1.txt .......................................................................................Done.
+Using imomdfile /opt/ericsson/amos/moshell/commonjars/pm/IMOMD_MSRBS_22.Q4.txt
+Using imomfile /opt/ericsson/amos/moshell/commonjars/pm/IMOM_MSRBS_25.Q1.txt
+Connected to 19.31.10.108 (SubNetwork=BBMM_rckomc_R,MeContext=CZ0CT,ManagedElement=CZ0CT)
+
+Last MO: 16158. Loaded 16158 MOs. Total: 16159 MOs.
+
+CZ0CT> st cell
+
+251125-09:34:33+0100 19.31.10.108 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/1735843
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+   41  0 (LOCKED)    0 (DISABLED)  ENodeBFunction=1,EUtranCellFDD=CZDEM1
+  109  0 (LOCKED)    0 (DISABLED)  ENodeBFunction=1,EUtranCellFDD=CZDET1
+===================================================================================
+Total: 2 MOs
+
+CZ0CT> st radio
+
+251125-09:34:34+0100 19.31.10.108 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/1735843
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+  499  1 (UNLOCKED)  0 (DISABLED)  Equipment=1,FieldReplaceableUnit=Radio-S1-1
+  510  1 (UNLOCKED)  0 (DISABLED)  Equipment=1,FieldReplaceableUnit=Radio-S7-1
+16154  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=NTP1
+16155  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=PTP
+===================================================================================
+Total: 4 MOs
+
+CZ0CT> sdir
+
+251125-09:34:34+0100 19.31.10.108 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/1735843
+INFO: Using amos lookupAccount credentials for the export login
+..............................
+get /rop/A20251125.0745-0800_CZ0CT.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.10.108/rop/A20251125.0745-0800_CZ0CT.xml.gz ... OK
+get /rop/A20251125.0800-0815_CZ0CT.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.10.108/rop/A20251125.0800-0815_CZ0CT.xml.gz ... OK
+get /rop/A20251125.0815-0830_CZ0CT.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.10.108/rop/A20251125.0815-0830_CZ0CT.xml.gz ... OK
+...Checking available boards on node...
+
+Collecting RCS board data ...
+...................................................................................................................
+.
+.............................................................................................................................................................................................................................................................
+..........
+Collecting TN data...
+..................................................................................................................................................................................................................................................................
+Collecting Alarms...
+Executing action Log.export()
+...
+Log=AlarmLog                    actionId=8694
+.....
+Executing action LogM.exportAvailabilityLog()
+..LogM=1,exportAvailabilityLog    actionId=8695
+.....Parsing alarmLog...Done.
+Parsing availabilityLog...Done.
+.
+
+Total: 2 CPRI links (0 OK, 0 OKW, 2 NOK, 0 NT)
+
++--------+                      +------------+           +------------+
+|        | A        O98      D1 | Radio-S1-1 | D2 O98 D1 | Radio-S7-1 |
+|  BB-1  |-----------1----------| RRU2203B3  |-----2-----| RRU2203B1  |
+| BB6631 |        NOK-9.3k      |   BXP_2    |   NOK-3m  |   BXP_3    |
+| 000100 |                      +------------+           +------------+
+|        |                             |A  |B                   |A  |B
++--------+               SE=1 AG=1 FDD=CZDET1     SE=7 AG=7 FDD=CZDEM1
+
+=====================================================================================================================================
+ID RiL  Type Res MO1-MO2                       BOARD1-BOARD2       AlmIDs Cells (States) Issue (Failed checks)
+=====================================================================================================================================
+ 1 S1-1 O98  NOK BB-1(A) Radio-S1-1(D1)        BB6631 RRU2203B3    1      FDD=CZDET1 (L) SFP Config (Near: NON-ERICSSON, Far: RDH10265/3)
+ 2 S7-1 O98  NOK Radio-S1-1(D2) Radio-S7-1(D1) RRU2203B3 RRU2203B1 1,2    FDD=CZDEM1 (L) FieldReplaceableUnit Alarm
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+AlmID IDs RiLs      Status Alarm
+=====================================================================================================================================
+1     1,2 S1-1,S7-1 A      Input Power Failure - FieldReplaceableUnit=Radio-S1-1 (Input voltage outside unit operating range. ,UI:[{"PN":"Radio 2203 B3","SN":"E55P287813","PNR":"KRC 161 488/1","PR":"R1F"}])
+2     2   S7-1      A      Input Power Failure - FieldReplaceableUnit=Radio-S7-1 (Input voltage outside unit operating range. ,UI:[{"PN":"Radio 2203 B1","SN":"E55P084709","PNR":"KRC 161 487/1","PR":"R2F"}])
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+IDs  RiLs Issue and Recommended Actions.
+=====================================================================================================================================
+2    S7-1 Active Alarm caused by fault on FieldReplaceableUnit, ExternalPower or SupportUnit MO. Follow the Alarm Instruction in CPI.
+*************************************************************************************************************************************
+1    S1-1 Unsupported SFP or SFP combination.
+-------------------------------------------------------------------------------------------------------------------------------------
+ 1) Most likely One or possibly Both the Near and Far-End SFPs populated are incorrect.
+ 2) Refer to your SFP Approved Listing documentation to determine which SFP type is incorrect. If you are unsure, please check with your next level of support.
+ 3) Replace the SFP that is incorrect.
+Note: Always check for any AlmID information and troubleshoot alarm(s) accordingly.
+*************************************************************************************************************************************
+
+Node: RadioNode L   CXP2010174/2_R27J08 (25.Q1)   G3.1   LTE-FDD 
+
+=====================================================================================================================================
+FRU        ;LNH    ;BOARD     ;ST ;FAULT ;OPER ;MAINT ;STAT ;PRODUCTNUMBER   ;REV     ;SERIAL        ;DATE     ;PMTEMP ; TEMP ; UPT ;VOLT ;SW ;
+=====================================================================================================================================
+BB-1       ;000100 ;BB6631    ; 1 ;  OFF ;  ON ;  OFF ;  ON ;KDU1370071/11   ;R3H     ;E96A017NU6    ;20240726 ;3 (OK) ;      ; 133 ;51   ;   ;
+Radio-S1-1 ;BXP_2  ;RRU2203B3 ; 0 ;    ? ;   ? ;    ? ; N/A ;KRC161488/1     ;R1F     ;E55P287813    ;20240617 ;       ;      ;     ;     ;   ; (Radio2203B3)
+Radio-S7-1 ;BXP_3  ;RRU2203B1 ; 0 ;    ? ;   ? ;    ? ; N/A ;KRC161487/1     ;R2F     ;E55P084709    ;20240527 ;       ;      ;     ;     ;   ; (Radio2203B1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+XPBOARD      ;ST ;FAULT ;OPER ;PRODUCTNUMBER ;REV ;SERIAL/NAME   ;DATE     ; TEMP ;MO
+=====================================================================================================================================
+FAN08        ; 1 ;N/A   ;N/A  ;BKV106236/1   ;R2F ;DD139D1079    ;20240624 ; 35.0 ;SupportUnit=1 (FAN  BB-1)
+Support6501  ; 0 ;N/A   ;N/A  ;KRY901345/7   ;R1C ;DX307A02ZF    ;20240411 ;      ;SupportUnit=2 (POWER_SUPPLY EXTERNAL_ALARM_PORTS  Radio-S1-1)
+FAN09        ; 0 ;N/A   ;N/A  ;BKV106240/1   ;    ;G_07A02ZF-1-1 ;         ;      ;SupportUnit=3 (FAN  Radio-S1-1)
+Support6501  ; 0 ;N/A   ;N/A  ;KRY901345/7   ;R1C ;DX307A0317    ;20240411 ;      ;SupportUnit=4 (POWER_SUPPLY EXTERNAL_ALARM_PORTS  Radio-S7-1)
+FAN09        ; 0 ;N/A   ;N/A  ;BKV106240/1   ;    ;G_07A0317-1-1 ;         ;      ;SupportUnit=5 (FAN  Radio-S7-1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;T ;RiL  ;BPBP ;BOARD1    ;LNH1 ;PORT ;R ;LINK ;RATE  ; BER ;BOARD2    ;LNH2 ;PORT ;R ;LINK ;RATE  ; BER ;LENGTH ;MO1 - MO2
+=====================================================================================================================================
+ 1 ;O ;S1-1 ;1100 ;BB6631    ;000100 ; 1 ;M ;Down ;9.8G  ;   0 ;RRU2203B3 ;BXP_2  ; 0 ;S ;Down ;9.8G  ;     ; 9323m ;Fru=BB-1(A) Fru=Radio-S1-1(D1)
+ 2 ;O ;S7-1 ;0000 ;RRU2203B3 ;BXP_2  ; 1 ;M ;Down ;9.8G  ;     ;RRU2203B1 ;BXP_3  ; 0 ;S ;Down ;9.8G  ;     ;    3m ;Fru=Radio-S1-1(D2) Fru=Radio-S7-1(D1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL  ;VENDOR1          ;VENDORPROD1     ;REV1 ;SERIAL1      ;DATE1    ;ERICSSONPROD1  ;VENDOR2          ;VENDORPROD2     ;REV2 ;SERIAL2      ;DATE2    ;ERICSSONPROD2  ;TT ;WL1     ;WL2    
+=====================================================================================================================================
+ 1 ;Down ;S1-1 ;SumitomoElectric ;SPP5200ER-E5-M  ;A    ;29T209400010 ;20221025 ;NON-ERICSSON   ;ERICSSON         ;EOLP-1396-10-IY ;1.0  ;DZ8NA005PQ   ;20221010 ;RDH10265/3 R1A ;0  ;1550.00 ;1310.00
+ 2 ;Down ;S7-1 ;ERICSSON         ;RTXM228-702-C22 ;1.0  ;CU823J11X6   ;20230918 ;RDH10265/2 R1A ;ERICSSON         ;EOLP-1396-02-IY ;1.0  ;PMCN109647   ;20220601 ;RDH10265/2 R1A ;0  ;1310.00 ;1310.00
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL  ;WL1     ;TEMP1 ;TXbs1 ;TXdBm1 ;RXdBm1 ;BER1   ;WL2     ;TEMP2 ;TXbs2 ;TXdBm2 ;RXdBm2 ;BER2   ;DlLoss ;UlLoss ;LENGTH ;TT
+=====================================================================================================================================
+ 1 ;Down ;S1-1 ;1550.00 ;32C   ;45%   ;0.52   ;-inf   ;   0   ;1310.00 ;22C   ;37%   ;-1.64  ;-9.14  ;       ;  9.66 ;  +inf ; 9323m ; 0
+ 2 ;Down ;S7-1 ;1310.00 ;26C   ;51%   ;-1.19  ;-1.84  ;       ;1310.00 ;20C   ;36%   ;-2.23  ;-2.37  ;       ;  1.18 ; -0.39 ;    3m ; 0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;RiL  ;BOARD     ;SFPLNH  ;PORT ;VENDOR           ;VENDORPROD      ;REV  ;SERIAL       ;DATE     ;ERICSSONPROD   ;WL      ;TEMP  ;TXbs  ;TXdBm  ;RXdBm  ; BER
+=====================================================================================================================================
+ 1 ;S1-1 ;BB6631    ;000100   ;  1 ;SumitomoElectric ;SPP5200ER-E5-M  ;A    ;29T209400010 ;20221025 ;NON-ERICSSON   ;1550.00 ;32C   ;45%   ;0.52   ;-inf   ;   0
+ 1 ;S1-1 ;RRU2203B3 ;BXP_2    ;  0 ;ERICSSON         ;EOLP-1396-10-IY ;1.0  ;DZ8NA005PQ   ;20221010 ;RDH10265/3 R1A ;1310.00 ;22C   ;37%   ;-1.64  ;-9.14  ;    
+ 2 ;S7-1 ;RRU2203B3 ;BXP_2    ;  1 ;ERICSSON         ;RTXM228-702-C22 ;1.0  ;CU823J11X6   ;20230918 ;RDH10265/2 R1A ;1310.00 ;26C   ;51%   ;-1.19  ;-1.84  ;    
+ 2 ;S7-1 ;RRU2203B1 ;BXP_3    ;  0 ;ERICSSON         ;EOLP-1396-02-IY ;1.0  ;PMCN109647   ;20220601 ;RDH10265/2 R1A ;1310.00 ;20C   ;36%   ;-2.23  ;-2.37  ;    
+-------------------------------------------------------------------------------------------------------------------------------------
+TN ;     ;BB6631    ;000100   ; IB ;ERICSSON         ;RTXM228-702-C22 ;1.0  ;CU824G0H9Q   ;20240706 ;RDH10265/2 R1A ;1310    ;33C   ;53%   ;-1.38  ;-10.41 ;NZ/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+BOARD  ;LNH    ;PORT     ;T ;S ;OpMode  ;AutoNeg ;MacAddress        ;VlanIds   ;LOS ;BER
+=====================================================================================================================================
+BB6631 ;000100 ;TN_IDL_B ;O ;1 ;1G_FULL ;true    ;F4:3C:96:F5:B3:5F ;3908,3910 ;0   ;NZ/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+radioClockState : RNT_TIME_LOCKED
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;syncRefType    ;refStatus  ;opQualLevel  ;SyncReference
+-------------------------------------------------------------------------------------
+  *1  ; 1  ;PTP_TIME       ;NO_FAULT   ;PRTC         ;Ptp=1,BoundaryOrdinaryClock=PTP (G_8275_1 EthernetPort=TN_IDL_B:SLAVE)
+   2  ; 1  ;NTP_FREQUENCY  ;NO_FAULT   ;PRC          ;Ntp=1,NtpFrequencySync=NTP1 (10.31.0.54:32751 Router=45G_Traffic,InterfaceIPv4=LTE,AddressIPv4=LTE)
+-------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;assistRefStatus  ;recQualLevel  ;AssistingReference
+-------------------------------------------------------------------------------------
+   1  ; 1  ;NO_FAULT         ;PRC           ;Synchronization=1,SyncEthInput=SyncE (SFP_OPTICAL EthernetPort=TN_IDL_B)
+-------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+FRU        ;LNH    ;BOARD     ;RF  ;BP  ;TX (W/dBm)  ;VSWR (RL)   ;RX (dBm) ;UEs/gUEs  ;Sector/AntennaGroup/Cells (State:CellIds:PCIs)
+=====================================================================================================================================
+Radio-S1-1 ;BXP_2  ;RRU2203B3 ; A  ;00  ;-           ;-           ;         ;-/-       ;SE=1 AG=1 FDD=CZDET1 (L:41:210)
+Radio-S1-1 ;BXP_2  ;RRU2203B3 ; B  ;00  ;-           ;-           ;         ;-/-       ;SE=1 AG=1 FDD=CZDET1 (L:41:210)
+Radio-S7-1 ;BXP_3  ;RRU2203B1 ; A  ;00  ;-           ;-           ;         ;-/-       ;SE=7 AG=7 FDD=CZDEM1 (L:31:175)
+Radio-S7-1 ;BXP_3  ;RRU2203B1 ; B  ;00  ;-           ;-           ;         ;-/-       ;SE=7 AG=7 FDD=CZDEM1 (L:31:175)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+CZ0CT> mfar
+
+251125-09:35:53+0100 19.31.10.108 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/1735843
+...
+Last MO: 16158. Loaded 16158 MOs. Total: 16159 MOs.
+.........................................
+get /rop/A20251125.0700-0715_CZ0CT.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.10.108/rop/A20251125.0700-0715_CZ0CT.xml.gz ... OK
+get /rop/A20251125.0715-0730_CZ0CT.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.10.108/rop/A20251125.0715-0730_CZ0CT.xml.gz ... OK
+get /rop/A20251125.0730-0745_CZ0CT.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.10.108/rop/A20251125.0730-0745_CZ0CT.xml.gz ... OK
+
+Using hardcoded thresholds: 3, 4.5, and 16.5
+================================================================================================================================
+SC     SE Tx/Rx BrPair  RfPort1 - RfPort2           HW       Serial      Cell (State)   Samples   Med  Mean  SDev Pol Res Issue
+================================================================================================================================
+CZDEM1  7   0/0 0 (1,2) Radio-S7-1(A) Radio-S7-1(B) RRU2203  E55P084709  FDD=CZDEM1 (L)       0     0     0     0  NA  NT No data
+CZDET1  1   0/0 0 (1,2) Radio-S1-1(A) Radio-S1-1(B) RRU2203  E55P287813  FDD=CZDET1 (L)       0     0     0     0  NA  NT No data
+================================================================================================================================
+Total: 2 SectorCarriers, 2 RfBranch Pairs (0 OK, 0 OKW, 0 NOK, 2 NT)
+...
+Last MO: 16158. Loaded 16158 MOs. Total: 16159 MOs.
+
+No NRSectorCarrier MOs are defined on the node.
+
+CZ0CT> mfitr
+
+251125-09:36:06+0100 19.31.10.108 25.0h MSRBS_NODE_MODEL_25.Q1_693.28324.131_62ac stopfile=/tmp/1735843
+.....
+Last MO: 16158. Loaded 16158 MOs. Total: 16159 MOs.
+......
+2025-11-25 09:36
+================================================================================================================================
+CELL       SC FRU    BOARD PUSCH  PUCCH   DELTA
+================================================================================================================================
+================================================================================================================================
+Bye...
+Output has been logged to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/CZ0CT.log

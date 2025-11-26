@@ -58,34 +58,42 @@
       </form>
     </section>
     <div class="chart-panels">
+      <% if (!selectedTable || selectedTable === 'vswr') { %>
       <section class="panel">
         <h2>Top 5 VSWR</h2>
         <div class="table-scroll" style="overflow: visible;">
           <canvas id="fruVswrTopChart" class="chart-square"></canvas>
         </div>
       </section>
+      <% } %>
+      <% if (!selectedTable || selectedTable === 'wl') { %>
       <section class="panel">
-      <h2>Top 5 DL/UL Loss</h2>
-      <div class="table-scroll" style="overflow: visible;">
-        <canvas id="wlTopChart" class="chart-square"></canvas>
-      </div>
+        <h2>Top 5 DL/UL Loss</h2>
+        <div class="table-scroll" style="overflow: visible;">
+          <canvas id="wlTopChart" class="chart-square"></canvas>
+        </div>
       </section>
+      <% } %>
     </div>
 
     <!-- Grafici aggiuntivi: Board/SFP e MFITR affiancati sotto i primi due -->
     <div class="chart-panels">
+      <% if (!selectedTable || selectedTable === 'board_sfp') { %>
       <section class="panel">
         <h2>Top 5 Attenuazione trasporto</h2>
         <div class="table-scroll" style="overflow: visible;">
           <canvas id="boardTopChart" class="chart-square"></canvas>
         </div>
       </section>
+      <% } %>
+      <% if (!selectedTable || selectedTable === 'mfitr') { %>
       <section class="panel">
         <h2>Interferenza con DELTA &gt; 3.9</h2>
         <div class="table-scroll" style="overflow: visible;">
           <canvas id="mfitrTopChart" class="chart-square"></canvas>
         </div>
       </section>
+      <% } %>
     </div>
 
     <% if (!selectedTable || selectedTable === 'vswr') { %>
