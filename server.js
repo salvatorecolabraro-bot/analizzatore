@@ -548,7 +548,7 @@ app.get('/', (req, res) => {
     return !Number.isNaN(deltaVal) && deltaVal > 3.9;
   });
 
-  res.render('report_celle', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
+  res.render('index', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
 });
 
 // Visualizzazione contenuto file
@@ -733,7 +733,7 @@ app.get('/report/celle', (req, res) => {
     return !Number.isNaN(deltaVal) && deltaVal > 3.9;
   });
 
-  res.render('report_celle', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
+  res.render('index', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
 });
 
 // Pagina admin: upload multiplo e cancellazione
