@@ -467,6 +467,7 @@ function aggregateMfar() {
   return all;
 }
 
+<<<<<<< HEAD
 // Home visitatore: mostra entrambe le tabelle aggregate
 app.get('/', (req, res) => {
   const fileOptions = listFiles();
@@ -508,27 +509,104 @@ app.get('/', (req, res) => {
 
   // Mostra solo righe FRU Radio con VSWR (RL) > 1.49
   fruRows = fruRows.filter(r => {
+=======
+// Home: mostra il report celle con gli stessi dati e criteri della pagina /report/celle
+app.get('/', (req, res) => {
+  const selectedFile = req.query.file || '';
+  const selectedTable = (req.query.table || '').trim();
+  const fileOptions = listFiles();
+  let fruRows = [];
+  let perfRows = [];
+  let boardRows = [];
+  let mfarRows = [];
+  let mfitrRows = [];
+  if (selectedFile) {
+    fruRows = parseSdirFruRadioMetricheFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    perfRows = parseSdirLinkPerformanceWlFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    boardRows = parseSdirBoardSfpMetricsFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    mfarRows = parseMfarFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    mfitrRows = parseMfitrFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+  } else {
+    fruRows = aggregateFruRadioMetriche();
+    perfRows = aggregateLinkPerformanceWl();
+    boardRows = aggregateBoardSfpMetrics();
+    mfarRows = aggregateMfar();
+    mfitrRows = aggregateMfitr();
+  }
+  const filtered = fruRows.filter(r => {
+>>>>>>> 72b242a9eeee7674de852ebc9ee192932fd8b9ca
     let v = r.vswrValue;
     if (Number.isNaN(v) || typeof v === 'undefined') {
       const m = String(r.VSWR || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/);
       if (m) v = parseFloat(m[1].replace(',', '.'));
     }
     return !Number.isNaN(v) && v > 1.49;
+<<<<<<< HEAD
   });
 
   // Mostra solo righe MFAR con Issue diverso da 'Passed'
+=======
+  }).map(r => ({
+    refCell: extractRefCellFromSectorCells(r.SectorCells),
+    VSWR: r.VSWR,
+    Radio: r.FRU,
+    BOARD: r.BOARD,
+    RF: r.RF,
+    source: r.source
+  })).filter(x => x.refCell);
+
+  const wlRows = perfRows.filter(r => (
+    (!Number.isNaN(r.dlLossValue) && r.dlLossValue > 3.49) ||
+    (!Number.isNaN(r.ulLossValue) && r.ulLossValue > 3.49)
+  )).map(r => ({
+    refCells: extractCellsFromLinkPerfRow(r),
+    DlLoss: r.DlLoss,
+    UlLoss: r.UlLoss,
+    LENGTH: r.LENGTH,
+    source: r.source
+  })).filter(x => x.refCells);
+
+  const boardSfpRows = boardRows.filter(r => {
+    const idIsTN = String(r.ID).trim().toUpperCase() === 'TN';
+    const txVal = parseFloat(String(r.TXdBm).replace(',', '.'));
+    const rxVal = parseFloat(String(r.RXdBm).replace(',', '.'));
+    const txOk = !Number.isNaN(txVal) && txVal < -13.99;
+    const rxOk = !Number.isNaN(rxVal) && rxVal < -13.99;
+    return idIsTN && (txOk || rxOk);
+  }).map(r => ({
+    refCells: extractCellsFromBoardRow(r),
+    BOARD: r.BOARD,
+    TXdBm: r.TXdBm,
+    RXdBm: r.RXdBm,
+    WL: r.WL,
+    source: r.source
+  }));
+
+>>>>>>> 72b242a9eeee7674de852ebc9ee192932fd8b9ca
   mfarRows = mfarRows.filter(r => {
     const issue = String(r.Issue || '').trim().toLowerCase();
     return issue && issue !== 'passed';
   });
 
+<<<<<<< HEAD
   // Mostra solo righe MFITR con DELTA > 3.9
+=======
+>>>>>>> 72b242a9eeee7674de852ebc9ee192932fd8b9ca
   mfitrRows = mfitrRows.filter(r => {
     const deltaVal = parseFloat(String(r.DELTA || '').replace(',', '.'));
     return !Number.isNaN(deltaVal) && deltaVal > 3.9;
   });
 
+<<<<<<< HEAD
   res.render('index', { perfRows, boardRows, fruRows, mfarRows, mfitrRows, fileOptions, selectedFile });
+=======
+  res.render('index', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
+>>>>>>> 72b242a9eeee7674de852ebc9ee192932fd8b9ca
 });
 
 // Visualizzazione contenuto file
@@ -713,7 +791,11 @@ app.get('/report/celle', (req, res) => {
     return !Number.isNaN(deltaVal) && deltaVal > 3.9;
   });
 
+<<<<<<< HEAD
   res.render('report_celle', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
+=======
+  res.render('index', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
+>>>>>>> 72b242a9eeee7674de852ebc9ee192932fd8b9ca
 });
 
 // Pagina admin: upload multiplo e cancellazione
