@@ -467,68 +467,88 @@ function aggregateMfar() {
   return all;
 }
 
-// Home visitatore: mostra entrambe le tabelle aggregate
+// Home: mostra il report celle con gli stessi dati e criteri della pagina /report/celle
 app.get('/', (req, res) => {
+  const selectedFile = req.query.file || '';
+  const selectedTable = (req.query.table || '').trim();
   const fileOptions = listFiles();
-  let selectedFile = (req.query.file || '').trim();
-  // Se non è specificato un file, imposta di default il primo in elenco
-  if (!selectedFile && fileOptions.length > 0) {
-    selectedFile = fileOptions[0];
-  }
-
-  let perfRows = aggregateLinkPerformanceWl();
-  let boardRows = aggregateBoardSfpMetrics();
-  let fruRows = aggregateFruRadioMetriche();
-  let mfarRows = aggregateMfar();
-  let mfitrRows = aggregateMfitr();
-
+  let fruRows = [];
+  let perfRows = [];
+  let boardRows = [];
+  let mfarRows = [];
+  let mfitrRows = [];
   if (selectedFile) {
-    perfRows = perfRows.filter(r => r.source === selectedFile);
-    boardRows = boardRows.filter(r => r.source === selectedFile);
-    fruRows = fruRows.filter(r => r.source === selectedFile);
-    mfarRows = mfarRows.filter(r => r.source === selectedFile);
-    mfitrRows = mfitrRows.filter(r => r.source === selectedFile);
+    fruRows = parseSdirFruRadioMetricheFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    perfRows = parseSdirLinkPerformanceWlFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    boardRows = parseSdirBoardSfpMetricsFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    mfarRows = parseMfarFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+    mfitrRows = parseMfitrFromFile(path.join(uploadsDir, selectedFile))
+      .map(r => ({ ...r, source: selectedFile }));
+  } else {
+    fruRows = aggregateFruRadioMetriche();
+    perfRows = aggregateLinkPerformanceWl();
+    boardRows = aggregateBoardSfpMetrics();
+    mfarRows = aggregateMfar();
+    mfitrRows = aggregateMfitr();
   }
-
-  // Mostra solo righe dove almeno uno tra DlLoss o UlLoss è > 3.49
-  perfRows = perfRows.filter(r => (
-    (!Number.isNaN(r.dlLossValue) && r.dlLossValue > 3.49) ||
-    (!Number.isNaN(r.ulLossValue) && r.ulLossValue > 3.49)
-  ));
-
-    // Mostra solo righe BOARD SFP con ID=TN e TXdBm o RXdBm < -13.99
-  boardRows = boardRows.filter(r => {
-    const idIsTN = String(r.ID).trim().toUpperCase() === 'TN';
-    const txVal = parseFloat(String(r.TXdBm).replace(',', '.'));
-    const rxVal = parseFloat(String(r.RXdBm).replace(',', '.'));
-      const txOk = !Number.isNaN(txVal) && txVal < -13.99;
-      const rxOk = !Number.isNaN(rxVal) && rxVal < -13.99;
-    return idIsTN && (txOk || rxOk);
-  });
-
-  // Mostra solo righe FRU Radio con VSWR (RL) > 1.49
-  fruRows = fruRows.filter(r => {
+  const filtered = fruRows.filter(r => {
     let v = r.vswrValue;
     if (Number.isNaN(v) || typeof v === 'undefined') {
       const m = String(r.VSWR || '').match(/^[\s]*([+-]?[0-9]+(?:[.,][0-9]+)?)/);
       if (m) v = parseFloat(m[1].replace(',', '.'));
     }
     return !Number.isNaN(v) && v > 1.49;
-  });
+  }).map(r => ({
+    refCell: extractRefCellFromSectorCells(r.SectorCells),
+    VSWR: r.VSWR,
+    Radio: r.FRU,
+    BOARD: r.BOARD,
+    RF: r.RF,
+    source: r.source
+  })).filter(x => x.refCell);
 
-  // Mostra solo righe MFAR con Issue diverso da 'Passed'
+  const wlRows = perfRows.filter(r => (
+    (!Number.isNaN(r.dlLossValue) && r.dlLossValue > 3.49) ||
+    (!Number.isNaN(r.ulLossValue) && r.ulLossValue > 3.49)
+  )).map(r => ({
+    refCells: extractCellsFromLinkPerfRow(r),
+    DlLoss: r.DlLoss,
+    UlLoss: r.UlLoss,
+    LENGTH: r.LENGTH,
+    source: r.source
+  })).filter(x => x.refCells);
+
+  const boardSfpRows = boardRows.filter(r => {
+    const idIsTN = String(r.ID).trim().toUpperCase() === 'TN';
+    const txVal = parseFloat(String(r.TXdBm).replace(',', '.'));
+    const rxVal = parseFloat(String(r.RXdBm).replace(',', '.'));
+    const txOk = !Number.isNaN(txVal) && txVal < -13.99;
+    const rxOk = !Number.isNaN(rxVal) && rxVal < -13.99;
+    return idIsTN && (txOk || rxOk);
+  }).map(r => ({
+    refCells: extractCellsFromBoardRow(r),
+    BOARD: r.BOARD,
+    TXdBm: r.TXdBm,
+    RXdBm: r.RXdBm,
+    WL: r.WL,
+    source: r.source
+  }));
+
   mfarRows = mfarRows.filter(r => {
     const issue = String(r.Issue || '').trim().toLowerCase();
     return issue && issue !== 'passed';
   });
 
-  // Mostra solo righe MFITR con DELTA > 3.9
   mfitrRows = mfitrRows.filter(r => {
     const deltaVal = parseFloat(String(r.DELTA || '').replace(',', '.'));
     return !Number.isNaN(deltaVal) && deltaVal > 3.9;
   });
 
-  res.render('index', { perfRows, boardRows, fruRows, mfarRows, mfitrRows, fileOptions, selectedFile });
+  res.render('report_celle', { rows: filtered, wlRows, boardSfpRows, mfarRows, mfitrRows, fileOptions, selectedFile, selectedTable });
 });
 
 // Visualizzazione contenuto file

@@ -1,0 +1,237 @@
+Logging to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/ZC92T.log
+                        __  __  ____   _____
+                  /\   |  \/  |/ __ \ / ____|
+                 /  \  | \  / | |  | | (___  
+                / /\ \ | |\/| | |  | |\___ \ 
+               / ____ \| |  | | |__| |____) |
+              /_/    \_\_|  |_|\____/|_____/
+              OSS Framework for MoShell-25.0h 
+  Copyright (c) Ericsson AB 2001-2025 - All Rights Reserved
+              
+           
+[1;31mWARNING: [0mthe AMOS version currently running is more than 29 weeks old and is unsupported.
+Please upgrade as soon as possible to the latest released version, available from your local Ericsson support.
+
+$amosrb_pid = 1751782
+
+Checking ip contact...OK
+
+HELP MENU            : h
+BASIC MO COMMANDS    : m
+OTHER MO COMMANDS    : n
+OTHER COMMANDS       : o
+PM COMMANDS          : p
+QUIT                 : q
+
+ZC92T> lt all
+
+251125-09:38:14+0100 19.31.8.55 25.0h  stopfile=/tmp/1751697
+Looking up temporary_amos account... OK.
+Trying temporary_amos_t20251125_37258710_65084_131's password from amos lookupAccount ... OK
+
+$ssh_pid = 1752103
+
+Connected to 19.31.8.55 (SubNetwork=BBMM_rckomc_R,MeContext=ZC92T,ManagedElement=ZC92T)
+
+Checking MOM version...MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81
+Parsing MOM (cached): /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/tempfiles/scp-4-amos_20251125-093808_1751636/MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81.xml.cache.gz ......................................................................................................................................................................................................................Done.
+Using paramfile /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBSG2_25.Q1.txt
+Parsing file /opt/ericsson/amos/moshell/commonjars/pm/PARAM_MSRBSG2_25.Q1.txt ......................................................................................Done.
+Using imomdfile /opt/ericsson/amos/moshell/commonjars/pm/IMOMD_MSRBS_22.Q4.txt
+Using imomfile /opt/ericsson/amos/moshell/commonjars/pm/IMOM_MSRBS_25.Q1.txt
+Connected to 19.31.8.55 (SubNetwork=BBMM_rckomc_R,MeContext=ZC92T,ManagedElement=ZC92T)
+
+Last MO: 17142. Loaded 17142 MOs. Total: 17143 MOs.
+
+ZC92T> st cell
+
+251125-09:38:32+0100 19.31.8.55 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/1751697
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+   43  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=ZC92M1
+  146  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=ZC92M2
+  260  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=ZC92T1
+  384  1 (UNLOCKED)  1 (ENABLED)   ENodeBFunction=1,EUtranCellFDD=ZC92T2
+===================================================================================
+Total: 4 MOs
+
+ZC92T> st radio
+
+251125-09:38:33+0100 19.31.8.55 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/1751697
+===================================================================================
+Proxy  Adm State     Op. State     MO
+===================================================================================
+ 1699  1 (UNLOCKED)  1 (ENABLED)   Equipment=1,FieldReplaceableUnit=Radio-S100-1
+17135  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=NTP1
+17136  1 (UNLOCKED)  1 (ENABLED)   Transport=1,Synchronization=1,RadioEquipmentClock=1,RadioEquipmentClockReference=PTP8275_2
+===================================================================================
+Total: 3 MOs
+
+ZC92T> sdir
+
+251125-09:38:33+0100 19.31.8.55 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/1751697
+INFO: Using amos lookupAccount credentials for the export login
+..............................
+get /rop/A20251125.0745-0800_ZC92T.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.8.55/rop/A20251125.0745-0800_ZC92T.xml.gz ... OK
+get /rop/A20251125.0800-0815_ZC92T.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.8.55/rop/A20251125.0800-0815_ZC92T.xml.gz ... OK
+get /rop/A20251125.0815-0830_ZC92T.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.8.55/rop/A20251125.0815-0830_ZC92T.xml.gz ... OK
+...Checking available boards on node...
+
+Collecting RCS board data ...
+...................................................................................
+.
+..................................................................................................................................................................................................................................................................
+.......
+Collecting TN data...
+...................................................................................................................................
+Collecting RF data...
+
+Collecting Alarms...
+Executing action Log.export()
+...
+Log=AlarmLog                    actionId=2315
+.....
+Executing action LogM.exportAvailabilityLog()
+..LogM=1,exportAvailabilityLog    actionId=2316
+.....Parsing alarmLog....Done.
+Parsing availabilityLog....Done.
+..
+
+Total: 1 CPRI links (1 OK, 0 OKW, 0 NOK, 0 NT)
+
++--------+                      +------------------+
+|        | D        O101     D2 |   Radio-S100-1   |
+|        |-----------1----------| RRU449944B144B3C |
+|        |         OK-12m       |      BXP_2       |
+|  BB-1  |                      +------------------+
+| BB6630 |                           |A  |B  |C  |D
+| 000100 |                    SE=100 AG=100  |   |
+|        |            FDD=ZC92M1 FDD=ZC92T1  |   |
+|        |                            SE=101 AG=101
+|        |                    FDD=ZC92M2 FDD=ZC92T2
+|        |
++--------+
+
+=====================================================================================================================================
+ID RiL    Type Res MO1-MO2                  BOARD1-BOARD2           AlmIDs Cells (States)                                        Issue (Failed checks)
+=====================================================================================================================================
+ 1 S100-1 O101 OK  BB-1(D) Radio-S100-1(D2) BB6630 RRU449944B144B3C        FDD=ZC92M1 FDD=ZC92M2 FDD=ZC92T1 FDD=ZC92T2 (1,1,1,1) Passed
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Node: RadioNode L   CXP9024418/16_R8D21 (RCG123.3-3)   G2   LTE-FDD 
+
+=====================================================================================================================================
+FRU          ;LNH    ;BOARD            ;ST ;FAULT ;OPER ;MAINT ;STAT ;PRODUCTNUMBER   ;REV     ;SERIAL        ;DATE     ;PMTEMP ; TEMP ; UPT ;VOLT ;SW                   ;
+=====================================================================================================================================
+BB-1         ;000100 ;BB6630           ; 1 ;  OFF ;  ON ;  OFF ;  ON ;KDU137848/11    ;R3E     ;E96A00NU3S    ;20220225 ;3 (OK) ;      ;88.7 ;48   ;                     ;
+Radio-S100-1 ;BXP_2  ;RRU449944B144B3C ; 1 ;  OFF ;  ON ;  OFF ; N/A ;KRC161787/1     ;R2D     ;TU8U00Z323    ;20210704 ;4 (OK) ; 44.5 ;88.7 ;52.8 ;CXP9013268%15_R101KB ; (Radio449944B144B3C)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+AntennaNearUnit                                      ;ST  ;TYPE   ;PRODUCTNR     ;REV  ;UNIQUEID             ;RfPort
+=====================================================================================================================================
+AntennaUnitGroup=100,AntennaNearUnit=DTMA_1800_2100  ; 1  ;TMA    ;KRY112227/12  ;R1A  ;ERT405---BU96045518  ;FieldReplaceableUnit=Radio-S100-1,RfPort=R
+AntennaUnitGroup=101,AntennaNearUnit=DTMA_1800_2100  ; 1  ;TMA    ;KRY112227/12  ;R1A  ;ERT405---BU96122240  ;FieldReplaceableUnit=Radio-S100-1,RfPort=R
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+XPBOARD  ;ST ;FAULT ;OPER ;PRODUCTNUMBER ;REV ;SERIAL/NAME ;DATE     ; TEMP ;MO
+=====================================================================================================================================
+FAN      ; 1 ;N/A   ;N/A  ;BKV106217/1   ;N/A ;N/A         ;N/A      ;      ;SupportUnit=1 (FAN  BB-1)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;T ;RiL    ;BPBP ;BOARD1           ;LNH1 ;PORT ;R ;LINK ;RATE  ; BER ;BOARD2           ;LNH2 ;PORT ;R ;LINK ;RATE  ; BER ;LENGTH ;MO1 - MO2
+=====================================================================================================================================
+ 1 ;O ;S100-1 ;1111 ;BB6630           ;000100 ; 4 ;M ;Up   ;10.1G ;   0 ;RRU449944B144B3C ;BXP_2  ; 1 ;S ;Up   ;10.1G ;   0 ;   12m ;Fru=BB-1(D) Fru=Radio-S100-1(D2)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL    ;VENDOR1  ;VENDORPROD1      ;REV1 ;SERIAL1         ;DATE1    ;ERICSSONPROD1  ;VENDOR2  ;VENDORPROD2      ;REV2 ;SERIAL2         ;DATE2    ;ERICSSONPROD2  ;TT ;WL1     ;WL2    
+=====================================================================================================================================
+ 1 ;Up   ;S100-1 ;ERICSSON ;EOLP-1396-02-IY  ;1.0  ;DZ8Q400CP6      ;20240415 ;RDH10265/2 R1A ;ERICSSON ;EOLP-1396-02-IY  ;1.0  ;DZ8Q400CNR      ;20240415 ;RDH10265/2 R1A ;0  ;1310.00 ;1310.00
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;LINK ;RiL    ;WL1     ;TEMP1 ;TXbs1 ;TXdBm1 ;RXdBm1 ;BER1   ;WL2     ;TEMP2 ;TXbs2 ;TXdBm2 ;RXdBm2 ;BER2   ;DlLoss ;UlLoss ;LENGTH ;TT
+=====================================================================================================================================
+ 1 ;Up   ;S100-1 ;1310.00 ;50C   ;44%   ;-3.35  ;-3.01  ;   0   ;1310.00 ;39C   ;41%   ;-2.51  ;-2.98  ;   0   ; -0.37 ;   0.5 ;   12m ; 0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+ID ;RiL    ;BOARD            ;SFPLNH  ;PORT ;VENDOR   ;VENDORPROD       ;REV  ;SERIAL          ;DATE     ;ERICSSONPROD   ;WL      ;TEMP  ;TXbs  ;TXdBm  ;RXdBm  ; BER
+=====================================================================================================================================
+ 1 ;S100-1 ;BB6630           ;000100   ;  4 ;ERICSSON ;EOLP-1396-02-IY  ;1.0  ;DZ8Q400CP6      ;20240415 ;RDH10265/2 R1A ;1310.00 ;50C   ;44%   ;-3.35  ;-3.01  ;   0
+ 1 ;S100-1 ;RRU449944B144B3C ;BXP_2    ;  1 ;ERICSSON ;EOLP-1396-02-IY  ;1.0  ;DZ8Q400CNR      ;20240415 ;RDH10265/2 R1A ;1310.00 ;39C   ;41%   ;-2.51  ;-2.98  ;   0
+-------------------------------------------------------------------------------------------------------------------------------------
+TN ;       ;BB6630           ;000100   ;  A ;ERICSSON ;EOLP-1396-02-IY  ;1.0  ;DZ8PA01LGT      ;20231110 ;RDH10265/2 R1A ;0       ;51C   ;43%   ;-3.37  ;-5.77  ;NZ/0
+TN ;       ;BB6630           ;000100   ;  B ;ERICSSON ;LCP-10G3B4HDRME4 ;A    ;2224094A2452321 ;20220608 ;RDH10265/2 R1A ;0       ;46C   ;39%   ;-3.24  ;-2.76  ; 0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+BOARD  ;LNH    ;PORT ;T ;S ;OpMode   ;AutoNeg ;MacAddress        ;VlanIds             ;LOS ;BER
+=====================================================================================================================================
+BB6630 ;000100 ;TN_A ;O ;1 ;1G_FULL  ;true    ;7C:72:6E:75:48:95 ;3901,3902,3908,3910 ;0   ;NZ/0
+BB6630 ;000100 ;TN_B ;O ;1 ;10G_FULL ;false   ;7C:72:6E:75:48:96 ;3901,3902           ;0   ;0/0
+-------------------------------------------------------------------------------------------------------------------------------------
+
+radioClockState : RNT_TIME_LOCKED
+-------------------------------------------------------------------------------------
+Prio  ;ST  ;syncRefType    ;refStatus  ;opQualLevel  ;SyncReference
+-------------------------------------------------------------------------------------
+  *1  ; 1  ;PTP_TIME       ;NO_FAULT   ;PRTC         ;Ptp=1,BoundaryOrdinaryClock=1 (G_8275_2 Router=45G_Traffic,InterfaceIPv4=LTE,AddressIPv4=LTE:SLAVE)
+   2  ; 1  ;NTP_FREQUENCY  ;NO_FAULT   ;PRC          ;Ntp=1,NtpFrequencySync=NTP1 (10.31.0.54:32751 Router=45G_Traffic,InterfaceIPv4=LTE,AddressIPv4=LTE)
+-------------------------------------------------------------------------------------
+
+=====================================================================================================================================
+FRU          ;LNH    ;BOARD            ;RF  ;BP  ;TX (W/dBm)  ;VSWR (RL)   ;RX (dBm) ;UEs/gUEs  ;Sector/AntennaGroup/Cells (State:CellIds:PCIs)
+=====================================================================================================================================
+Radio-S100-1 ;BXP_2  ;RRU449944B144B3C ; A  ;11  ;26.1 (44.2) ;1.27 (18.6) ;-91.8    ;69/-      ;SE=100 AG=100 FDD=ZC92M1 FDD=ZC92T1 (1:31:308, 1:41:249)
+Radio-S100-1 ;BXP_2  ;RRU449944B144B3C ; B  ;11  ;25.8 (44.1) ;1.31 (17.4) ;-90.4    ;69/-      ;SE=100 AG=100 FDD=ZC92M1 FDD=ZC92T1 (1:31:308, 1:41:249)
+Radio-S100-1 ;BXP_2  ;RRU449944B144B3C ; C  ;11  ;35.5 (45.5) ;1.17 (21.9) ;-95.8    ;22/-      ;SE=101 AG=101 FDD=ZC92M2 FDD=ZC92T2 (1:32:445, 1:42:250)
+Radio-S100-1 ;BXP_2  ;RRU449944B144B3C ; D  ;11  ;11.7 (40.7) ;1.17 (21.9) ;-93.9    ;22/-      ;SE=101 AG=101 FDD=ZC92M2 FDD=ZC92T2 (1:32:445, 1:42:250)
+-------------------------------------------------------------------------------------------------------------------------------------
+
+ZC92T> mfar
+
+251125-09:40:22+0100 19.31.8.55 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/1751697
+....
+Last MO: 17148. Loaded 17148 MOs. Total: 17149 MOs.
+............................................
+get /rop/A20251125.0700-0715_ZC92T.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.8.55/rop/A20251125.0700-0715_ZC92T.xml.gz ... OK
+get /rop/A20251125.0715-0730_ZC92T.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.8.55/rop/A20251125.0715-0730_ZC92T.xml.gz ... OK
+get /rop/A20251125.0730-0745_ZC92T.xml.gz /ericsson/log/amos/moshell_logfiles/t20251125_37258710_65084/logs_moshell/pmfiles/19.31.8.55/rop/A20251125.0730-0745_ZC92T.xml.gz ... OK
+
+Using hardcoded thresholds: 3, 4.5, and 16.5
+================================================================================================================================
+SC     SE  Tx/Rx BrPair  RfPort1 - RfPort2               HW       Serial      Cell (State)   Samples   Med  Mean  SDev Pol Res Issue
+================================================================================================================================
+ZC92M1 100   2/2 0 (1,2) Radio-S100-1(A) Radio-S100-1(B) RRU4499  TU8U00Z323  FDD=ZC92M1 (1)  210859  -0.5  -0.5   6.5  NA  OK Passed
+ZC92M2 101   2/2 0 (1,2) Radio-S100-1(C) Radio-S100-1(D) RRU4499  TU8U00Z323  FDD=ZC92M2 (1)   80687   2.5   3.4   8.3  NA OKW Possible RF Loss or PIM at Radio-S100-1(C)
+ZC92T1 100   2/2 0 (1,2) Radio-S100-1(A) Radio-S100-1(B) RRU4499  TU8U00Z323  FDD=ZC92T1 (1)  733476   0.5   0.7   6.9  NA  OK Passed
+ZC92T2 101   2/2 0 (1,2) Radio-S100-1(C) Radio-S100-1(D) RRU4499  TU8U00Z323  FDD=ZC92T2 (1)  579637   5.5   5.2   8.4  NA NOK RF Loss or PIM at Radio-S100-1(C)
+================================================================================================================================
+Total: 4 SectorCarriers, 4 RfBranch Pairs (2 OK, 1 OKW, 1 NOK, 0 NT)
+....
+Last MO: 17148. Loaded 17148 MOs. Total: 17149 MOs.
+
+No NRSectorCarrier MOs are defined on the node.
+
+ZC92T> mfitr
+
+251125-09:40:38+0100 19.31.8.55 25.0h MSRBS_NODE_MODEL_25.Q1_198665.224.73_bf81 stopfile=/tmp/1751697
+......
+Last MO: 17148. Loaded 17148 MOs. Total: 17149 MOs.
+.......
+2025-11-25 09:41
+================================================================================================================================
+CELL       SC     FRU          BOARD            PUSCH  PUCCH       A      B      C      D  DELTA
+================================================================================================================================
+FDD=ZC92M1 ZC92M1 Radio-S100-1 RRU449944B144B3C -119.4 -119.4 -119.4 -119.3                  0.1
+FDD=ZC92M2 ZC92M2 Radio-S100-1 RRU449944B144B3C -119.3 -119.3               -119.7 -119.3    0.4
+FDD=ZC92T1 ZC92T1 Radio-S100-1 RRU449944B144B3C -119.3 -117.3 -118.7 -118.6                  0.1
+FDD=ZC92T2 ZC92T2 Radio-S100-1 RRU449944B144B3C -118.6 -118.4               -117.9 -116.8    1.1
+================================================================================================================================
+Bye...
+Output has been logged to file /mta_fs/UserFiles/37258710/amosbatch/SDIR/ZC92T.log
